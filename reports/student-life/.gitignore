@@ -1,0 +1,13 @@
+node_modules/
+dist/
+.data-app-assets/
+.data-app-offline/
+.data-app-publish/
+.env*
+
+# Complete reviewed data is restored only by verified Data hydration.
+/src/data.json
+/src/.data-app-hydrate-*.tmp
+/dist/
+/node_modules/
+/.data-app-*/

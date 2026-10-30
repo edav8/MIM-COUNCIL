@@ -1,0 +1,104 @@
+{
+  "version": "2026-09-18-draft-r2",
+  "validThrough": "2026-10-02",
+  "items": [
+    {
+      "id": "multiple-roles",
+      "question": "Can I lead more than one club?",
+      "answer": "Yes. The FAQ allows leadership roles in more than one club if you give each the same high level of commitment and do not prioritise one over another. Apply only for roles you can support.",
+      "source": "Club Leadership FAQ — For VP Clubs (MBA and MiM), p1, “Can I hold leadership roles in more than one club?”",
+      "boundary": "No maximum number is specified. Do not invent a two-club limit or require students to prove commitment through the survey."
+    },
+    {
+      "id": "mim-role-eligibility",
+      "question": "Which roles can a MIM student hold?",
+      "answer": "In a professional club, MIM students may hold the listed roles except President. In a non-professional club, MIM students may also be President. The FAQ says skills and knowledge should be considered on the same level as an MBA interested in the role.",
+      "source": "Club Leadership FAQ — For VP Clubs (MBA and MiM), p2, “Which roles can a MiM hold?” and “Is the second MiM role fixed too?”",
+      "boundary": "Do not infer whether a named club is professional without a verified classification. Do not portray experience-based rationale as an assessment of any individual student."
+    },
+    {
+      "id": "vp-events",
+      "question": "Must a MIM student be VP Events?",
+      "answer": "The FAQ recommends a MIM VP Events role, but its specific clarification says the club decides. If an MBA takes VP Events, it says the MIM representative can decide whether to take VP Events (MIM) as well, helping events fit MIM interests and availability. Some earlier wording sounds more fixed, so confirm any disputed allocation with Student Life.",
+      "source": "Club Leadership FAQ — For VP Clubs (MBA and MiM), p2 role eligibility and second-role sections; p3 “Is the role of VP Events (MIM) required or recommended?”",
+      "boundary": "Never answer “always required”, “always forbidden if an MBA has it”, or resolve a disputed team arrangement as if the assistant has authority."
+    },
+    {
+      "id": "standard-team-size",
+      "question": "What is the standard club leadership allocation?",
+      "answer": "The FAQ describes 10 MBA roles plus 2 MIM roles, with the MBA allocation of 6 in Fontainebleau and 4 in Singapore. It also describes a specific exception: when fewer than four MBA students are interested in forming the Singapore club team, remaining positions may be allocated to Fontainebleau and taken by an MBA or MIM student. The FAQ also describes an additional GEMBA supporting role beyond the 10 MBA/2 MIM allocation, following introductions once the GEMBA28 cohorts have started by early November. That is cohort-specific guidance, not a guaranteed extra place now.",
+      "source": "Club Leadership FAQ — For VP Clubs (MBA and MiM), p1 team-size/campus-ratio sections; p3 insufficient-interest clarification.; GEMBA supporting-role clarification, p3",
+      "boundary": "A third MIM role is not guaranteed. Check how the exception applies to a particular club. Keep campus location and programme categories distinct."
+    },
+    {
+      "id": "increase-team-size",
+      "question": "Can we add formal roles because lots of people are interested?",
+      "answer": "The FAQ says formal leadership numbers will not be changed at this stage of this election cycle. Project support teams remain possible where activities need them. This does not remove the separate exception for allocating unfilled Singapore positions.",
+      "source": "Club Leadership FAQ — For VP Clubs (MBA and MiM), p2 “Why are there only two MiM roles?”; p3 standardisation and insufficient-interest sections.",
+      "boundary": "Do not imply an expansion has been approved, that support is a guaranteed role, or that the policy can never change in a future cycle."
+    },
+    {
+      "id": "extra-titles",
+      "question": "Can we add a deputy, co-lead or second VP?",
+      "answer": "The FAQ says roles can be arranged across both campuses instead of other roles where help is needed, but within the described leadership allocation. The suggested titles reflect previous teams' experience and are standardised for consistency. Confirm a proposed arrangement with the club and Student Life.",
+      "source": "Club Leadership FAQ — For VP Clubs (MBA and MiM), p1 co-lead/deputy question; p3 job titles.",
+      "boundary": "Do not invent a new formal position or treat an extra title as bypassing the cap."
+    },
+    {
+      "id": "support-teams",
+      "question": "Can I contribute without an elected leadership place?",
+      "answer": "Yes, the FAQ allows support teams for activities needing extra help, including conferences. It says staff will work with clubs with high MIM interest to identify participation where club plans show a need. Ask the club about a specific project, responsibilities and contact person.",
+      "source": "Club Leadership FAQ — For VP Clubs (MBA and MiM), p1 extra event ideas; p2 MIM roles.",
+      "boundary": "It is an available route, not proof of an open role in a particular club. Never promise a placement."
+    },
+    {
+      "id": "one-global-team",
+      "question": "Are the two campuses separate club teams?",
+      "answer": "The FAQ describes one global team, so activities can continue across campuses as people go on exchange. Popular clubs on either campus may have competitive elections.",
+      "source": "Club Leadership FAQ — For VP Clubs (MBA and MiM), p2 campus teams and competitive teams questions.",
+      "boundary": ""
+    },
+    {
+      "id": "exchange-responsibility",
+      "question": "Do I lose my role when I go on exchange?",
+      "answer": "You retain your role for its full tenure and remain responsible for activities continuing on your home campus. Incoming exchange students may help deliver them, and you can also support activities on your exchange campus.",
+      "source": "Club Leadership FAQ — For VP Clubs (MBA and MiM), p2 exchange question.",
+      "boundary": ""
+    },
+    {
+      "id": "transition",
+      "question": "How can I learn the role during handover?",
+      "answer": "The FAQ describes helping senior leaders organise already scheduled events, often conferences, while they share operating knowledge and resources.",
+      "source": "Club Leadership FAQ — For VP Clubs (MBA and MiM), p2 transition heading, answer continuing on p3.",
+      "boundary": "No particular event, meeting or invitation is guaranteed by this passage."
+    },
+    {
+      "id": "council-help",
+      "question": "What can the Clubs & Events council representative help with?",
+      "answer": "The role guide describes supporting club transitions with Student Life, club fairs, events and operational questions, and representing student interests. It also describes handling sensitive situations in partnership with Student Life. Tim can help you find an appropriate contact; he cannot guarantee an elected place or change official rules himself.",
+      "source": "VP Clubs & Initiatives: a short guide (contextual role guidance), p1 role description, Clubs and Initiatives sections. Final sentence describes the assistant's service boundary rather than quoted policy.",
+      "boundary": ""
+    },
+    {
+      "id": "election-dates",
+      "question": "When are submissions and voting?",
+      "answer": "The 27J/MIM28 election page states that submissions open 21 September 2026 and close 28 September at the published “12:00pm CET”. Voting takes place 1–2 October. The September timezone wording needs clarification; check the official page or Student Life rather than relying on a converted local time.",
+      "source": "27J and MIM28 Leadership Election Process (INSEAD Canvas): https://learn.insead.edu/courses/9204/pages/27j-and-mim28-leadership-election-process",
+      "boundary": "Do not convert to CEST/UTC or silently reinterpret noon. After the cycle expires, mark this historical and request current guidance."
+    },
+    {
+      "id": "voting-membership",
+      "question": "Does filling in the leadership-interest list mean I can vote?",
+      "answer": "The election page identifies the official club distribution lists as the voting eligibility source. Expressing leadership interest should not be treated as proof you are on that list; check your club membership through the official route.",
+      "source": "27J and MIM28 Leadership Election Process (INSEAD Canvas): https://learn.insead.edu/courses/9204/pages/27j-and-mim28-leadership-election-process",
+      "boundary": "Do not claim an individual's eligibility or invent registration deadlines."
+    },
+    {
+      "id": "no-communication",
+      "question": "I registered interest and have heard nothing. What can I do?",
+      "answer": "The election page asks MBA27J students to review the MIM interest list and reach out. If you have not connected yet, use Contact Tim and mention the club. Keep personal details in that separate form, not in this chat. The chat never sends messages automatically; you review and confirm anything you choose to forward.",
+      "source": "27J and MIM28 Leadership Election Process (INSEAD Canvas): https://learn.insead.edu/courses/9204/pages/27j-and-mim28-leadership-election-process",
+      "boundary": "The assistant must not assume a club deliberately excluded someone, declare an outreach deadline, or promise an introduction until the handoff is accepted."
+    }
+  ]
+}

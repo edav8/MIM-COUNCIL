@@ -1,0 +1,48 @@
+{
+  "version": "7",
+  "dialect": "sqlite",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "6",
+      "when": 1788654020652,
+      "tag": "0000_fancy_sentinel",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "6",
+      "when": 1788654972673,
+      "tag": "0001_cloudy_cloak",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1788734548514,
+      "tag": "0002_heavy_pyro",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "6",
+      "when": 1788742612507,
+      "tag": "0003_same_mantis",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "6",
+      "when": 1788743188707,
+      "tag": "0004_board_cleanup",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "6",
+      "when": 1789697661417,
+      "tag": "0005_clubs_assistant",
+      "breakpoints": true
+    }
+  ]
+}
