@@ -32,6 +32,7 @@ import {
 import { matchingIdeas, normalizeIdeaTitle } from '@/lib/idea-matches';
 import { createVoteQueue, rankIdeas, type VoteState } from '@/lib/vote-queue';
 import { catalog, categories, type BoardIdea } from '@/lib/idea-catalog';
+import { upcoming } from '@/lib/events';
 type LiveBoard = {
   ideas: { id: string; title: string; idea: string; created_at: number }[];
   counts: Record<string, number>;
@@ -384,6 +385,8 @@ export default function Home() {
           <img src="/images/insead-logo.webp" alt="INSEAD" width={58} height={58} /><span>MIM’28 Student Council candidates</span>
         </a>
         <nav>
+          <a href="https://edav8.github.io/MIM28/" target="_blank" rel="noreferrer">Course Hub</a>
+          <a href="https://edav8.github.io/insead-ski-trip/" target="_blank" rel="noreferrer">Ski trip</a>
           <a href="/team">Meet the team</a>
           <Button className="header-add" onClick={() => openForm()}>
             Add your idea <Plus size={17} />
@@ -407,6 +410,55 @@ export default function Home() {
           <img src="/images/team-september-2026-v2.jpg" alt="The four Salamanders team members together at the INSEAD sign in Fontainebleau" width={2000} height={982} fetchPriority="high" />
           <figcaption><span>The Salamanders</span><a href="/team">Meet the team <ArrowUpRight size={17} /></a></figcaption>
         </figure>
+      </section>
+      <section className="whats-on" id="whats-on" aria-labelledby="whats-on-title">
+        <div className="whats-on-heading">
+          <p className="eyebrow">WHAT’S ON</p>
+          <h2 id="whats-on-title">Next up for the cohort</h2>
+          <p className="whats-on-intro">
+            Everything coming up that everyone can join. Dates move — where
+            something is not yet confirmed, it says so.
+          </p>
+        </div>
+        <ul className="event-list">
+          {upcoming('cohort').map((event) => (
+            <li className="event-row" key={event.title}>
+              <span className="event-when">{event.when}</span>
+              <div className="event-body">
+                <h3>{event.title}</h3>
+                {event.where && <p className="event-where">{event.where}</p>}
+                {event.note && <p className="event-note">{event.note}</p>}
+              </div>
+              {event.href && (
+                <a
+                  className="event-cta"
+                  href={event.href}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  {event.cta} <ArrowUpRight size={16} />
+                </a>
+              )}
+            </li>
+          ))}
+        </ul>
+        {upcoming('careers').length > 0 && (
+          <div className="event-careers">
+            <p className="eyebrow">CAREERS &amp; CDC</p>
+            <ul className="event-list">
+              {upcoming('careers').map((event) => (
+                <li className="event-row" key={event.title}>
+                  <span className="event-when">{event.when}</span>
+                  <div className="event-body">
+                    <h3>{event.title}</h3>
+                    {event.where && <p className="event-where">{event.where}</p>}
+                    {event.note && <p className="event-note">{event.note}</p>}
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
       </section>
       <section className="board" id="ideas" aria-labelledby="board-title">
         <div className="board-heading">
@@ -510,6 +562,14 @@ export default function Home() {
         <a href="/team" className="footer-team-link">
           Meet the team <ArrowUpRight size={20} />
         </a>
+        <nav className="footer-links">
+          <a href="https://edav8.github.io/MIM28/" target="_blank" rel="noreferrer">
+            Course Hub <ArrowUpRight size={16} />
+          </a>
+          <a href="https://edav8.github.io/insead-ski-trip/" target="_blank" rel="noreferrer">
+            Ski trip <ArrowUpRight size={16} />
+          </a>
+        </nav>
       </footer>
       <Dialog
         open={Boolean(detail)}
