@@ -144,3 +144,17 @@ body{background:#fff;color:#20292d}.site-header{border-bottom:0;padding-top:1.2r
   .event-row,.event-careers .event-row{grid-template-columns:1fr;gap:.5rem;align-items:start}
   .event-cta{justify-self:start}
 }
+
+/* ---- Council roster ---------------------------------------------------- */
+.council-roster{list-style:none;margin:0;padding:0;display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(16.5rem,1fr));gap:.9rem}
+.council-member{display:flex;align-items:center;gap:.9rem;
+  background:#fff;border:1px solid #d9dfd7;border-radius:14px;padding:.85rem 1rem}
+.council-avatar{width:52px;height:52px;flex:0 0 52px;border-radius:50%;object-fit:cover}
+.council-initials{display:grid;place-items:center;background:#e4ece1;color:#00684b;
+  font-weight:680;font-size:1.0625rem;letter-spacing:.02em}
+.council-text{display:flex;flex-direction:column;min-width:0}
+.council-text strong{font-size:1rem;font-weight:620;line-height:1.25}
+.council-role{font-size:.875rem;color:#5a6b5f;margin-top:.1rem}
+.council-email{font-size:.8125rem;color:#00684b;margin-top:.2rem;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap}

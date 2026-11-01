@@ -1,19 +1,13 @@
 /* oxlint-disable next/no-html-link-for-pages -- Full-page navigation avoids a live Vinext router failure. */
 import type { Metadata } from 'next';
 import Image from 'next/image';
+import { council, initials } from '@/lib/council';
 
 export const metadata: Metadata = {
   title: 'Meet the team · The Salamanders',
   description:
-    'Meet The Salamanders, MIM’28 Student Council candidates at INSEAD.',
+    'Meet The Salamanders, the MIM’28 Student Council at INSEAD.',
 };
-
-const team = [
-  { name: 'Tim', role: 'Clubs & Events' },
-  { name: 'Kirtana', role: 'Digital & Communication' },
-  { name: 'Kimi', role: 'President' },
-  { name: 'Constantine', role: 'Treasurer' },
-];
 
 export default function TeamPage() {
   return (
@@ -29,7 +23,7 @@ export default function TeamPage() {
             width={58}
             height={58}
           />
-          <span>MIM’28 Student Council candidates</span>
+          <span>MIM’28 Student Council</span>
         </a>
         <nav>
           <a href="/">Back to the ideas</a>
@@ -44,7 +38,7 @@ export default function TeamPage() {
         <figure className="team-page-photo">
           <Image
             src="/images/team-september-2026-v2.jpg"
-            alt="Tim, Kirtana, Kimi and Constantine together at the INSEAD sign in Fontainebleau"
+            alt="Members of the MIM’28 Student Council together at the INSEAD sign in Fontainebleau"
             width={2000}
             height={982}
           />
@@ -55,7 +49,7 @@ export default function TeamPage() {
       <section className="about-team team-page-details" id="team">
         <div>
           <p className="eyebrow">
-            THE SALAMANDERS · STUDENT COUNCIL CANDIDATES
+            THE SALAMANDERS · YOUR MIM’28 STUDENT COUNCIL
           </p>
           <h2>
             A MIM community where everyone belongs and has the opportunity to
@@ -66,14 +60,34 @@ export default function TeamPage() {
             representatives and help turn your ideas into action.
           </p>
         </div>
-        <div className="team-roster">
-          {team.map((person) => (
-            <div key={person.name}>
-              <strong>{person.name}</strong>
-              <span>{person.role}</span>
-            </div>
+        <ul className="council-roster">
+          {council.map((person) => (
+            <li className="council-member" key={person.name}>
+              {person.photo ? (
+                <Image
+                  className="council-avatar"
+                  src={person.photo}
+                  alt=""
+                  width={96}
+                  height={96}
+                />
+              ) : (
+                <span className="council-avatar council-initials" aria-hidden="true">
+                  {initials(person.name)}
+                </span>
+              )}
+              <div className="council-text">
+                <strong>{person.name}</strong>
+                <span className="council-role">{person.role}</span>
+                {person.email && (
+                  <a className="council-email" href={`mailto:${person.email}`}>
+                    {person.email}
+                  </a>
+                )}
+              </div>
+            </li>
           ))}
-        </div>
+        </ul>
       </section>
 
       <footer>
