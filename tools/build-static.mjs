@@ -42,7 +42,7 @@ const ARROW =
 const HUB = 'https://edav8.github.io/MIM28/';
 const SKI = 'https://edav8.github.io/insead-ski-trip/';
 
-function head(title, description, cssHref) {
+function head(title, description, prefix) {
   return `<!doctype html>
 <html lang="en">
 <head>
@@ -50,8 +50,8 @@ function head(title, description, cssHref) {
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>${e(title)}</title>
 <meta name="description" content="${e(description)}">
-<link rel="icon" href="/favicon.svg" type="image/svg+xml" sizes="any">
-<link rel="stylesheet" href="${cssHref}">
+<link rel="icon" href="${prefix}favicon.svg" type="image/svg+xml" sizes="any">
+<link rel="stylesheet" href="${prefix}styles.css">
 </head>
 <body>`;
 }
@@ -64,7 +64,7 @@ function header(prefix, active) {
           <a href="${SKI}" target="_blank" rel="noreferrer">Ski trip</a>
           <a href="${prefix}team/">Meet the team</a>`;
   return `<header class="site-header">
-  <a href="${prefix}" class="wordmark">
+  <a href="${prefix || './'}" class="wordmark">
     <img src="${prefix}images/insead-logo.webp" alt="INSEAD" width="58" height="58"><span>MIM’28 Student Council</span>
   </a>
   <nav>${nav}</nav>
@@ -103,20 +103,21 @@ function eventRow(ev, withCta = true) {
 function indexPage() {
   const cohort = upcoming('cohort');
   const careers = upcoming('careers');
+  const prefix = '';
   return `${head(
     'The Salamanders · MIM’28',
     'The MIM’28 Student Council at INSEAD — what’s on, who we are, and how to reach us.',
-    '/styles.css',
+    prefix,
   )}
 <main>
-${header('/', 'home')}
+${header(prefix, 'home')}
 <section class="campaign-intro" aria-labelledby="campaign-title">
   <div class="campaign-copy">
     <h1 id="campaign-title">The Salamanders</h1>
     <p class="campaign-mission">We <em>listen</em> to your concerns and turn <em>your ideas</em> into action, bridging our cohort with Student Life to make the most of MIM’28.</p>
     <div class="first-day">
       <div class="first-day-heading"><h2>Our Approach</h2></div>
-      <div class="first-day-steps"><img src="/images/salamander-poster.png" alt="" width="2120" height="742">
+      <div class="first-day-steps"><img src="images/salamander-poster.png" alt="" width="2120" height="742">
       <ol>
         <li><strong><span>01</span> Survey</strong><p>Share your needs and ideas.</p></li>
         <li><strong><span>02</span> Collaborate</strong><p>Choose feasible ideas with key stakeholders.</p></li>
@@ -125,8 +126,8 @@ ${header('/', 'home')}
     </div>
   </div>
   <figure class="campaign-photo">
-    <img src="/images/team-september-2026-v2.jpg" alt="Members of the MIM’28 Student Council at the INSEAD sign in Fontainebleau" width="2000" height="982">
-    <figcaption><span>The Salamanders</span><a href="/team/">Meet the team ${ARROW}</a></figcaption>
+    <img src="images/team-september-2026-v2.jpg" alt="Members of the MIM’28 Student Council at the INSEAD sign in Fontainebleau" width="2000" height="982">
+    <figcaption><span>The Salamanders</span><a href="team/">Meet the team ${ARROW}</a></figcaption>
   </figure>
 </section>
 
@@ -150,24 +151,25 @@ ${careers.map((ev) => eventRow(ev, false)).join('\n')}
     : ''
 }
 </section>
-${footer('/')}`;
+${footer(prefix)}`;
 }
 
 function teamPage() {
+  const prefix = '../';
   return `${head(
     'Meet the team · The Salamanders',
     'The eight members of the MIM’28 Student Council at INSEAD.',
-    '/styles.css',
+    prefix,
   )}
 <main class="team-page">
-${header('/', 'team')}
+${header(prefix, 'team')}
 <section class="team-page-intro" aria-labelledby="team-page-title">
   <div>
     <p class="eyebrow">THE SALAMANDERS</p>
     <h1 id="team-page-title">Meet our team</h1>
   </div>
   <figure class="team-page-photo">
-    <img src="/images/team-september-2026-v2.jpg" alt="Members of the MIM’28 Student Council at the INSEAD sign in Fontainebleau" width="2000" height="982">
+    <img src="../images/team-september-2026-v2.jpg" alt="Members of the MIM’28 Student Council at the INSEAD sign in Fontainebleau" width="2000" height="982">
     <figcaption>The Salamanders · MIM’28</figcaption>
   </figure>
 </section>
@@ -196,7 +198,7 @@ ${council
   .join('\n')}
   </ul>
 </section>
-${footer('/')}`;
+${footer(prefix)}`;
 }
 
 /** app/globals.css minus the Tailwind directives: everything from the first @font-face. */
