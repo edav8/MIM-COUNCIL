@@ -142,6 +142,19 @@ export const events: CohortEvent[] = [
   },
 ];
 
+/**
+ * Events happening within the next `days` days, for the "coming up" strip on the
+ * homepage. Month-precision and recurring entries are included when their date
+ * falls in range, which is what you want for a weekly session.
+ */
+export function withinDays(group: CohortEvent['group'], days = 3, today = new Date()) {
+  const from = today.toISOString().slice(0, 10);
+  const until = new Date(today.getTime() + days * 86400000).toISOString().slice(0, 10);
+  return events
+    .filter((e) => e.group === group && e.sortKey >= from && e.sortKey <= until)
+    .sort((a, b) => a.sortKey.localeCompare(b.sortKey));
+}
+
 /** Group a list of events by calendar month, in order, for a month-by-month calendar. */
 export function byMonth(list: CohortEvent[]) {
   const months = new Map<string, CohortEvent[]>();

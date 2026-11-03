@@ -411,3 +411,47 @@ h1{font-weight:700}
 /* The campaign photo is gone; let the intro use the full width. */
 .campaign-intro{grid-template-columns:1fr}
 .team-page-intro{display:block}
+
+/* ---- "Happening in the next three days" -------------------------------- */
+.happening{padding:1.8rem max(3rem,calc((100vw - 1304px)/2)) 1.4rem;background:#fff}
+.happening h2{display:flex;align-items:center;gap:.55rem;margin:0 0 .9rem;font-size:1.0625rem}
+.live-dot{width:9px;height:9px;border-radius:50%;background:#f28b32;flex:0 0 9px;
+  box-shadow:0 0 0 4px rgba(242,139,50,.2)}
+.happening-list{list-style:none;margin:0;padding:0;display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(15rem,1fr));gap:.8rem}
+.happening-card{background:var(--tint);border:1px solid var(--accent);border-radius:14px;
+  padding:1rem 1.1rem;display:flex;flex-direction:column;gap:.2rem}
+.happening-when{font-size:.8125rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;
+  color:var(--accent)}
+.happening-card h3{margin:.1rem 0 0;font-size:1.0625rem;line-height:1.25}
+.happening-where{margin:0;font-size:.875rem;color:#5a6b5f}
+.happening-cta{margin-top:.5rem;align-self:flex-start;background:var(--accent);color:#fff;
+  text-decoration:none;font-weight:650;font-size:.875rem;border-radius:999px;padding:.45rem .9rem;
+  display:inline-flex;align-items:center;gap:.3rem;min-height:40px}
+
+/* ---- The proposal form ------------------------------------------------- */
+.proposal-form{max-width:1400px;margin:auto;padding:1rem max(3rem,calc((100vw - 1304px)/2)) 2rem}
+.proposal-form h2{font-size:1.5rem;margin:0 0 .4rem}
+.form-intro{max-width:44rem;line-height:1.55;color:#42564a;margin:0 0 1.2rem}
+#initiative-form{max-width:46rem;display:grid;gap:1.2rem}
+#initiative-form fieldset{border:1px solid #d9dfd7;border-radius:14px;padding:1.1rem 1.25rem;margin:0}
+#initiative-form legend{padding:0 .4rem;font-weight:700;color:var(--brand-green);font-size:.9375rem}
+.fieldset-blurb{margin:.2rem 0 .9rem;font-size:.875rem;color:#5a6b5f;line-height:1.45}
+.field{display:grid;gap:.25rem;margin-bottom:.9rem}
+.field:last-child{margin-bottom:0}
+.field label{font-weight:600;font-size:.9375rem}
+.field abbr{color:#c0392b;text-decoration:none;margin-left:.15rem}
+.field-hint{font-size:.8125rem;color:#5a6b5f;line-height:1.4}
+.field input,.field textarea,.field select{font:inherit;font-size:.9375rem;padding:.6rem .7rem;
+  border:1px solid #c8d4cb;border-radius:9px;background:#fff;width:100%;min-height:44px}
+.field textarea{min-height:auto;resize:vertical}
+.field input:focus,.field textarea:focus,.field select:focus{outline:2px solid var(--brand-green);
+  outline-offset:1px;border-color:var(--brand-green)}
+.form-actions{display:flex;gap:.6rem;flex-wrap:wrap}
+.cta-ghost{background:#fff;color:var(--brand-green);border:1px solid var(--brand-green)}
+.cta-ghost:hover{background:#e6f2e7}
+.form-note{min-height:1.4em;font-size:.9375rem;color:#42564a;margin:.3rem 0 0}
+@media (max-width:860px){
+  .happening{padding-left:1rem;padding-right:1rem}
+  .proposal-form{padding-left:1rem;padding-right:1rem}
+}

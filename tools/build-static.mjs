@@ -26,12 +26,13 @@ import { fileURLToPath } from 'node:url';
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const out = join(root, 'dist-static');
 
-const { upcoming, byMonth, pillarOf, pillarColours } = await import(join(root, 'lib/events.ts'));
+const { upcoming, byMonth, withinDays, pillarOf, pillarColours } = await import(join(root, 'lib/events.ts'));
 const { council, initials, councilEmail } = await import(join(root, 'lib/council.ts'));
 const { pillars } = await import(join(root, 'lib/sections.ts'));
 const { sections: guideSections, budgetExample } = await import(
   join(root, 'lib/initiative-guide.ts')
 );
+const { formSections } = await import(join(root, 'lib/initiative-form.ts'));
 
 /** Escape text for HTML. Content comes from our own data files, but never assume. */
 const e = (s = '') =>
@@ -190,6 +191,26 @@ ${header(prefix, 'home')}
   </div>
 </section>
 
+${(() => {
+  const soon = withinDays('cohort', 3);
+  if (!soon.length) return '';
+  return `<section class="happening" aria-labelledby="happening-title">
+  <h2 id="happening-title"><span class="live-dot" aria-hidden="true"></span>Happening in the next three days</h2>
+  <ul class="happening-list">
+${soon
+  .map((ev) => {
+    const c = pillarColours[pillarOf(ev)];
+    return `    <li class="happening-card" style="--accent:${c.accent};--tint:${c.tint}">
+      <span class="happening-when">${e(ev.when)}</span>
+      <h3>${e(ev.title)}</h3>
+      ${ev.where ? `<p class="happening-where">${e(ev.where)}</p>` : ''}
+      ${ev.href ? `<a class="happening-cta" href="${e(ev.href)}" target="_blank" rel="noreferrer">${e(ev.cta || 'Open')} ${ARROW}</a>` : ''}
+    </li>`;
+  })
+  .join('\n')}
+  </ul>
+</section>`;
+})()}
 <section class="whats-on" id="whats-on" aria-labelledby="whats-on-title">
   <div class="whats-on-heading">
     <p class="eyebrow">WHAT’S ON</p>
@@ -309,7 +330,69 @@ ${m.events.map((ev) => eventRow(ev)).join('\n')}
     <a class="cta" href="${prefix}initiatives/">Propose an initiative ${ARROW}</a>
   </p>
 </section>
-${footer(prefix)}`;
+${footer(prefix)}
+<script>
+(() => {
+  const form = document.getElementById('initiative-form');
+  if (!form) return;
+  const note = document.getElementById('form-note');
+  const TO = '${councilEmail}';
+
+  // Build a plain-text proposal from the filled-in fields, in the order they appear.
+  const compose = () => {
+    const lines = [];
+    for (const fs of form.querySelectorAll('fieldset')) {
+      const heading = fs.querySelector('legend').textContent.trim();
+      const parts = [];
+      for (const f of fs.querySelectorAll('input, textarea, select')) {
+        const value = f.value.trim();
+        if (!value) continue;
+        const label = fs.querySelector('label[for=\"' + f.id + '\"]').textContent.replace('*', '').trim();
+        parts.push(label + ':\\n' + value);
+      }
+      if (parts.length) lines.push(heading.toUpperCase(), '', parts.join('\\n\\n'), '');
+    }
+    return lines.join('\\n');
+  };
+
+  const subject = () => {
+    const t = (form.querySelector('#title') || {}).value || '';
+    return 'Initiative proposal' + (t.trim() ? ': ' + t.trim() : '');
+  };
+
+  const missing = () =>
+    [...form.querySelectorAll('[required]')].filter((f) => !f.value.trim());
+
+  form.addEventListener('submit', (ev) => {
+    ev.preventDefault();
+    const gaps = missing();
+    if (gaps.length) {
+      gaps[0].focus();
+      note.textContent = 'Please fill in the required fields first — ' + gaps.length + ' still empty.';
+      return;
+    }
+    const body = compose();
+    const url = 'mailto:' + TO + '?subject=' + encodeURIComponent(subject()) + '&body=' + encodeURIComponent(body);
+    // Very long proposals can exceed what a mail app accepts in a link.
+    if (url.length > 1900) {
+      note.textContent = 'Your proposal is long, so some mail apps would cut it short. Use \u201cCopy as text instead\u201d and paste it into an email to ' + TO + '.';
+      return;
+    }
+    note.textContent = 'Opening your email app\u2026 if nothing happens, use \u201cCopy as text instead\u201d.';
+    window.location.href = url;
+  });
+
+  document.getElementById('copy-proposal').addEventListener('click', async () => {
+    const text = 'To: ' + TO + '\\nSubject: ' + subject() + '\\n\\n' + compose();
+    try {
+      await navigator.clipboard.writeText(text);
+      note.textContent = 'Copied. Paste it into an email to ' + TO + '.';
+    } catch {
+      note.textContent = 'Could not copy automatically — select the text in the fields and copy it manually.';
+    }
+  });
+})();
+</script>`;
 }
 
 function tutoringPage() {
@@ -371,6 +454,26 @@ ${header(prefix, 'tutoring')}
 ${footer(prefix)}`;
 }
 
+function formField(f) {
+  const req = f.required ? ' required' : '';
+  const hint = f.hint ? `<span class="field-hint">${e(f.hint)}</span>` : '';
+  let control;
+  if (f.type === 'textarea') {
+    control = `<textarea id="${f.id}" name="${f.id}" rows="${f.rows || 3}"${req}></textarea>`;
+  } else if (f.type === 'select') {
+    control = `<select id="${f.id}" name="${f.id}"${req}><option value="">Choose…</option>${(f.options || [])
+      .map((o) => `<option>${e(o)}</option>`)
+      .join('')}</select>`;
+  } else {
+    control = `<input id="${f.id}" name="${f.id}" type="${f.type}"${req}>`;
+  }
+  return `        <div class="field">
+          <label for="${f.id}">${e(f.label)}${f.required ? '<abbr title="required">*</abbr>' : ''}</label>
+          ${hint}
+          ${control}
+        </div>`;
+}
+
 function initiativesPage() {
   const prefix = '../';
   return `${head(
@@ -418,15 +521,35 @@ ${budgetExample.rows
     <p class="budget-note">${e(budgetExample.note)}</p>
   </aside>
 </section>
+<section class="proposal-form" id="form">
+  <h2>Send us your proposal</h2>
+  <p class="form-intro">
+    Fill this in and press send. It opens your email app with everything laid out,
+    addressed to <strong>${councilEmail}</strong> — check it over, then send.
+  </p>
+  <form id="initiative-form" novalidate>
+${formSections
+  .map(
+    (sec) => `    <fieldset>
+      <legend>${e(sec.heading)}</legend>
+      ${sec.blurb ? `<p class="fieldset-blurb">${e(sec.blurb)}</p>` : ''}
+${sec.fields.map(formField).join('\n')}
+    </fieldset>`,
+  )
+  .join('\n')}
+    <div class="form-actions">
+      <button type="submit" class="cta">Open in my email app</button>
+      <button type="button" class="cta cta-ghost" id="copy-proposal">Copy as text instead</button>
+    </div>
+    <p class="form-note" id="form-note" role="status"></p>
+  </form>
+</section>
 <section class="guide-next">
   <h2>What happens next</h2>
   <p>
-    Send your proposal to the Council and we will come back to you. If the numbers
-    need discussing we will ask to meet rather than simply decline — a proposal that
-    is too expensive as written is often workable at a smaller scale.
-  </p>
-  <p class="guide-contact">
-    <a class="cta" href="mailto:mim.council@insead.edu?subject=Initiative%20proposal">Send us your proposal</a>
+    We will come back to you. If the numbers need discussing we will ask to meet
+    rather than simply decline — a proposal that is too expensive as written is
+    often workable at a smaller scale.
   </p>
 </section>
 ${footer(prefix)}`;

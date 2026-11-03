@@ -28,11 +28,6 @@ export const pillars: Pillar[] = [
     tint: '#e6f2e7',
     items: [
       { label: 'Reflection Survey' },
-      {
-        label: 'Tutoring sign-up',
-        href: 'https://insead.eu.qualtrics.com/jfe/form/SV_0UrZ496ElQXohb8',
-        note: 'Tutor, tutee, or both',
-      },
       { label: 'MIM2MIM Tutoring', href: '/tutoring/', note: 'Offer it, receive it, or both' },
       { label: 'MIM' },
       { label: 'Course Hub', href: 'https://edav8.github.io/MIM28/' },
