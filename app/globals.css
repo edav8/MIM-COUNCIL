@@ -478,3 +478,38 @@ h1{font-weight:700}
   .supporter-row{grid-template-columns:1.4rem 1fr;row-gap:.3rem}
   .supporter-row input:nth-of-type(2),.supporter-row input:nth-of-type(3){grid-column:2}
 }
+
+/* ---- The top strip scrolls sideways instead of wrapping ---------------- */
+/* Keeps the first screen short however many events are imminent, and gives
+   phones a natural swipe rather than a tall stack. */
+.happening-list{
+  display:flex;
+  gap:.8rem;
+  overflow-x:auto;
+  scroll-snap-type:x mandatory;
+  -webkit-overflow-scrolling:touch;
+  scroll-padding-left:max(3rem,calc((100vw - 1304px)/2));
+  padding-bottom:.6rem;
+  /* let the cards run to the screen edge, so the last one does not look clipped */
+  margin-right:calc(-1 * max(3rem,calc((100vw - 1304px)/2)));
+  padding-right:max(3rem,calc((100vw - 1304px)/2));
+}
+.happening-list{scrollbar-width:thin;scrollbar-color:#c8d4cb transparent}
+.happening-list::-webkit-scrollbar{height:6px}
+.happening-list::-webkit-scrollbar-thumb{background:#c8d4cb;border-radius:999px}
+.happening-list::-webkit-scrollbar-track{background:transparent}
+.happening-card{
+  scroll-snap-align:start;
+  flex:0 0 min(20rem,78vw);
+}
+@media (max-width:860px){
+  .happening-list{
+    scroll-padding-left:1rem;
+    margin-right:-1rem;
+    padding-right:1rem;
+  }
+  .happening-card{flex-basis:min(18rem,80vw)}
+}
+@media (prefers-reduced-motion:no-preference){
+  .happening-list{scroll-behavior:smooth}
+}
