@@ -51,6 +51,17 @@ export function pillarOf(e: CohortEvent) {
 
 export const events: CohortEvent[] = [
   {
+    when: 'Wed 4 Nov · 19:00–21:00',
+    sortKey: '2026-11-04',
+    title: 'From zero to Claude Code (and Codex)',
+    where: 'DT1',
+    note: 'First of the AI workshops, run by Cam and Will. For beginners — bring your laptop. Free, but the tools may need a paid plan. More advanced sessions later.',
+    href: 'https://luma.com/9lzvjukl',
+    cta: 'Sign up',
+    group: 'cohort',
+    pillar: 'academic',
+  },
+  {
     when: 'Wed 4 Nov · 23:00–03:00',
     sortKey: '2026-11-04',
     title: 'MIM Night Round 2',
