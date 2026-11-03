@@ -231,9 +231,15 @@ ${week
 </div>`;
 }
 
-/** The nearest event, shown large beside the hero copy. */
+/**
+ * The nearest event, shown large beside the hero copy.
+ *
+ * Weekly fixtures are skipped: rugby training is always within a few days, so
+ * featuring it would keep Diwali and the festivals out of the hero for weeks.
+ * They still appear in the lists below, where a recurring session belongs.
+ */
 function featuredEvent(prefix) {
-  const [next] = upcoming('cohort');
+  const next = upcoming('cohort').find((e) => !e.repeat) ?? upcoming('cohort')[0];
   if (!next) return '';
   const c = pillarColours[pillarOf(next)];
   return `<aside class="featured" style="--accent:${c.accent};--tint:${c.tint}">

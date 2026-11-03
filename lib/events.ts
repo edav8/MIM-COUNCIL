@@ -27,7 +27,29 @@ export type CohortEvent = {
   group: 'cohort' | 'careers';
   /** Which pillar colour the row uses. Defaults from `group` when left out. */
   pillar?: 'academic' | 'student-life' | 'careers' | 'wellbeing';
+  /**
+   * A weekly session. `weekday` is 0=Sunday … 6=Saturday. The date shown rolls
+   * forward to the next occurrence, so a weekly fixture does not disappear the
+   * day after its first one — which is exactly what happened to rugby training.
+   * `until` ends the series, e.g. when the season does.
+   */
+  repeat?: { weekday: number; until?: string };
 };
+
+/** The date an event next falls on: its own, or the next occurrence if weekly. */
+export function nextDate(e: CohortEvent, today = new Date()): string | null {
+  if (!e.repeat) return e.sortKey;
+  const from = new Date(
+    Date.UTC(today.getUTCFullYear(), today.getUTCMonth(), today.getUTCDate()),
+  );
+  const start = new Date(`${e.sortKey}T00:00:00Z`);
+  const base = start > from ? start : from;
+  const shift = (e.repeat.weekday - base.getUTCDay() + 7) % 7;
+  const next = new Date(base.getTime() + shift * 86400000);
+  const iso = next.toISOString().slice(0, 10);
+  if (e.repeat.until && iso > e.repeat.until) return null;
+  return iso;
+}
 
 /**
  * Category colours, taken from The Salamanders brand guide.
@@ -78,6 +100,7 @@ export const events: CohortEvent[] = [
     title: 'Rugby — Gents’ training',
     where: 'Pitch with lights',
     note: 'INSEAD Rugby Club. 50 places a session, 25 MBAs and 25 MIMs. No experience needed.',
+    repeat: { weekday: 1 },
     group: 'cohort',
   },
   {
@@ -87,6 +110,7 @@ export const events: CohortEvent[] = [
     title: 'Rugby — Ladies’ training, then Mimi’s',
     where: 'Pitch with lights, then Mimi’s',
     note: 'Free-flow wine, beer and pizza at Mimi’s afterwards. Tackling negotiable, enthusiasm mandatory.',
+    repeat: { weekday: 4 },
     group: 'cohort',
   },
   {
@@ -232,15 +256,18 @@ export function withinDays(group: CohortEvent['group'], days = 3, today = new Da
   const from = today.toISOString().slice(0, 10);
   const until = new Date(today.getTime() + days * 86400000).toISOString().slice(0, 10);
   return events
-    .filter((e) => e.group === group && e.sortKey >= from && e.sortKey <= until)
-    .sort((a, b) => a.sortKey.localeCompare(b.sortKey));
+    .filter((e) => e.group === group)
+    .map((e) => [e, nextDate(e, today)] as const)
+    .filter(([, d]) => d !== null && d >= from && d <= until)
+    .sort((a, b) => a[1]!.localeCompare(b[1]!))
+    .map(([e]) => e);
 }
 
 /** Group a list of events by calendar month, in order, for a month-by-month calendar. */
-export function byMonth(list: CohortEvent[]) {
+export function byMonth(list: CohortEvent[], today = new Date()) {
   const months = new Map<string, CohortEvent[]>();
   for (const ev of list) {
-    const key = ev.sortKey.slice(0, 7);
+    const key = (nextDate(ev, today) ?? ev.sortKey).slice(0, 7);
     if (!months.has(key)) months.set(key, []);
     months.get(key)!.push(ev);
   }
@@ -259,6 +286,9 @@ export function byMonth(list: CohortEvent[]) {
 export function upcoming(group: CohortEvent['group'], today = new Date()) {
   const cutoff = today.toISOString().slice(0, 10);
   return events
-    .filter((e) => e.group === group && e.sortKey >= cutoff)
-    .sort((a, b) => a.sortKey.localeCompare(b.sortKey));
+    .filter((e) => e.group === group)
+    .map((e) => [e, nextDate(e, today)] as const)
+    .filter(([, d]) => d !== null && d >= cutoff)
+    .sort((a, b) => a[1]!.localeCompare(b[1]!))
+    .map(([e]) => e);
 }
