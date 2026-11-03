@@ -554,3 +554,9 @@ h1{font-weight:700}
   .signup-band{margin-left:1rem;margin-right:1rem;padding:1.4rem 1.2rem}
   .signup-band .cta{width:100%;justify-content:center}
 }
+
+/* The approach steps stand alone now the illustration behind them is gone. */
+.first-day-steps{display:block}
+.first-day-steps ol{display:grid;grid-template-columns:repeat(auto-fit,minmax(14rem,1fr));
+  gap:.8rem;list-style:none;padding:0;margin:.6rem 0 0}
+.first-day{margin-top:.6rem}

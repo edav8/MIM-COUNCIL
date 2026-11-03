@@ -182,8 +182,7 @@ ${header(prefix, 'home')}
     <p class="campaign-mission">We <em>listen</em> to your concerns and turn <em>your ideas</em> into action, bridging our cohort with Student Life to make the most of MIM’28.</p>
     <div class="first-day">
       <div class="first-day-heading"><h2>Our Approach</h2></div>
-      <div class="first-day-steps"><img src="images/salamander-poster.png" alt="" width="2120" height="742">
-      <ol>
+      <div class="first-day-steps"><ol>
         <li><strong><span>01</span> Survey</strong><p>Share your needs and ideas.</p></li>
         <li><strong><span>02</span> Collaborate</strong><p>Choose feasible ideas with key stakeholders.</p></li>
         <li><strong><span>03</span> Implement</strong><p>Work with students and partners to deliver.</p></li>
