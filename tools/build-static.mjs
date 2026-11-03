@@ -436,39 +436,9 @@ ${header(prefix, 'initiatives')}
   <p class="eyebrow">STUDENT LIFE</p>
   <h1>Propose an initiative</h1>
   <p class="page-lede">
-    Got something you want to run for the cohort? The Council can support it, and
-    sometimes fund it. This is what we need from you to be able to say yes.
+    Got something you want to run for the cohort? Fill this in and we will come
+    back to you. Keep answers concise — attach extra detail if you need to.
   </p>
-</section>
-<section class="guide">
-  <ol class="guide-list">
-${guideSections
-  .map(
-    (sec) => `    <li class="guide-step">
-      <h2>${e(sec.heading)}</h2>
-      <p>${e(sec.blurb)}</p>
-      <ul>
-${sec.asks.map((a) => `        <li>${e(a)}</li>`).join('\n')}
-      </ul>
-    </li>`,
-  )
-  .join('\n')}
-  </ol>
-  <aside class="budget-example">
-    <h2>The budget</h2>
-    <p>${e(budgetExample.caption)}</p>
-    <table>
-      <tbody>
-${budgetExample.rows
-  .map(
-    (r) => `        <tr><td>${e(r[0])}</td><td>${e(r[1])}</td><td>${e(r[2])}</td></tr>`,
-  )
-  .join('\n')}
-        <tr class="budget-total"><td>${e(budgetExample.total[0])}</td><td>${e(budgetExample.total[1])}</td><td>${e(budgetExample.total[2])}</td></tr>
-      </tbody>
-    </table>
-    <p class="budget-note">${e(budgetExample.note)}</p>
-  </aside>
 </section>
 <section class="proposal-form" id="form">
   <h2>Send us your proposal</h2>
