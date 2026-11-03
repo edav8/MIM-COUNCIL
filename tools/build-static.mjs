@@ -168,10 +168,13 @@ function eventRow(ev, withCta = true) {
 
 /** A slim strip under the nav: everything on in the next seven days. */
 function weekBar(prefix) {
-  const week = withinDays('cohort', 7);
+  // The nearest event is already shown large in the hero, so leave it out here
+  // rather than printing the same thing twice on one screen.
+  const [featured] = upcoming('cohort');
+  const week = withinDays('cohort', 7).filter((ev) => ev !== featured);
   if (!week.length) return '';
   return `<div class="weekbar">
-  <span class="weekbar-label">This week</span>
+  <span class="weekbar-label">Also this week</span>
   <ul>
 ${week
   .map((ev) => {
@@ -246,71 +249,20 @@ ${featuredEvent(prefix)}
   </ol>
 </section>
 
-${(() => {
-  const soon = withinDays('cohort', 3);
-  if (!soon.length) return '';
-  return `<section class="happening" aria-labelledby="happening-title">
-  <h2 id="happening-title"><span class="live-dot" aria-hidden="true"></span>Happening in the next three days</h2>
-  <ul class="happening-list">
-${soon
-  .map((ev) => {
-    const c = pillarColours[pillarOf(ev)];
-    return `    <li class="happening-card" style="--accent:${c.accent};--tint:${c.tint}">
-      <span class="happening-when">${e(ev.when)}</span>
-      <h3>${e(ev.title)}</h3>
-      ${ev.where ? `<p class="happening-where">${e(ev.where)}</p>` : ''}
-      ${ev.href ? `<a class="happening-cta" href="${e(ev.href)}" target="_blank" rel="noreferrer">${e(ev.cta || 'Open')} ${ARROW}</a>` : ''}
-    </li>`;
-  })
-  .join('\n')}
-  </ul>
-</section>`;
-})()}
-${
-  mimOfWeek
-    ? `<section class="motw" aria-labelledby="motw-title">
-  <div class="motw-card">
-    ${
-      mimOfWeek.photo
-        ? `<img class="motw-avatar" src="${e(prefix + mimOfWeek.photo.replace(/^\//, ''))}" alt="" width="128" height="128">`
-        : `<span class="motw-avatar motw-initials" aria-hidden="true">${e(initialsOf(mimOfWeek.name))}</span>`
-    }
-    <div class="motw-text">
-      <p class="eyebrow" id="motw-title">MIM OF THE WEEK · ${e(mimOfWeek.week)}</p>
-      <h2>${e(mimOfWeek.name)}</h2>
-      <p class="motw-why">${e(mimOfWeek.why)}</p>
-      ${mimOfWeek.nominatedBy ? `<p class="motw-by">Nominated by ${e(mimOfWeek.nominatedBy)}</p>` : ''}
-    </div>
-  </div>
-</section>`
-    : ''
-}
 <section class="whats-on" id="whats-on" aria-labelledby="whats-on-title">
   <div class="whats-on-heading">
     <p class="eyebrow">WHAT’S ON</p>
-    <h2 id="whats-on-title">Next up for the cohort</h2>
-    <p class="whats-on-intro">Everything coming up that everyone can join. Dates move — where something is not yet confirmed, it says so.</p>
+    <h2 id="whats-on-title">Coming up</h2>
   </div>
-${byMonth(cohort)
-  .map(
-    (m) => `  <div class="event-month">
-    <h3 class="month-label">${e(m.label)}</h3>
-    <ul class="event-list">
-${m.events.map((ev) => eventRow(ev)).join('\n')}
-    </ul>
-  </div>`,
-  )
+  <ul class="event-list">
+${upcoming('cohort')
+  .slice(1, 5)
+  .map((ev) => eventRow(ev))
   .join('\n')}
-${
-  careers.length
-    ? `  <div class="event-careers">
-    <p class="eyebrow">CAREERS &amp; CDC</p>
-    <ul class="event-list">
-${careers.map((ev) => eventRow(ev, false)).join('\n')}
-    </ul>
-  </div>`
-    : ''
-}
+  </ul>
+  <p class="whats-on-more">
+    <a href="${prefix}student-life/">See everything, month by month ${ARROW}</a>
+  </p>
 </section>
 ${footer(prefix)}`;
 }
