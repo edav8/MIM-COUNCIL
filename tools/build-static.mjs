@@ -26,7 +26,7 @@ import { fileURLToPath } from 'node:url';
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const out = join(root, 'dist-static');
 
-const { upcoming } = await import(join(root, 'lib/events.ts'));
+const { upcoming, pillarOf, pillarColours } = await import(join(root, 'lib/events.ts'));
 const { council, initials } = await import(join(root, 'lib/council.ts'));
 const { pillars } = await import(join(root, 'lib/sections.ts'));
 
@@ -144,8 +144,9 @@ ${NAV_SCRIPT}
 }
 
 function eventRow(ev, withCta = true) {
-  return `<li class="event-row">
-  <span class="event-when">${e(ev.when)}</span>
+  const c = pillarColours[pillarOf(ev)];
+  return `<li class="event-row" style="--accent:${c.accent};--tint:${c.tint}">
+  <span class="event-when">${e(ev.when)}<span class="event-pillar">${e(c.label)}</span></span>
   <div class="event-body">
     <h3>${e(ev.title)}</h3>
     ${ev.where ? `<p class="event-where">${e(ev.where)}</p>` : ''}

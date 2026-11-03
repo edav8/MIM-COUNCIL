@@ -59,8 +59,8 @@ export const pillars: Pillar[] = [
   },
   {
     title: 'Well Being',
-    accent: '#4f8f78',
-    tint: '#e8f1ed',
+    accent: '#087357',
+    tint: '#e6f2e7',
     items: [
       {
         label: 'Guidelines on Harassment',

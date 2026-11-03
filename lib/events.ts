@@ -23,7 +23,25 @@ export type CohortEvent = {
   href?: string;
   cta?: string;
   group: 'cohort' | 'careers';
+  /** Which pillar colour the row uses. Defaults from `group` when left out. */
+  pillar?: 'academic' | 'student-life' | 'careers' | 'wellbeing';
 };
+
+/**
+ * Pillar colours, the same ones as the top menus, taken from the Student Life
+ * Town Hall deck of 30 Oct 2026. Keep these and lib/sections.ts in step.
+ */
+export const pillarColours = {
+  academic: { accent: '#00684b', tint: '#e6f2e7', label: 'Academic' },
+  'student-life': { accent: '#f28b32', tint: '#fdeede', label: 'Student Life' },
+  careers: { accent: '#133b34', tint: '#e4ebe8', label: 'Careers' },
+  wellbeing: { accent: '#087357', tint: '#e6f2e7', label: 'Well Being' },
+} as const;
+
+/** An event's pillar: explicit if set, otherwise implied by its group. */
+export function pillarOf(e: CohortEvent) {
+  return e.pillar ?? (e.group === 'careers' ? 'careers' : 'student-life');
+}
 
 export const events: CohortEvent[] = [
   {

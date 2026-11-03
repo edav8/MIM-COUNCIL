@@ -332,3 +332,30 @@ h1{font-weight:700}
   background:var(--tint);color:var(--accent)}
 .menu-panel{border-top:3px solid var(--accent)}
 .menu-panel a:hover{background:var(--tint);color:var(--accent)}
+
+/* ---- Calendar rows carry their pillar's colour -------------------------- */
+.event-row{--accent:var(--brand-green);--tint:#e6f2e7;
+  border-left:4px solid var(--accent)}
+.event-when{color:var(--accent)}
+.event-pillar{display:block;margin-top:.2rem;font-size:.6875rem;font-weight:700;
+  letter-spacing:.07em;text-transform:uppercase;color:#fff;background:var(--accent);
+  border-radius:999px;padding:.12rem .5rem;width:max-content}
+.event-cta{background:var(--accent)}
+.event-cta:hover{filter:brightness(.88)}
+.event-careers .event-row{background:var(--tint)}
+
+/* ---- Team page: the roster gets the full width, not a side column ------- */
+/* `.about-team` is a 1.3fr/1fr split, which squeezed eight cards into the
+   narrow right-hand column with a half-empty column beside them. */
+.about-team.team-page-details{display:block;padding-top:2.5rem}
+.about-team.team-page-details > div{max-width:48rem;margin-bottom:2.25rem}
+.about-team.team-page-details .council-roster{
+  grid-template-columns:repeat(auto-fit,minmax(16rem,1fr));gap:1rem}
+.council-member{transition:border-color .15s ease,box-shadow .15s ease}
+.council-member:hover{border-color:#b9ccbf;box-shadow:0 6px 18px rgba(32,40,40,.07)}
+.council-avatar{width:56px;height:56px;flex-basis:56px}
+.council-initials{font-size:1.125rem}
+@media (max-width:860px){
+  .about-team.team-page-details{padding-left:1rem;padding-right:1rem}
+  .about-team.team-page-details .council-roster{grid-template-columns:1fr}
+}
