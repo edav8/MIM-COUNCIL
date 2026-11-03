@@ -27,6 +27,7 @@ const out = join(root, 'dist-static');
 
 const { upcoming } = await import(join(root, 'lib/events.ts'));
 const { council, initials } = await import(join(root, 'lib/council.ts'));
+const { pillars } = await import(join(root, 'lib/sections.ts'));
 
 /** Escape text for HTML. Content comes from our own data files, but never assume. */
 const e = (s = '') =>
@@ -100,6 +101,37 @@ function eventRow(ev, withCta = true) {
 </li>`;
 }
 
+/**
+ * The four pillars at the top of the page. An item with no href is rendered as
+ * plain, dimmed text rather than a dead link, so the structure can ship before
+ * every destination exists.
+ */
+function pillarsSection() {
+  return `<section class="pillars" aria-label="Council services">
+  <div class="pillar-grid">
+${pillars
+  .map(
+    (p) => `    <div class="pillar">
+      <h2>${e(p.title)}</h2>
+      <ul>
+${p.items
+  .map((it) => {
+    const inner = `${e(it.label)}${it.note ? `<span class="pillar-note">${e(it.note)}</span>` : ''}`;
+    if (!it.href) {
+      return `        <li><span class="pillar-soon">${inner}<em>coming soon</em></span></li>`;
+    }
+    const ext = it.href.startsWith('http');
+    return `        <li><a href="${e(it.href)}"${ext ? ' target="_blank" rel="noreferrer"' : ''}>${inner}${ext ? ` ${ARROW}` : ''}</a></li>`;
+  })
+  .join('\n')}
+      </ul>
+    </div>`,
+  )
+  .join('\n')}
+  </div>
+</section>`;
+}
+
 function indexPage() {
   const cohort = upcoming('cohort');
   const careers = upcoming('careers');
@@ -111,6 +143,7 @@ function indexPage() {
   )}
 <main>
 ${header(prefix, 'home')}
+${pillarsSection()}
 <section class="campaign-intro" aria-labelledby="campaign-title">
   <div class="campaign-copy">
     <h1 id="campaign-title">The Salamanders</h1>

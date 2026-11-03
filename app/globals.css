@@ -158,3 +158,21 @@ body{background:#fff;color:#20292d}.site-header{border-bottom:0;padding-top:1.2r
 .council-role{font-size:.875rem;color:#5a6b5f;margin-top:.1rem}
 .council-email{font-size:.8125rem;color:#00684b;margin-top:.2rem;
   overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+
+/* ---- The four pillars, top of the homepage ----------------------------- */
+.pillars{padding:1.6rem max(3rem,calc((100vw - 1304px)/2)) 2rem;background:#fff;
+  border-bottom:1px solid #d9dfd7}
+.pillar-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.6rem}
+.pillar h2{margin:0 0 .7rem;font-size:.8125rem;font-weight:700;letter-spacing:.08em;
+  text-transform:uppercase;color:#00684b;padding-bottom:.5rem;border-bottom:2px solid #e4ece1}
+.pillar ul{list-style:none;margin:0;padding:0;display:grid;gap:.45rem}
+.pillar li{line-height:1.3}
+.pillar a,.pillar-soon{display:block;font-size:.9375rem;font-weight:570;text-decoration:none;
+  color:#20292d}
+.pillar a:hover{color:#00684b}
+.pillar-note{display:block;font-size:.8125rem;font-weight:400;color:#5a6b5f;margin-top:.1rem}
+.pillar-soon{color:#9aa79f;font-weight:500}
+.pillar-soon em{display:block;font-size:.75rem;font-style:normal;color:#b3bdb6;margin-top:.1rem}
+@media (max-width:980px){.pillar-grid{grid-template-columns:repeat(2,1fr);gap:1.4rem}}
+@media (max-width:560px){.pillar-grid{grid-template-columns:1fr}
+  .pillars{padding-left:1.25rem;padding-right:1.25rem}}
