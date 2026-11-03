@@ -33,6 +33,7 @@ const { sections: guideSections, budgetExample } = await import(
   join(root, 'lib/initiative-guide.ts')
 );
 const { formSections, checklist } = await import(join(root, 'lib/initiative-form.ts'));
+const { current: mimOfWeek, initialsOf } = await import(join(root, 'lib/mim-of-the-week.ts'));
 
 /** Escape text for HTML. Content comes from our own data files, but never assume. */
 const e = (s = '') =>
@@ -211,6 +212,25 @@ ${soon
   </ul>
 </section>`;
 })()}
+${
+  mimOfWeek
+    ? `<section class="motw" aria-labelledby="motw-title">
+  <div class="motw-card">
+    ${
+      mimOfWeek.photo
+        ? `<img class="motw-avatar" src="${e(prefix + mimOfWeek.photo.replace(/^\//, ''))}" alt="" width="128" height="128">`
+        : `<span class="motw-avatar motw-initials" aria-hidden="true">${e(initialsOf(mimOfWeek.name))}</span>`
+    }
+    <div class="motw-text">
+      <p class="eyebrow" id="motw-title">MIM OF THE WEEK · ${e(mimOfWeek.week)}</p>
+      <h2>${e(mimOfWeek.name)}</h2>
+      <p class="motw-why">${e(mimOfWeek.why)}</p>
+      ${mimOfWeek.nominatedBy ? `<p class="motw-by">Nominated by ${e(mimOfWeek.nominatedBy)}</p>` : ''}
+    </div>
+  </div>
+</section>`
+    : ''
+}
 <section class="whats-on" id="whats-on" aria-labelledby="whats-on-title">
   <div class="whats-on-heading">
     <p class="eyebrow">WHAT’S ON</p>
@@ -380,7 +400,7 @@ ${header(prefix, 'tutoring')}
     </li>
   </ol>
 </section>
-<section class="guide-next">
+<section class="guide-next signup-band">
   <h2>Sign up</h2>
   <p>
     Sign up as a tutor, a tutee, or both, for the courses you want. The form is the

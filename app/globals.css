@@ -513,3 +513,44 @@ h1{font-weight:700}
 @media (prefers-reduced-motion:no-preference){
   .happening-list{scroll-behavior:smooth}
 }
+
+/* ---- Content pages: full width, cards across ---------------------------- */
+/* `.guide` was a 1.6fr/1fr split for a page that had a sidebar. The sidebar is
+   gone, so the second column was simply empty and squeezed the content. */
+.guide{display:block}
+.guide-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(17rem,1fr));
+  gap:1rem;align-items:start}
+.guide-step{height:100%}
+.page-intro h1{max-width:20ch}
+.page-lede{max-width:52rem}
+.page-tagline{max-width:52rem}
+@media (max-width:720px){
+  .guide-list{grid-template-columns:1fr}
+}
+
+/* ---- MIM of the Week ---------------------------------------------------- */
+.motw{padding:1.6rem max(3rem,calc((100vw - 1304px)/2)) 1.2rem}
+.motw-card{display:flex;align-items:center;gap:1.2rem;background:#fdeede;
+  border:1px solid #f28b32;border-radius:16px;padding:1.2rem 1.4rem}
+.motw-avatar{width:76px;height:76px;flex:0 0 76px;border-radius:50%;object-fit:cover}
+.motw-initials{display:grid;place-items:center;background:#f28b32;color:#fff;
+  font-weight:700;font-size:1.5rem;font-family:var(--font-display)}
+.motw-text .eyebrow{color:#c8701f;margin:0}
+.motw-text h2{margin:.15rem 0 .25rem;font-size:1.5rem}
+.motw-why{margin:0;line-height:1.5;color:#42564a;max-width:52rem}
+.motw-by{margin:.35rem 0 0;font-size:.875rem;color:#8a7158}
+@media (max-width:720px){
+  .motw{padding-left:1rem;padding-right:1rem}
+  .motw-card{flex-direction:column;align-items:flex-start;gap:.8rem}
+}
+
+/* ---- Make the sign-up call to action unmissable ------------------------ */
+.signup-band{background:#e6f2e7;border-radius:18px;
+  max-width:1304px;margin:1rem auto 3rem;padding:2rem 2.2rem}
+.signup-band h2{font-size:1.75rem;color:var(--brand-green);margin:0 0 .4rem}
+.signup-band .cta{font-size:1.0625rem;padding:.95rem 1.6rem;margin-top:.6rem}
+.guide-contact{margin:.8rem 0 0}
+@media (max-width:860px){
+  .signup-band{margin-left:1rem;margin-right:1rem;padding:1.4rem 1.2rem}
+  .signup-band .cta{width:100%;justify-content:center}
+}
