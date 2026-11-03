@@ -26,7 +26,7 @@ import { fileURLToPath } from 'node:url';
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const out = join(root, 'dist-static');
 
-const { upcoming, pillarOf, pillarColours } = await import(join(root, 'lib/events.ts'));
+const { upcoming, byMonth, pillarOf, pillarColours } = await import(join(root, 'lib/events.ts'));
 const { council, initials } = await import(join(root, 'lib/council.ts'));
 const { pillars } = await import(join(root, 'lib/sections.ts'));
 
@@ -197,9 +197,16 @@ ${header(prefix, 'home')}
     <h2 id="whats-on-title">Next up for the cohort</h2>
     <p class="whats-on-intro">Everything coming up that everyone can join. Dates move — where something is not yet confirmed, it says so.</p>
   </div>
-  <ul class="event-list">
-${cohort.map((ev) => eventRow(ev)).join('\n')}
-  </ul>
+${byMonth(cohort)
+  .map(
+    (m) => `  <div class="event-month">
+    <h3 class="month-label">${e(m.label)}</h3>
+    <ul class="event-list">
+${m.events.map((ev) => eventRow(ev)).join('\n')}
+    </ul>
+  </div>`,
+  )
+  .join('\n')}
 ${
   careers.length
     ? `  <div class="event-careers">

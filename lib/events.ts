@@ -45,6 +45,39 @@ export function pillarOf(e: CohortEvent) {
 
 export const events: CohortEvent[] = [
   {
+    when: 'Wed 4 Nov · 23:00–03:00',
+    sortKey: '2026-11-04',
+    title: 'MIM Night Round 2',
+    where: 'Mecano, Fontainebleau',
+    note: 'One drink included, our DJs, no phones. Tickets on Shotgun, PIN MIM2028 — no door sales.',
+    href: 'https://shotgun.live/events/mim-28-mecano-part-2',
+    cta: 'Tickets',
+    group: 'cohort',
+  },
+  {
+    when: 'Every Monday · 19:30–21:00',
+    sortKey: '2026-11-09',
+    title: 'Rugby — Gents’ training',
+    where: 'Pitch with lights',
+    note: 'INSEAD Rugby Club. 50 places a session, 25 MBAs and 25 MIMs. No experience needed.',
+    group: 'cohort',
+  },
+  {
+    when: 'Every Thursday · 20:00–21:30',
+    sortKey: '2026-11-05',
+    title: 'Rugby — Ladies’ training, then Mimi’s',
+    where: 'Pitch with lights, then Mimi’s',
+    note: 'Free-flow wine, beer and pizza at Mimi’s afterwards. Tackling negotiable, enthusiasm mandatory.',
+    group: 'cohort',
+  },
+  {
+    when: 'All November',
+    sortKey: '2026-11-30',
+    title: 'Movember',
+    note: 'Shave, take a clean picture, and the best moustache wins at the end of the month.',
+    group: 'cohort',
+  },
+  {
     when: 'Wed 4 Nov · 19:00',
     sortKey: '2026-11-04',
     title: 'Silly Pitches Evening',
@@ -108,6 +141,25 @@ export const events: CohortEvent[] = [
     group: 'careers',
   },
 ];
+
+/** Group a list of events by calendar month, in order, for a month-by-month calendar. */
+export function byMonth(list: CohortEvent[]) {
+  const months = new Map<string, CohortEvent[]>();
+  for (const ev of list) {
+    const key = ev.sortKey.slice(0, 7);
+    if (!months.has(key)) months.set(key, []);
+    months.get(key)!.push(ev);
+  }
+  return [...months.entries()].map(([key, events]) => ({
+    key,
+    label: new Date(`${key}-01T12:00:00Z`).toLocaleDateString('en-GB', {
+      month: 'long',
+      year: 'numeric',
+      timeZone: 'UTC',
+    }),
+    events,
+  }));
+}
 
 /** Events still ahead of `today`, earliest first. */
 export function upcoming(group: CohortEvent['group'], today = new Date()) {

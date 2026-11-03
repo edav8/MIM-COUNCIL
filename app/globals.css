@@ -359,3 +359,8 @@ h1{font-weight:700}
   .about-team.team-page-details{padding-left:1rem;padding-right:1rem}
   .about-team.team-page-details .council-roster{grid-template-columns:1fr}
 }
+
+/* ---- Calendar grouped month by month ----------------------------------- */
+.event-month + .event-month{margin-top:1.6rem}
+.month-label{margin:0 0 .6rem;font-size:.8125rem;font-weight:700;letter-spacing:.09em;
+  text-transform:uppercase;color:#5a6b5f;padding-bottom:.4rem;border-bottom:1px solid #d9dfd7}
