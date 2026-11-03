@@ -29,7 +29,11 @@ export const council: CouncilMember[] = [
   { name: 'Daniel Spokauskas', role: 'Careers' },
   { name: 'Timothy Schweins', role: 'Clubs & Events' },
   { name: 'Kirtana Anantharaman', role: 'Digital & Communication' },
-  { name: 'Emilie David', role: 'Student Life' },
+  {
+    name: 'Emilie David',
+    role: 'Student Life',
+    photo: '/images/council/emilie-david.jpg',
+  },
 ];
 
 /** 'Kirtana Anantharaman' -> 'KA'. Used when a member has no photo. */

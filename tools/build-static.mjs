@@ -29,6 +29,9 @@ const out = join(root, 'dist-static');
 const { upcoming, byMonth, pillarOf, pillarColours } = await import(join(root, 'lib/events.ts'));
 const { council, initials } = await import(join(root, 'lib/council.ts'));
 const { pillars } = await import(join(root, 'lib/sections.ts'));
+const { sections: guideSections, budgetExample } = await import(
+  join(root, 'lib/initiative-guide.ts')
+);
 
 /** Escape text for HTML. Content comes from our own data files, but never assume. */
 const e = (s = '') =>
@@ -252,7 +255,7 @@ ${council
     (p) => `    <li class="council-member">
       ${
         p.photo
-          ? `<img class="council-avatar" src="${e(p.photo)}" alt="" width="96" height="96">`
+          ? `<img class="council-avatar" src="${e(prefix + p.photo.replace(/^\//, ''))}" alt="" width="96" height="96" loading="lazy">`
           : `<span class="council-avatar council-initials" aria-hidden="true">${e(initials(p.name))}</span>`
       }
       <div class="council-text">
@@ -264,6 +267,67 @@ ${council
   )
   .join('\n')}
   </ul>
+</section>
+${footer(prefix)}`;
+}
+
+function initiativesPage() {
+  const prefix = '../';
+  return `${head(
+    'Propose an initiative · The Salamanders',
+    'How to propose a student initiative to the MIM’28 Student Council, and what your proposal should contain.',
+    prefix,
+  )}
+<main>
+${header(prefix, 'initiatives')}
+<section class="page-intro">
+  <p class="eyebrow">STUDENT LIFE</p>
+  <h1>Propose an initiative</h1>
+  <p class="page-lede">
+    Got something you want to run for the cohort? The Council can support it, and
+    sometimes fund it. This is what we need from you to be able to say yes.
+  </p>
+</section>
+<section class="guide">
+  <ol class="guide-list">
+${guideSections
+  .map(
+    (sec) => `    <li class="guide-step">
+      <h2>${e(sec.heading)}</h2>
+      <p>${e(sec.blurb)}</p>
+      <ul>
+${sec.asks.map((a) => `        <li>${e(a)}</li>`).join('\n')}
+      </ul>
+    </li>`,
+  )
+  .join('\n')}
+  </ol>
+  <aside class="budget-example">
+    <h2>The budget</h2>
+    <p>${e(budgetExample.caption)}</p>
+    <table>
+      <tbody>
+${budgetExample.rows
+  .map(
+    (r) => `        <tr><td>${e(r[0])}</td><td>${e(r[1])}</td><td>${e(r[2])}</td></tr>`,
+  )
+  .join('\n')}
+        <tr class="budget-total"><td>${e(budgetExample.total[0])}</td><td>${e(budgetExample.total[1])}</td><td>${e(budgetExample.total[2])}</td></tr>
+      </tbody>
+    </table>
+    <p class="budget-note">${e(budgetExample.note)}</p>
+  </aside>
+</section>
+<section class="guide-next">
+  <h2>What happens next</h2>
+  <p>
+    Send your proposal to the Council and we will come back to you. If the numbers
+    need discussing we will ask to meet rather than simply decline — a proposal that
+    is too expensive as written is often workable at a smaller scale.
+  </p>
+  <p class="guide-contact">
+    <a class="cta" href="mailto:mim.council@insead.edu?subject=Initiative%20proposal">Send us your proposal</a>
+  </p>
 </section>
 ${footer(prefix)}`;
 }
@@ -291,6 +355,8 @@ await cp(join(root, 'public'), out, { recursive: true });
 await writeFile(join(out, 'styles.css'), CSS);
 await writeFile(join(out, 'index.html'), indexPage());
 await writeFile(join(out, 'team/index.html'), teamPage());
+await mkdir(join(out, 'initiatives'), { recursive: true });
+await writeFile(join(out, 'initiatives/index.html'), initiativesPage());
 await writeFile(join(out, '.nojekyll'), '');
 // Tells GitHub Pages which custom domain serves this site. Without it, Pages
 // answers on edav8.github.io only and mim28.com gets a 404.

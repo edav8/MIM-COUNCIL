@@ -44,7 +44,7 @@ export const pillars: Pillar[] = [
         note: 'Les Ménuires, from 4 Jan',
       },
       { label: "What's on", href: '#whats-on', note: 'All cohort events' },
-      { label: 'New Initiative Form' },
+      { label: 'Propose an initiative', href: '/initiatives/', note: 'What to include, and how we decide' },
     ],
   },
   {
