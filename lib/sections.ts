@@ -48,7 +48,7 @@ export const pillars: Pillar[] = [
         href: 'https://edav8.github.io/insead-ski-trip/',
         note: 'Les Ménuires, from 4 Jan',
       },
-      { label: "What's on", href: '#whats-on', note: 'All cohort events' },
+      { label: "What's on", href: '/student-life/', note: 'Every event, month by month' },
       { label: 'Propose an initiative', href: '/initiatives/', note: 'What to include, and how we decide' },
     ],
   },

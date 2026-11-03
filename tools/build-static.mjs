@@ -188,10 +188,6 @@ ${header(prefix, 'home')}
       </ol></div>
     </div>
   </div>
-  <figure class="campaign-photo">
-    <img src="images/team-september-2026-v2.jpg" alt="Members of the MIM’28 Student Council at the INSEAD sign in Fontainebleau" width="2000" height="982">
-    <figcaption><span>The Salamanders</span><a href="team/">Meet the team ${ARROW}</a></figcaption>
-  </figure>
 </section>
 
 <section class="whats-on" id="whats-on" aria-labelledby="whats-on-title">
@@ -238,10 +234,6 @@ ${header(prefix, 'team')}
     <p class="eyebrow">THE SALAMANDERS</p>
     <h1 id="team-page-title">Meet our team</h1>
   </div>
-  <figure class="team-page-photo">
-    <img src="../images/team-september-2026-v2.jpg" alt="Members of the MIM’28 Student Council at the INSEAD sign in Fontainebleau" width="2000" height="982">
-    <figcaption>The Salamanders · MIM’28</figcaption>
-  </figure>
 </section>
 <section class="about-team team-page-details" id="team">
   <div>
@@ -272,6 +264,50 @@ ${council
   )
   .join('\n')}
   </ul>
+</section>
+${footer(prefix)}`;
+}
+
+function studentLifePage() {
+  const prefix = '../';
+  const cohort = upcoming('cohort');
+  return `${head(
+    'Student Life · The Salamanders',
+    'Everything on for the MIM’28 cohort — events, sport and socials, month by month.',
+    prefix,
+  )}
+<main>
+${header(prefix, 'student-life')}
+<section class="page-intro">
+  <p class="eyebrow">STUDENT LIFE</p>
+  <h1>What’s on</h1>
+  <p class="page-lede">
+    Everything coming up that the whole cohort can join — council events, sport and
+    the weekly socials. Where something is not yet confirmed, it says so rather than
+    showing a date you might plan around.
+  </p>
+</section>
+<section class="whats-on whats-on-full">
+${byMonth(cohort)
+  .map(
+    (m) => `  <div class="event-month">
+    <h2 class="month-label">${e(m.label)}</h2>
+    <ul class="event-list">
+${m.events.map((ev) => eventRow(ev)).join('\n')}
+    </ul>
+  </div>`,
+  )
+  .join('\n')}
+</section>
+<section class="guide-next">
+  <h2>Running something?</h2>
+  <p>
+    If you want to put on an event for the cohort, the Council can help and sometimes
+    fund it. Tell us what it is and what it needs.
+  </p>
+  <p class="guide-contact">
+    <a class="cta" href="${prefix}initiatives/">Propose an initiative ${ARROW}</a>
+  </p>
 </section>
 ${footer(prefix)}`;
 }
@@ -421,6 +457,8 @@ await writeFile(join(out, 'index.html'), indexPage());
 await writeFile(join(out, 'team/index.html'), teamPage());
 await mkdir(join(out, 'initiatives'), { recursive: true });
 await writeFile(join(out, 'initiatives/index.html'), initiativesPage());
+await mkdir(join(out, 'student-life'), { recursive: true });
+await writeFile(join(out, 'student-life/index.html'), studentLifePage());
 await mkdir(join(out, 'tutoring'), { recursive: true });
 await writeFile(join(out, 'tutoring/index.html'), tutoringPage());
 await writeFile(join(out, '.nojekyll'), '');

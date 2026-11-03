@@ -406,3 +406,8 @@ h1{font-weight:700}
   .guide{grid-template-columns:1fr;gap:1.2rem;padding-left:1rem;padding-right:1rem}
   .page-intro,.guide-next{padding-left:1rem;padding-right:1rem}
 }
+.whats-on-full{background:#fff;border-top:0;padding-top:.5rem}
+.whats-on-full .month-label{font-size:.875rem}
+/* The campaign photo is gone; let the intro use the full width. */
+.campaign-intro{grid-template-columns:1fr}
+.team-page-intro{display:block}

@@ -1,0 +1,145 @@
+[[AdvancedFormat]]
+
+[[Block:Intro]]
+
+[[Question:Text]]
+[[ID:intro]]
+<b>Propose an initiative — MIM'28 Student Council</b><br><br>
+Got something you want to run for the cohort? Tell us what it is, who is running it, what already exists and what it costs. It takes about ten minutes.<br><br>
+The clearer the budget, the faster we can answer. A proposal that is too expensive as written is often workable at a smaller scale, so give us the detail and we will come back to you.
+
+[[Block:1 What it is]]
+
+[[Question:TE:SingleLine]]
+[[ID:title]]
+What is the initiative called?
+
+[[Question:TE:Essay]]
+[[ID:what_it_is]]
+Describe it in a short paragraph, as if to someone who has never heard of it. What happens, and who is it for?
+
+[[Question:MC:SingleAnswer]]
+[[ID:cadence]]
+How often would it run?
+[[Choices]]
+One-off
+Weekly
+Every two weeks
+Monthly
+Once a period
+Other
+
+[[Question:TE:SingleLine]]
+[[ID:period]]
+Over what period? (e.g. P2-P3, or November to June)
+
+[[Question:MC:SingleAnswer]]
+[[ID:ran_before]]
+Has it run before?
+[[Choices]]
+No, this would be the first time
+Yes, here at INSEAD
+Yes, at another campus or cohort
+
+[[Question:TE:Essay]]
+[[ID:ran_before_detail]]
+If it has run before, how did it go, and what are you changing?
+
+[[Block:2 Who is running it]]
+
+[[Question:TE:Essay]]
+[[ID:team]]
+Who is on the team? Name everyone involved.
+
+[[Question:TE:Essay]]
+[[ID:experience]]
+What has each of you run before, and at what scale? Relevant experience matters more than enthusiasm.
+
+[[Question:TE:SingleLine]]
+[[ID:contact_name]]
+Who should the Council contact?
+
+[[Question:TE:SingleLine]]
+[[ID:contact_email]]
+Their INSEAD email address
+
+[[Block:3 Where you are now]]
+
+[[Question:TE:Essay]]
+[[ID:secured]]
+What is already secured? A venue, a speaker, a partner, a confirmed date — anything concrete.
+
+[[Question:TE:Essay]]
+[[ID:in_progress]]
+What is in progress?
+
+[[Question:TE:Essay]]
+[[ID:blocked]]
+What is blocked, and on what?
+
+[[Block:4 What you are asking for]]
+
+[[Question:Text]]
+[[ID:budget_intro]]
+<b>Set the budget out line by line, not as a single number.</b><br><br>
+For each cost: what it is, the unit price, how many, and the subtotal. For example:<br>
+Guest travel — 7 x EUR 40 = EUR 280<br>
+Gifts — 7 x EUR 12 = EUR 84<br>
+Meals — 7 x EUR 50 = EUR 350<br>
+<b>Total EUR 714</b>
+
+[[Question:TE:Essay]]
+[[ID:budget_lines]]
+Your budget, line by line.
+
+[[Question:TE:SingleLine]]
+[[ID:budget_total]]
+Total requested, in euros
+
+[[Question:TE:SingleLine]]
+[[ID:fx]]
+If any costs are in another currency, which, and at what rate?
+
+[[Question:TE:Essay]]
+[[ID:participant_costs]]
+What do participants pay themselves?
+
+[[Question:MC:SingleAnswer]]
+[[ID:smaller_ok]]
+Could you start with less than the full amount?
+[[Choices]]
+Yes, a smaller amount would still let us begin
+No, the full amount is needed to start
+Not sure
+
+[[Question:TE:Essay]]
+[[ID:smaller_detail]]
+If yes, what is the smallest amount that would let you start, and what would it cover?
+
+[[Block:5 Timing]]
+
+[[Question:TE:SingleLine]]
+[[ID:first_date]]
+When would the first session be?
+
+[[Question:TE:SingleLine]]
+[[ID:decision_by]]
+When do you need an answer by?
+
+[[Question:TE:Essay]]
+[[ID:decision_why]]
+Why that date? Tell us if dates cannot be fixed until funding is confirmed.
+
+[[Block:Anything else]]
+
+[[Question:TE:Essay]]
+[[ID:anything_else]]
+Anything else the Council should know?
+
+[[Question:MC:SingleAnswer]]
+[[ID:meet]]
+Would you like to meet and go through the numbers?
+[[Choices]]
+Yes, please
+Only if you have questions
+No need
