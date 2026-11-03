@@ -27,7 +27,7 @@ const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const out = join(root, 'dist-static');
 
 const { upcoming, byMonth, pillarOf, pillarColours } = await import(join(root, 'lib/events.ts'));
-const { council, initials } = await import(join(root, 'lib/council.ts'));
+const { council, initials, councilEmail } = await import(join(root, 'lib/council.ts'));
 const { pillars } = await import(join(root, 'lib/sections.ts'));
 const { sections: guideSections, budgetExample } = await import(
   join(root, 'lib/initiative-guide.ts')
@@ -248,6 +248,8 @@ ${header(prefix, 'team')}
     <p class="eyebrow">THE SALAMANDERS · YOUR MIM’28 STUDENT COUNCIL</p>
     <h2>A MIM community where everyone belongs and has the opportunity to contribute.</h2>
     <p><strong>Our VALUE</strong> — We listen, collaborate with your representatives and help turn your ideas into action.</p>
+    <p class="reach-out">You can reach out to any of us directly, or write to the whole Council at
+      <a href="mailto:${councilEmail}">${councilEmail}</a>.</p>
   </div>
   <ul class="council-roster">
 ${council
@@ -261,12 +263,74 @@ ${council
       <div class="council-text">
         <strong>${e(p.name)}</strong>
         <span class="council-role">${e(p.role)}</span>
-        ${p.email ? `<a class="council-email" href="mailto:${e(p.email)}">${e(p.email)}</a>` : ''}
+        <span class="council-links">
+          ${p.email ? `<a class="council-email" href="mailto:${e(p.email)}">${e(p.email)}</a>` : ''}
+          ${p.linkedin ? `<a class="council-linkedin" href="${e(p.linkedin)}" target="_blank" rel="noreferrer">LinkedIn ${ARROW}</a>` : ''}
+        </span>
       </div>
     </li>`,
   )
   .join('\n')}
   </ul>
+</section>
+${footer(prefix)}`;
+}
+
+function tutoringPage() {
+  const prefix = '../';
+  return `${head(
+    'MIM2MIM Tutoring · The Salamanders',
+    'Peer tutoring for the MIM’28 cohort — offer tutoring, receive it, or both.',
+    prefix,
+  )}
+<main>
+${header(prefix, 'tutoring')}
+<section class="page-intro">
+  <p class="eyebrow">ACADEMIC</p>
+  <h1>MIM2MIM Tutoring</h1>
+  <p class="page-tagline">By MIMs. For MIMs. From “huh?” to “aha.”</p>
+  <p class="page-lede">
+    Work through course concepts with a classmate. Offer tutoring, receive
+    tutoring, or both — most people end up doing both, in different subjects.
+  </p>
+</section>
+<section class="guide">
+  <ol class="guide-list">
+    <li class="guide-step">
+      <h2>How it works</h2>
+      <p>Say which subjects you can help with and which you would like help in. We match you with someone in the cohort and you arrange a time between you.</p>
+      <ul>
+        <li>One-to-one or small groups, whatever suits</li>
+        <li>No commitment beyond the session you agree to</li>
+        <li>Free — this is the cohort helping itself</li>
+      </ul>
+    </li>
+    <li class="guide-step">
+      <h2>Subjects so far</h2>
+      <p>Started with the two courses people asked for most. If you want a subject that is not listed, say so and we will look for a tutor.</p>
+      <ul>
+        <li>Marketing</li>
+        <li>Data Analysis</li>
+      </ul>
+    </li>
+    <li class="guide-step">
+      <h2>Every tutor earns a Contributor Badge</h2>
+      <p>Tutoring counts. Time spent helping classmates is recognised through the MIM Contributor Badge.</p>
+      <ul>
+        <li>Offer a subject, run sessions, earn the badge</li>
+      </ul>
+    </li>
+  </ol>
+</section>
+<section class="guide-next">
+  <h2>Sign up</h2>
+  <p>
+    Sign up as a tutor, a tutee, or both, for the courses you want. The form is the
+    one the Council sent to the cohort — if you filled it in already, you are on the list.
+  </p>
+  <p class="guide-contact">
+    <a class="cta" href="https://insead.eu.qualtrics.com/jfe/form/SV_0UrZ496ElQXohb8" target="_blank" rel="noreferrer">Sign up for tutoring ${ARROW}</a>
+  </p>
 </section>
 ${footer(prefix)}`;
 }
@@ -357,6 +421,8 @@ await writeFile(join(out, 'index.html'), indexPage());
 await writeFile(join(out, 'team/index.html'), teamPage());
 await mkdir(join(out, 'initiatives'), { recursive: true });
 await writeFile(join(out, 'initiatives/index.html'), initiativesPage());
+await mkdir(join(out, 'tutoring'), { recursive: true });
+await writeFile(join(out, 'tutoring/index.html'), tutoringPage());
 await writeFile(join(out, '.nojekyll'), '');
 // Tells GitHub Pages which custom domain serves this site. Without it, Pages
 // answers on edav8.github.io only and mim28.com gets a 404.
