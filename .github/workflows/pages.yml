@@ -1,0 +1,49 @@
+# Publish the static council site to GitHub Pages on every push to main.
+#
+# Both Emilie's and Tim's AI agents edit this repo; this is what turns a merge
+# into a live change. Content lives in lib/events.ts and lib/council.ts — editing
+# either one and pushing is the whole publish process.
+name: Deploy site to Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Let a running deploy finish rather than cancelling it half-published.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          # 24+, not 22: the generator imports lib/*.ts directly and Node only
+          # strips TypeScript types without a flag from 23.6 onwards.
+          node-version: '24'
+      # No install step: the generator uses only the Node standard library,
+      # so a broken or slow dependency can never block a publish.
+      - name: Build the static site
+        run: node tools/build-static.mjs
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist-static
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
