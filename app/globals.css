@@ -222,3 +222,30 @@ h1{font-weight:700}
   .menu{position:static}
   .menu-panel{position:static;min-width:0;box-shadow:none;margin:.25rem 0 .5rem}
 }
+
+/* Menus near the right edge open leftwards so the panel stays on screen. */
+.menu.menu-right .menu-panel{left:auto;right:0}
+@media (max-width:860px){.menu.menu-right .menu-panel{right:auto}}
+
+/* ---- Hover dropdowns (replaces the <details> version) ------------------- */
+.menu{position:relative}
+.menu-trigger{appearance:none;background:none;border:0;cursor:pointer;font:inherit;
+  padding:.45rem .7rem;border-radius:8px;font-weight:600;font-size:.9375rem;
+  color:var(--brand-ink);white-space:nowrap;display:flex;align-items:center;gap:.35rem}
+.menu-trigger::after{content:'';width:.42em;height:.42em;border-right:2px solid currentColor;
+  border-bottom:2px solid currentColor;transform:rotate(45deg) translateY(-.1em);opacity:.55;
+  transition:transform .15s ease}
+.menu:hover .menu-trigger,.menu:focus-within .menu-trigger,.menu.open .menu-trigger{
+  background:#e4ece1;color:var(--brand-green)}
+.menu:hover .menu-trigger::after,.menu.open .menu-trigger::after{transform:rotate(225deg) translateY(-.25em)}
+/* Hidden by default; shown on hover, on keyboard focus, or when tapped open. */
+.menu-panel{opacity:0;visibility:hidden;transform:translateY(-4px);
+  transition:opacity .13s ease,transform .13s ease,visibility .13s}
+.menu:hover .menu-panel,.menu:focus-within .menu-panel,.menu.open .menu-panel{
+  opacity:1;visibility:visible;transform:none}
+/* A small bridge so the pointer can travel from the trigger to the panel. */
+.menu-panel::before{content:'';position:absolute;top:-.45rem;left:0;right:0;height:.45rem}
+@media (hover:none){
+  .menu:hover .menu-panel{opacity:0;visibility:hidden}
+  .menu.open .menu-panel{opacity:1;visibility:visible}
+}

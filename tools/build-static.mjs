@@ -58,12 +58,13 @@ function head(title, description, prefix) {
 }
 
 function header(prefix, active) {
-  // Menus are <details>/<summary>: they open on click, work with the keyboard,
-  // and need no JavaScript — which matters on a static host.
+  // Menus open on hover (CSS) and on keyboard focus (:focus-within). A button is
+  // used rather than <details> because <details> cannot open on hover; the small
+  // script below adds tap-to-open for touch devices, where hover does not exist.
   const menus = pillars
     .map(
-      (p) => `      <details class="menu">
-        <summary>${e(p.title)}</summary>
+      (p, i) => `      <div class="menu${i >= pillars.length - 2 ? ' menu-right' : ''}">
+        <button type="button" class="menu-trigger" aria-expanded="false">${e(p.title)}</button>
         <div class="menu-panel">
 ${p.items
   .map((it) => {
@@ -75,7 +76,7 @@ ${p.items
   })
   .join('\n')}
         </div>
-      </details>`,
+      </div>`,
     )
     .join('\n');
   return `<header class="site-header">
@@ -89,6 +90,27 @@ ${menus}
 </header>`;
 }
 
+const NAV_SCRIPT = `<script>
+// Hover and keyboard focus are handled in CSS. This adds the two things CSS
+// cannot do: tap-to-open on touch devices, and Escape to close.
+(() => {
+  const menus = [...document.querySelectorAll('.menu')];
+  const close = (m) => { m.classList.remove('open'); m.querySelector('.menu-trigger').setAttribute('aria-expanded','false'); };
+  for (const m of menus) {
+    m.querySelector('.menu-trigger').addEventListener('click', (ev) => {
+      ev.preventDefault();
+      const wasOpen = m.classList.contains('open');
+      menus.forEach(close);
+      if (!wasOpen) { m.classList.add('open'); m.querySelector('.menu-trigger').setAttribute('aria-expanded','true'); }
+    });
+  }
+  document.addEventListener('click', (ev) => {
+    for (const m of menus) if (!m.contains(ev.target)) close(m);
+  });
+  document.addEventListener('keydown', (ev) => { if (ev.key === 'Escape') menus.forEach(close); });
+})();
+</script>`;
+
 function footer(prefix) {
   return `<footer>
   <strong>We <u>listen.</u> We <u>serve.</u> We <u>execute.</u></strong>
@@ -98,6 +120,7 @@ function footer(prefix) {
     <a href="${SKI}" target="_blank" rel="noreferrer">Ski trip ${ARROW}</a>
   </nav>
 </footer>
+${NAV_SCRIPT}
 </body>
 </html>`;
 }
