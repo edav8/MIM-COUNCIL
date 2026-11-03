@@ -625,3 +625,30 @@ h1{font-weight:700}
 .whats-on-more{margin:1rem 0 0}
 .whats-on-more a{font-weight:650;color:var(--brand-green);display:inline-flex;
   align-items:center;gap:.35rem}
+
+/* ---- Minimal pass ------------------------------------------------------- */
+/* The featured card was a solid tint with a heavy border and an orange button,
+   next to orange rows and an orange bar. One accent, used once. */
+.featured{background:#fff;border:1px solid #e3e9e2;border-radius:16px;
+  box-shadow:0 1px 2px rgba(32,40,40,.04)}
+.featured-eyebrow{background:none;color:var(--accent);padding:0;
+  font-size:.6875rem;letter-spacing:.12em}
+.featured-when{color:#5a6b5f;font-weight:600;letter-spacing:.02em;margin-top:.5rem}
+.featured-title{font-size:1.5rem}
+.featured-cta{background:var(--brand-green)}
+.featured-cta:hover{background:var(--brand-green-dark)}
+
+/* Calendar rows: quiet, with a single thin accent edge. */
+.event-row{background:#fff;border:1px solid #e3e9e2;border-left:3px solid var(--accent)}
+.event-when{color:#5a6b5f;font-weight:600;text-transform:none;letter-spacing:0;
+  font-size:.875rem}
+.event-careers .event-row{background:#fff}
+.event-cta{background:var(--brand-green)}
+.event-cta:hover{background:var(--brand-green-dark)}
+.whats-on{background:#fff;border-top:1px solid #eef1ee}
+.whats-on-heading{margin-bottom:1.1rem}
+.whats-on-heading h2{font-size:1.35rem}
+
+/* More air, less chrome. */
+.hero-split{padding-top:3rem;padding-bottom:2.6rem;gap:3rem}
+.hero-copy h1{margin-bottom:.75rem}

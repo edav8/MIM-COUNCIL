@@ -152,7 +152,7 @@ ${NAV_SCRIPT}
 function eventRow(ev, withCta = true) {
   const c = pillarColours[pillarOf(ev)];
   return `<li class="event-row" style="--accent:${c.accent};--tint:${c.tint}">
-  <span class="event-when">${e(ev.when)}<span class="event-pillar">${e(c.label)}</span></span>
+  <span class="event-when">${e(ev.when)}</span>
   <div class="event-body">
     <h3>${e(ev.title)}</h3>
     ${ev.where ? `<p class="event-where">${e(ev.where)}</p>` : ''}
@@ -220,7 +220,6 @@ function indexPage() {
   )}
 <main>
 ${header(prefix, 'home')}
-${weekBar(prefix)}
 <section class="hero-split${heroImage ? ' hero-photo' : ''}" aria-labelledby="campaign-title">
   ${
     heroImage
@@ -240,14 +239,7 @@ ${heroActions
   </div>
 ${featuredEvent(prefix)}
 </section>
-<section class="approach">
-  <h2>Our Approach</h2>
-  <ol>
-    <li><strong><span>01</span> Survey</strong><p>Share your needs and ideas.</p></li>
-    <li><strong><span>02</span> Collaborate</strong><p>Choose feasible ideas with key stakeholders.</p></li>
-    <li><strong><span>03</span> Implement</strong><p>Work with students and partners to deliver.</p></li>
-  </ol>
-</section>
+
 
 <section class="whats-on" id="whats-on" aria-labelledby="whats-on-title">
   <div class="whats-on-heading">
