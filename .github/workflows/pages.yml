@@ -42,8 +42,15 @@ jobs:
       # lives in an Actions secret, written out just before the build and never
       # committed. With no secret set, the step is a no-op and no bar renders.
       - name: Restore the birthday list
-        if: ${{ secrets.BIRTHDAYS != '' }}
-        run: printf '%s' "$BIRTHDAYS" > lib/birthdays.json
+        # The `secrets` context is not available in a step-level `if`, so the
+        # empty case is handled in the shell instead. No secret, no file, no bar.
+        run: |
+          if [ -n "$BIRTHDAYS" ]; then
+            printf '%s' "$BIRTHDAYS" > lib/birthdays.json
+            echo "birthday list restored ($(wc -c < lib/birthdays.json) bytes)"
+          else
+            echo "no BIRTHDAYS secret set — the birthday bar will not render"
+          fi
         env:
           BIRTHDAYS: ${{ secrets.BIRTHDAYS }}
       - name: Build the static site

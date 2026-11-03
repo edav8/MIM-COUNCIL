@@ -2,6 +2,9 @@
 """Turn the MIM28 Birthday Calendar .docx into lib/birthdays.json.
 
     python3 tools/parse_birthdays.py ~/Downloads/"MIM 28 Birthday Calendar .docx"
+    python3 tools/parse_birthdays.py ~/Downloads/"MIM 28 Birthday Calendar .docx.pdf"
+
+Takes either the .docx or a PDF export of it.
 
 WHY THE LIST IS NOT IN THE REPO. This repository is public, so anything committed
 to it is published permanently, git history included. A hundred classmates'
@@ -37,8 +40,8 @@ MONTHS = {
 }
 
 
-def cells(docx: Path):
-    """Yield each table row as a list of cell strings."""
+def cells_docx(docx: Path):
+    """Yield each table row of a .docx as a list of cell strings."""
     with zipfile.ZipFile(docx) as z:
         xml = z.read("word/document.xml").decode("utf-8")
     for row in re.findall(r"<w:tr[ >].*?</w:tr>", xml, re.S):
@@ -48,6 +51,34 @@ def cells(docx: Path):
             out.append(text.strip())
         if out:
             yield out
+
+
+def cells_pdf(pdf: Path):
+    """Yield rows from a PDF export.
+
+    A PDF has no table structure, only a stream of lines, so rows are rebuilt by
+    looking for the pattern the calendar uses: a name, then a day, then a month.
+    """
+    import fitz  # PyMuPDF
+
+    doc = fitz.open(pdf)
+    lines = [l.strip() for pg in doc for l in pg.get_text().splitlines() if l.strip()]
+    i = 0
+    while i < len(lines) - 2:
+        name, day, month = lines[i], lines[i + 1], lines[i + 2]
+        if (
+            re.fullmatch(r"\d{1,2}", day)
+            and month_of(month) is not None
+            and not re.fullmatch(r"\d{1,2}", name)
+        ):
+            yield [name, day, month]
+            i += 3
+        else:
+            i += 1
+
+
+def cells(path: Path):
+    return cells_pdf(path) if path.suffix.lower() == ".pdf" else cells_docx(path)
 
 
 def month_of(raw: str):
