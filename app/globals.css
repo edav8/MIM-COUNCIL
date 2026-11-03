@@ -455,3 +455,26 @@ h1{font-weight:700}
   .happening{padding-left:1rem;padding-right:1rem}
   .proposal-form{padding-left:1rem;padding-right:1rem}
 }
+
+/* Official-template form: two-up fields, supporter rows, checklist */
+#initiative-form{display:grid;gap:1.2rem;grid-template-columns:1fr}
+#initiative-form fieldset{display:grid;gap:0;grid-template-columns:1fr 1fr}
+#initiative-form legend{font-size:.8125rem;letter-spacing:.08em;text-transform:uppercase}
+.fieldset-title{grid-column:1/-1;margin:.1rem 0 .25rem;font-size:1.125rem;color:var(--brand-ink)}
+.fieldset-blurb{grid-column:1/-1}
+.field{grid-column:1/-1}
+.field-half{grid-column:span 1}
+.supporters{grid-column:1/-1;display:grid;gap:.4rem;margin-top:.3rem}
+.supporter-row{display:grid;grid-template-columns:1.6rem 1.2fr 1.4fr 1fr;gap:.4rem;align-items:center}
+.supporter-n{font-size:.8125rem;color:#9aa79f;font-variant-numeric:tabular-nums}
+.supporter-row input{min-height:42px;font-size:.875rem}
+.checklist{display:block!important}
+.check{display:flex;gap:.55rem;align-items:flex-start;font-size:.9375rem;margin:.45rem 0;
+  line-height:1.4;cursor:pointer}
+.check input{margin-top:.2rem;width:18px;height:18px;min-height:0;flex:0 0 18px}
+@media (max-width:860px){
+  #initiative-form fieldset{grid-template-columns:1fr}
+  .field-half{grid-column:1/-1}
+  .supporter-row{grid-template-columns:1.4rem 1fr;row-gap:.3rem}
+  .supporter-row input:nth-of-type(2),.supporter-row input:nth-of-type(3){grid-column:2}
+}

@@ -32,7 +32,7 @@ const { pillars } = await import(join(root, 'lib/sections.ts'));
 const { sections: guideSections, budgetExample } = await import(
   join(root, 'lib/initiative-guide.ts')
 );
-const { formSections } = await import(join(root, 'lib/initiative-form.ts'));
+const { formSections, checklist } = await import(join(root, 'lib/initiative-form.ts'));
 
 /** Escape text for HTML. Content comes from our own data files, but never assume. */
 const e = (s = '') =>
@@ -331,68 +331,7 @@ ${m.events.map((ev) => eventRow(ev)).join('\n')}
   </p>
 </section>
 ${footer(prefix)}
-<script>
-(() => {
-  const form = document.getElementById('initiative-form');
-  if (!form) return;
-  const note = document.getElementById('form-note');
-  const TO = '${councilEmail}';
-
-  // Build a plain-text proposal from the filled-in fields, in the order they appear.
-  const compose = () => {
-    const lines = [];
-    for (const fs of form.querySelectorAll('fieldset')) {
-      const heading = fs.querySelector('legend').textContent.trim();
-      const parts = [];
-      for (const f of fs.querySelectorAll('input, textarea, select')) {
-        const value = f.value.trim();
-        if (!value) continue;
-        const label = fs.querySelector('label[for=\"' + f.id + '\"]').textContent.replace('*', '').trim();
-        parts.push(label + ':\\n' + value);
-      }
-      if (parts.length) lines.push(heading.toUpperCase(), '', parts.join('\\n\\n'), '');
-    }
-    return lines.join('\\n');
-  };
-
-  const subject = () => {
-    const t = (form.querySelector('#title') || {}).value || '';
-    return 'Initiative proposal' + (t.trim() ? ': ' + t.trim() : '');
-  };
-
-  const missing = () =>
-    [...form.querySelectorAll('[required]')].filter((f) => !f.value.trim());
-
-  form.addEventListener('submit', (ev) => {
-    ev.preventDefault();
-    const gaps = missing();
-    if (gaps.length) {
-      gaps[0].focus();
-      note.textContent = 'Please fill in the required fields first — ' + gaps.length + ' still empty.';
-      return;
-    }
-    const body = compose();
-    const url = 'mailto:' + TO + '?subject=' + encodeURIComponent(subject()) + '&body=' + encodeURIComponent(body);
-    // Very long proposals can exceed what a mail app accepts in a link.
-    if (url.length > 1900) {
-      note.textContent = 'Your proposal is long, so some mail apps would cut it short. Use \u201cCopy as text instead\u201d and paste it into an email to ' + TO + '.';
-      return;
-    }
-    note.textContent = 'Opening your email app\u2026 if nothing happens, use \u201cCopy as text instead\u201d.';
-    window.location.href = url;
-  });
-
-  document.getElementById('copy-proposal').addEventListener('click', async () => {
-    const text = 'To: ' + TO + '\\nSubject: ' + subject() + '\\n\\n' + compose();
-    try {
-      await navigator.clipboard.writeText(text);
-      note.textContent = 'Copied. Paste it into an email to ' + TO + '.';
-    } catch {
-      note.textContent = 'Could not copy automatically — select the text in the fields and copy it manually.';
-    }
-  });
-})();
-</script>`;
+`;
 }
 
 function tutoringPage() {
@@ -457,21 +396,31 @@ ${footer(prefix)}`;
 function formField(f) {
   const req = f.required ? ' required' : '';
   const hint = f.hint ? `<span class="field-hint">${e(f.hint)}</span>` : '';
-  let control;
-  if (f.type === 'textarea') {
-    control = `<textarea id="${f.id}" name="${f.id}" rows="${f.rows || 3}"${req}></textarea>`;
-  } else if (f.type === 'select') {
-    control = `<select id="${f.id}" name="${f.id}"${req}><option value="">Choose…</option>${(f.options || [])
-      .map((o) => `<option>${e(o)}</option>`)
-      .join('')}</select>`;
-  } else {
-    control = `<input id="${f.id}" name="${f.id}" type="${f.type}"${req}>`;
-  }
-  return `        <div class="field">
+  const control =
+    f.type === 'textarea'
+      ? `<textarea id="${f.id}" name="${f.id}" rows="${f.rows || 3}"${req}></textarea>`
+      : `<input id="${f.id}" name="${f.id}" type="${f.type}"${req}>`;
+  return `        <div class="field${f.half ? ' field-half' : ''}">
           <label for="${f.id}">${e(f.label)}${f.required ? '<abbr title="required">*</abbr>' : ''}</label>
           ${hint}
           ${control}
         </div>`;
+}
+
+/** Ten supporter rows: full name, email, section or role. */
+function supporterRows() {
+  let out = '        <div class="supporters">';
+  for (let i = 1; i <= 10; i++) {
+    const n = String(i).padStart(2, '0');
+    out += `
+          <div class="supporter-row">
+            <span class="supporter-n" aria-hidden="true">${n}</span>
+            <input type="text" name="sup_name_${n}" aria-label="Supporter ${n} full name" placeholder="Full name">
+            <input type="email" name="sup_email_${n}" aria-label="Supporter ${n} email" placeholder="Email address">
+            <input type="text" name="sup_role_${n}" aria-label="Supporter ${n} section or role" placeholder="Section / role">
+          </div>`;
+  }
+  return out + '\n        </div>';
 }
 
 function initiativesPage() {
@@ -524,19 +473,30 @@ ${budgetExample.rows
 <section class="proposal-form" id="form">
   <h2>Send us your proposal</h2>
   <p class="form-intro">
-    Fill this in and press send. It opens your email app with everything laid out,
-    addressed to <strong>${councilEmail}</strong> — check it over, then send.
+    This is the Council's own proposal template, as a form. Fill it in and press
+    send: it opens your email app with everything laid out, addressed to
+    <strong>${councilEmail}</strong>. Prefer paper? <a href="${prefix}docs/initiative-proposal-template.pdf">Download the PDF template</a>.
   </p>
   <form id="initiative-form" novalidate>
 ${formSections
   .map(
     (sec) => `    <fieldset>
-      <legend>${e(sec.heading)}</legend>
+      <legend>${e(sec.part)}</legend>
+      <h3 class="fieldset-title">${e(sec.heading)}</h3>
       ${sec.blurb ? `<p class="fieldset-blurb">${e(sec.blurb)}</p>` : ''}
 ${sec.fields.map(formField).join('\n')}
+${sec.supporters ? supporterRows() : ''}
     </fieldset>`,
   )
   .join('\n')}
+    <fieldset class="checklist">
+      <legend>Before submitting</legend>
+${checklist
+  .map(
+    (c, i) => `      <label class="check"><input type="checkbox" name="check_${i}"> ${e(c)}</label>`,
+  )
+  .join('\n')}
+    </fieldset>
     <div class="form-actions">
       <button type="submit" class="cta">Open in my email app</button>
       <button type="button" class="cta cta-ghost" id="copy-proposal">Copy as text instead</button>
@@ -552,7 +512,97 @@ ${sec.fields.map(formField).join('\n')}
     often workable at a smaller scale.
   </p>
 </section>
-${footer(prefix)}`;
+${footer(prefix)}
+<script>
+(() => {
+  const form = document.getElementById('initiative-form');
+  if (!form) return;
+  const note = document.getElementById('form-note');
+  const TO = '${councilEmail}';
+
+  // Build a plain-text proposal from the filled-in fields, in the order they appear.
+  const labelFor = (f, fs) => {
+    const l = fs.querySelector('label[for=\"' + f.id + '\"]');
+    if (l) return l.textContent.replace('*', '').trim();
+    return f.getAttribute('aria-label') || f.name;
+  };
+
+  const compose = () => {
+    const out = [];
+    for (const fs of form.querySelectorAll('fieldset')) {
+      const part = fs.querySelector('legend').textContent.trim();
+      const title = fs.querySelector('.fieldset-title');
+      const parts = [];
+
+      // supporters render as a numbered list rather than 30 labelled lines
+      const rows = fs.querySelectorAll('.supporter-row');
+      if (rows.length) {
+        const listed = [];
+        rows.forEach((row, i) => {
+          const [name, email, role] = [...row.querySelectorAll('input')].map((x) => x.value.trim());
+          if (name || email || role) {
+            listed.push(String(i + 1).padStart(2, '0') + '. ' + [name, email, role].filter(Boolean).join(' — '));
+          }
+        });
+        if (listed.length) parts.push('Supporters (' + listed.length + ' of 10):\\n' + listed.join('\\n'));
+      }
+
+      for (const f of fs.querySelectorAll('input, textarea')) {
+        if (f.type === 'checkbox' || f.closest('.supporter-row')) continue;
+        const value = f.value.trim();
+        if (!value) continue;
+        parts.push(labelFor(f, fs) + ':\\n' + value);
+      }
+      if (parts.length) {
+        out.push(part.toUpperCase() + (title ? ' — ' + title.textContent.trim() : ''), '', parts.join('\\n\\n'), '');
+      }
+    }
+    return out.join('\\n');
+  };
+
+  const subject = () => {
+    const t = (form.querySelector('#title') || {}).value || '';
+    return 'Initiative proposal' + (t.trim() ? ': ' + t.trim() : '');
+  };
+
+  const missing = () =>
+    [...form.querySelectorAll('[required]')].filter((f) => !f.value.trim());
+
+  form.addEventListener('submit', (ev) => {
+    ev.preventDefault();
+    const gaps = missing();
+    if (gaps.length) {
+      gaps[0].focus();
+      note.textContent = 'Please fill in the required fields first — ' + gaps.length + ' still empty.';
+      return;
+    }
+    const body = compose();
+    const url = 'mailto:' + TO + '?subject=' + encodeURIComponent(subject()) + '&body=' + encodeURIComponent(body);
+    // Very long proposals can exceed what a mail app accepts in a link.
+    if (url.length > 1900) {
+      // A full proposal is usually longer than a mail app will accept in a link,
+      // so copy it rather than silently sending a truncated one.
+      navigator.clipboard.writeText('To: ' + TO + '\\nSubject: ' + subject() + '\\n\\n' + body).then(
+        () => { note.textContent = 'Your proposal is too long to hand straight to an email app, so it has been copied instead. Paste it into an email to ' + TO + '.'; },
+        () => { note.textContent = 'Your proposal is long. Use \u201cCopy as text instead\u201d, then paste it into an email to ' + TO + '.'; },
+      );
+      return;
+    }
+    note.textContent = 'Opening your email app\u2026 if nothing happens, use \u201cCopy as text instead\u201d.';
+    window.location.href = url;
+  });
+
+  document.getElementById('copy-proposal').addEventListener('click', async () => {
+    const text = 'To: ' + TO + '\\nSubject: ' + subject() + '\\n\\n' + compose();
+    try {
+      await navigator.clipboard.writeText(text);
+      note.textContent = 'Copied. Paste it into an email to ' + TO + '.';
+    } catch {
+      note.textContent = 'Could not copy automatically — select the text in the fields and copy it manually.';
+    }
+  });
+})();
+</script>`;
 }
 
 /** app/globals.css minus the Tailwind directives: everything from the first @font-face. */
