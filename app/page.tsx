@@ -33,6 +33,7 @@ import { matchingIdeas, normalizeIdeaTitle } from '@/lib/idea-matches';
 import { createVoteQueue, rankIdeas, type VoteState } from '@/lib/vote-queue';
 import { catalog, categories, type BoardIdea } from '@/lib/idea-catalog';
 import { upcoming } from '@/lib/events';
+import { current as mimOfWeek, initialsOf } from '@/lib/mim-of-the-week';
 type LiveBoard = {
   ideas: { id: string; title: string; idea: string; created_at: number }[];
   counts: Record<string, number>;
@@ -397,19 +398,29 @@ export default function Home() {
         <div className="campaign-copy">
           <h1 id="campaign-title">The Salamanders</h1>
           <p className="campaign-mission">We <em>listen</em> to your concerns and turn <em>your ideas</em> into action, bridging our cohort with Student Life to make the most of MIM’28.</p>
-          <div className="first-day">
-            <div className="first-day-heading"><h2>Our Approach</h2></div><div className="first-day-steps"><img src="/images/salamander-poster.png" alt="" width={2120} height={742} />
-            <ol>
-              <li><strong><span>01</span> Survey</strong><p>Share your needs and ideas.</p></li>
-              <li><strong><span>02</span> Collaborate</strong><p>Choose feasible ideas with key stakeholders.</p></li>
-              <li><strong><span>03</span> Implement</strong><p>Work with students and partners to deliver.</p></li>
-            </ol></div>
-          </div>
         </div>
         <figure className="campaign-photo">
           <img src="/images/team-september-2026-v2.jpg" alt="The four Salamanders team members together at the INSEAD sign in Fontainebleau" width={2000} height={982} fetchPriority="high" />
           <figcaption><span>The Salamanders</span><a href="/team">Meet the team <ArrowUpRight size={17} /></a></figcaption>
         </figure>
+      </section>
+      <section className="mim-week" aria-labelledby="mim-week-title">
+        <div className="mim-week-inner">
+          <p className="eyebrow" id="mim-week-title">MIM of the Week{mimOfWeek?.placeholder ? ' · placeholder' : ''}</p>
+          <div className="mim-week-card">
+            <div className="mim-week-face" aria-hidden="true">
+              {mimOfWeek?.photo
+                ? <img src={mimOfWeek.photo} alt="" />
+                : <span>{mimOfWeek ? initialsOf(mimOfWeek.name) : '??'}</span>}
+            </div>
+            <div className="mim-week-body">
+              <strong>{mimOfWeek?.name}</strong>
+              <span className="mim-week-when">{mimOfWeek?.week}</span>
+              <p>{mimOfWeek?.why}</p>
+              {mimOfWeek?.nominatedBy ? <p className="mim-week-by">Nominated by {mimOfWeek.nominatedBy}</p> : null}
+            </div>
+          </div>
+        </div>
       </section>
       <section className="whats-on" id="whats-on" aria-labelledby="whats-on-title">
         <div className="whats-on-heading">
@@ -424,6 +435,7 @@ export default function Home() {
           {upcoming('cohort').map((event) => (
             <li className="event-row" key={event.title}>
               <span className="event-when">{event.when}</span>
+                  {event.repeats ? <span className="event-repeats">{event.repeats}</span> : null}
               <div className="event-body">
                 <h3>{event.title}</h3>
                 {event.where && <p className="event-where">{event.where}</p>}
@@ -449,6 +461,7 @@ export default function Home() {
               {upcoming('careers').map((event) => (
                 <li className="event-row" key={event.title}>
                   <span className="event-when">{event.when}</span>
+                  {event.repeats ? <span className="event-repeats">{event.repeats}</span> : null}
                   <div className="event-body">
                     <h3>{event.title}</h3>
                     {event.where && <p className="event-where">{event.where}</p>}

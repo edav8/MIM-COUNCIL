@@ -667,3 +667,64 @@ h1{font-weight:700}
 .signup-band{margin:0;max-width:none;background:#e6f2e7;border-radius:18px;
   padding:2rem 2.2rem}
 @media (max-width:860px){.signup-band{margin:0;padding:1.4rem 1.2rem}}
+
+/* ─────────────────────────────────────────────────────────────────────────
+   PAGE WIDTH — one rule, applied last so it wins.
+
+   There were two competing container systems and they disagreed:
+
+     A.  max-width:1400px; margin:auto; padding-inline:3rem
+     B.  padding-inline: max(3rem, calc((100vw - 1304px)/2))     [full bleed]
+
+   Both yield a 1304px content column, so either is fine on its own. The bug
+   was elements using BOTH: `.proposal-form`, `.page-intro`, `.guide` and
+   `.guide-next` are capped at 1400px AND given B's padding, which assumes the
+   element spans the viewport. In a 2000px window that is 348px of padding
+   inside a 1400px box — a 704px column, i.e. half a page. That is why
+   "Propose an initiative" rendered narrow.
+
+   B also used 100vw, which INCLUDES the scrollbar, so full-bleed sections sat
+   ~7px left of the capped ones. That is the "not in line". Using 100% instead
+   measures the actual content box and the two systems line up exactly.
+   ───────────────────────────────────────────────────────────────────────── */
+:root{ --page-content:1304px; --page-gutter:3rem; }
+
+/* Full-bleed sections: background spans the window, content is inset to the
+   shared column. Never give these a max-width. */
+.whats-on,.pillars,.closing,footer,.happening,.board{
+  max-width:none;
+  padding-inline:max(var(--page-gutter),calc((100% - var(--page-content))/2));
+}
+/* Boxed sections: capped and centred, with a plain gutter. Never give these
+   the max() padding. */
+.site-header,.campaign-intro,.about-team,.team-page-intro,
+.page-intro,.guide,.guide-next,.proposal-form{
+  max-width:calc(var(--page-content) + var(--page-gutter)*2);
+  margin-inline:auto;
+  padding-inline:var(--page-gutter);
+}
+@media (max-width:1100px){ :root{ --page-gutter:2rem } }
+@media (max-width:750px){  :root{ --page-gutter:1.1rem } }
+
+/* A recurring event still shows a real next date; this tag carries the
+   "and every week after" that the date alone cannot. */
+.event-repeats{display:inline-block;margin-left:.5rem;padding:.1rem .45rem;
+  border:1px solid #cdd5ce;border-radius:999px;font-size:.7rem;font-weight:700;
+  letter-spacing:.06em;text-transform:uppercase;color:#53665f;vertical-align:middle}
+
+/* MIM of the Week. Uses the shared full-bleed gutter so it lines up with
+   every other band on the page. */
+.mim-week{padding-block:2.2rem 2.4rem;background:#fff;
+  padding-inline:max(var(--page-gutter),calc((100% - var(--page-content))/2))}
+.mim-week-card{display:flex;align-items:flex-start;gap:1.1rem;
+  background:#f4f7f2;border:1px solid #d9dfd7;border-radius:16px;padding:1.2rem 1.3rem}
+.mim-week-face{flex:0 0 64px;width:64px;height:64px;border-radius:50%;
+  background:#dceddf;color:#00684b;display:flex;align-items:center;justify-content:center;
+  font-weight:750;font-size:1.25rem;letter-spacing:.02em;overflow:hidden}
+.mim-week-face img{width:100%;height:100%;object-fit:cover;display:block}
+.mim-week-body{min-width:0}
+.mim-week-body strong{display:block;font-size:1.2rem;color:#003f35;letter-spacing:-.02em}
+.mim-week-when{display:block;font-size:.8rem;color:#62756a;margin-top:.15rem}
+.mim-week-body p{margin:.55rem 0 0;font-size:1rem;line-height:1.55;color:#42564a;max-width:52rem}
+.mim-week-by{font-size:.85rem;color:#62756a}
+@media (max-width:560px){.mim-week-card{flex-direction:column;gap:.85rem}}

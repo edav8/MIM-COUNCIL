@@ -17,9 +17,18 @@ export type MimOfTheWeek = {
   why: string;
   photo?: string;
   nominatedBy?: string;
+  /** true = sample content, rendered with a visible 'placeholder' flag. */
+  placeholder?: boolean;
 };
 
-export const current: MimOfTheWeek | null = null;
+export const current: MimOfTheWeek | null = {
+  // PLACEHOLDER — replace with a real nomination, or set this back to null to
+  // hide the section. It is deliberately obvious so it cannot ship by accident.
+  name: 'Nobody yet',
+  week: 'Week of 3 November',
+  why: 'This is a placeholder. Nominate a classmate who did something good for the cohort and their name goes here.',
+  placeholder: true,
+};
 
 export const past: MimOfTheWeek[] = [];
 

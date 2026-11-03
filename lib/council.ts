@@ -31,36 +31,43 @@ export const council: CouncilMember[] = [
     name: 'Kimi Nakamura',
     role: 'President',
     email: 'kimi.nakamura@insead.edu',
+    photo: '/images/council/kimi-nakamura.jpg',
   },
   {
     name: 'Constantine Kotsikonas',
     role: 'Treasurer',
     email: 'constantine.kotsikonas@insead.edu',
+    photo: '/images/council/constantine-kotsikonas.jpg',
   },
   {
     name: 'Amanda Causin',
     role: 'Academic',
     email: 'amanda.causin@insead.edu',
+    photo: '/images/council/amanda-causin.jpg',
   },
   {
     name: 'Antoine Hamaïde',
     role: 'Brand',
     email: 'antoine.hamaide@insead.edu',
+    photo: '/images/council/antoine-hamaide.jpg',
   },
   {
     name: 'Daniel Spokauskas',
     role: 'Careers',
     email: 'daniel.spokauskas@insead.edu',
+    photo: '/images/council/daniel-spokauskas.jpg',
   },
   {
     name: 'Timothy Schweins',
     role: 'Clubs & Events',
     email: 'timothy.schweins@insead.edu',
+    photo: '/images/council/timothy-schweins.jpg',
   },
   {
     name: 'Kirtana Anantharaman',
     role: 'Digital & Communication',
     email: 'kirtana.anantharaman@insead.edu',
+    photo: '/images/council/kirtana-anantharaman.jpg',
   },
   {
     name: 'Emilie David',

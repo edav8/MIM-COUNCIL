@@ -15,6 +15,8 @@
  *   group     'cohort' (everyone) or 'careers' (CDC / recruiting)
  */
 export type CohortEvent = {
+  /** e.g. 'Weekly' — shown as a tag so a dated row still reads as recurring. */
+  repeats?: string;
   when: string;
   sortKey: string;
   title: string;
@@ -55,7 +57,8 @@ export const events: CohortEvent[] = [
     group: 'cohort',
   },
   {
-    when: 'Every Monday · 19:30–21:00',
+    when: 'Mon 9 Nov · 19:30–21:00',
+    repeats: 'Weekly',
     sortKey: '2026-11-09',
     title: 'Rugby — Gents’ training',
     where: 'Pitch with lights',
@@ -63,7 +66,8 @@ export const events: CohortEvent[] = [
     group: 'cohort',
   },
   {
-    when: 'Every Thursday · 20:00–21:30',
+    when: 'Thu 5 Nov · 20:00–21:30',
+    repeats: 'Weekly',
     sortKey: '2026-11-05',
     title: 'Rugby — Ladies’ training, then Mimi’s',
     where: 'Pitch with lights, then Mimi’s',
