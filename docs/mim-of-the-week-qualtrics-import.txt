@@ -1,0 +1,59 @@
+[[AdvancedFormat]]
+
+[[Block:Nominate]]
+
+[[Question:Text]]
+[[ID:intro]]
+<b>MIM of the Week — nominate someone</b><br><br>
+Someone helped you out, covered for you, organised something nobody asked them to, or just made a bad week better? Put their name forward.<br><br>
+Nominations close Sunday evening. Voting opens Monday on the shortlist, and the most-voted name goes up on Tuesday.
+
+[[Question:TE:SingleLine]]
+[[ID:nominee]]
+Who are you nominating?
+
+[[Question:TE:Essay]]
+[[ID:what_they_did]]
+What did they do? One specific thing beats three adjectives — we publish this line, so write it as you would want it read out.
+
+[[Question:MC:SingleAnswer]]
+[[ID:category]]
+What was it, roughly?
+[[Choices]]
+Helped someone academically
+Organised something for the cohort
+Looked out for someone
+Stepped in when nobody else did
+Something else
+
+[[Question:MC:SingleAnswer]]
+[[ID:credit]]
+May we name you as the nominator?
+[[Choices]]
+Yes, name me
+No, keep me anonymous
+
+[[Question:TE:SingleLine]]
+[[ID:your_name]]
+Your name — so we know it is not a self-nomination. Not published unless you said yes above.
+
+[[Block:Vote]]
+
+[[Question:Text]]
+[[ID:vote_intro]]
+<b>MIM of the Week — vote</b><br><br>
+These are this week's nominations. One vote each. The most-voted name goes up on Tuesday and earns a Contributor Badge.
+
+[[Question:MC:SingleAnswer]]
+[[ID:vote]]
+Who gets your vote?
+[[Choices]]
+Replace these choices each week with the shortlist
+Nominee 2
+Nominee 3
+Nominee 4
+Nominee 5
+
+[[Question:TE:SingleLine]]
+[[ID:voter]]
+Your name — one vote each, and it is not published.

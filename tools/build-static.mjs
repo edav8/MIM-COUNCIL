@@ -33,7 +33,13 @@ const { sections: guideSections, budgetExample } = await import(
   join(root, 'lib/initiative-guide.ts')
 );
 const { formSections, checklist } = await import(join(root, 'lib/initiative-form.ts'));
-const { current: mimOfWeek, initialsOf } = await import(join(root, 'lib/mim-of-the-week.ts'));
+const {
+  current: mimOfWeek,
+  past: pastWinners,
+  forms: motwForms,
+  howItWorks: motwRules,
+  initialsOf,
+} = await import(join(root, 'lib/mim-of-the-week.ts'));
 const { heroImage, heroActions } = await import(join(root, 'lib/hero.ts'));
 
 /** Escape text for HTML. Content comes from our own data files, but never assume. */
@@ -352,6 +358,89 @@ ${footer(prefix)}
 `;
 }
 
+function mimOfWeekPage() {
+  const prefix = '../';
+  const embed = (url, title) =>
+    `<iframe class="form-embed" src="${e(url)}" title="${e(title)}" loading="lazy"></iframe>`;
+  return `${head(
+    'MIM of the Week · The Salamanders',
+    'Nominate a classmate who made the week better, and vote on this week’s shortlist.',
+    prefix,
+  )}
+<main>
+${header(prefix, 'wellbeing')}
+<section class="page-intro" style="--accent:${pillarColours['wellbeing'].accent}">
+  <p class="eyebrow">WELL BEING</p>
+  <h1>MIM of the Week</h1>
+  <p class="page-lede">
+    Someone helped you through a problem set, covered for you, or organised
+    something nobody asked them to. Put their name forward.
+  </p>
+</section>
+${
+  mimOfWeek
+    ? `<section class="motw" aria-label="This week">
+  <div class="motw-card">
+    ${
+      mimOfWeek.photo
+        ? `<img class="motw-avatar" src="${e(prefix + mimOfWeek.photo.replace(/^\//, ''))}" alt="" width="128" height="128">`
+        : `<span class="motw-avatar motw-initials" aria-hidden="true">${e(initialsOf(mimOfWeek.name))}</span>`
+    }
+    <div class="motw-text">
+      <p class="eyebrow">${e(mimOfWeek.week)}</p>
+      <h2>${e(mimOfWeek.name)}</h2>
+      <p class="motw-why">${e(mimOfWeek.why)}</p>
+      ${mimOfWeek.nominatedBy ? `<p class="motw-by">Nominated by ${e(mimOfWeek.nominatedBy)}</p>` : ''}
+    </div>
+  </div>
+</section>`
+    : ''
+}
+<section class="guide">
+  <ol class="guide-list motw-rules">
+    <li class="guide-step">
+      <h2>How it works</h2>
+      <ul>
+${motwRules.map((r) => `        <li>${e(r)}</li>`).join('\n')}
+      </ul>
+    </li>
+  </ol>
+</section>
+<section class="motw-forms">
+  <div class="motw-form">
+    <h2>Nominate someone</h2>
+    ${
+      motwForms.nominate
+        ? embed(motwForms.nominate, 'Nominate someone for MIM of the Week')
+        : '<p class="form-soon">Nominations open shortly — the form is being set up.</p>'
+    }
+  </div>
+  <div class="motw-form">
+    <h2>Vote</h2>
+    ${
+      motwForms.vote
+        ? embed(motwForms.vote, 'Vote for MIM of the Week')
+        : '<p class="form-soon">Voting opens Monday, on the shortlist from this week\u2019s nominations.</p>'
+    }
+  </div>
+</section>
+${
+  pastWinners.length
+    ? `<section class="guide-next">
+  <h2>Previously</h2>
+  <ul class="motw-past">
+${pastWinners
+  .map(
+    (w) => `    <li><strong>${e(w.name)}</strong> <span>${e(w.week)}</span><p>${e(w.why)}</p></li>`,
+  )
+  .join('\n')}
+  </ul>
+</section>`
+    : ''
+}
+${footer(prefix)}`;
+}
+
 function careersPage() {
   const prefix = '../';
   const careers = upcoming('careers');
@@ -489,7 +578,7 @@ function initiativesPage() {
     'How to propose a student initiative to the MIM’28 Student Council, and what your proposal should contain.',
     prefix,
   )}
-<main>
+<main class="form-page">
 ${header(prefix, 'initiatives')}
 <section class="page-intro" style="--accent:${pillarColours['student-life'].accent}">
   <p class="eyebrow">STUDENT LIFE</p>
@@ -659,6 +748,8 @@ await writeFile(join(out, 'index.html'), indexPage());
 await writeFile(join(out, 'team/index.html'), teamPage());
 await mkdir(join(out, 'initiatives'), { recursive: true });
 await writeFile(join(out, 'initiatives/index.html'), initiativesPage());
+await mkdir(join(out, 'mim-of-the-week'), { recursive: true });
+await writeFile(join(out, 'mim-of-the-week/index.html'), mimOfWeekPage());
 await mkdir(join(out, 'careers'), { recursive: true });
 await writeFile(join(out, 'careers/index.html'), careersPage());
 await mkdir(join(out, 'student-life'), { recursive: true });

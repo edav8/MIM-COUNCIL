@@ -66,7 +66,11 @@ export const pillars: Pillar[] = [
         label: 'Guidelines on Harassment',
         note: 'Who to contact at INSEAD and on the Council',
       },
-      { label: 'Nominate a MIM Contributor' },
+      {
+        label: 'MIM of the Week',
+        href: '/mim-of-the-week/',
+        note: 'Nominate someone, or vote',
+      },
     ],
   },
 ];
