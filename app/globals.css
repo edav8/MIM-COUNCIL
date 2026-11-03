@@ -176,3 +176,49 @@ body{background:#fff;color:#20292d}.site-header{border-bottom:0;padding-top:1.2r
 @media (max-width:980px){.pillar-grid{grid-template-columns:repeat(2,1fr);gap:1.4rem}}
 @media (max-width:560px){.pillar-grid{grid-template-columns:1fr}
   .pillars{padding-left:1.25rem;padding-right:1.25rem}}
+
+/* ---- Salamanders brand ------------------------------------------------- */
+/* Fonts and logos from the official brand pack (Nov 2026). Display face is
+   Bricolage Grotesque; text face is DM Sans. Brand green #006848 and ink
+   #202828 were sampled from the supplied logo files. */
+@font-face{font-family:'Bricolage Grotesque';src:url('fonts/BricolageGrotesque-Variable.ttf') format('truetype-variations');font-weight:200 800;font-style:normal;font-display:swap}
+@font-face{font-family:'DM Sans Var';src:url('fonts/DMSans-Variable.ttf') format('truetype-variations');font-weight:100 1000;font-style:normal;font-display:swap}
+@font-face{font-family:'DM Sans Var';src:url('fonts/DMSans-Italic-Variable.ttf') format('truetype-variations');font-weight:100 1000;font-style:italic;font-display:swap}
+:root{
+  --brand-green:#006848;
+  --brand-green-dark:#00523a;
+  --brand-ink:#202828;
+  --font-display:'Bricolage Grotesque','DM Sans',system-ui,sans-serif;
+}
+body{font-family:'DM Sans Var','DM Sans',system-ui,sans-serif}
+h1,h2,h3,.wordmark span{font-family:var(--font-display);letter-spacing:-.015em}
+h1{font-weight:700}
+.wordmark img{border-radius:0}
+.wordmark .salamander{width:46px;height:auto}
+
+/* ---- Top navigation: four dropdown menus ------------------------------- */
+.site-nav{display:flex;align-items:center;gap:.4rem;flex-wrap:wrap}
+.menu{position:relative}
+.menu>summary{list-style:none;cursor:pointer;padding:.45rem .7rem;border-radius:8px;
+  font-weight:600;font-size:.9375rem;color:var(--brand-ink);white-space:nowrap;
+  display:flex;align-items:center;gap:.35rem}
+.menu>summary::-webkit-details-marker{display:none}
+.menu>summary::after{content:'';width:.42em;height:.42em;border-right:2px solid currentColor;
+  border-bottom:2px solid currentColor;transform:rotate(45deg) translateY(-.1em);opacity:.55}
+.menu[open]>summary,.menu>summary:hover{background:#e4ece1;color:var(--brand-green)}
+.menu-panel{position:absolute;top:calc(100% + .4rem);left:0;z-index:40;min-width:15.5rem;
+  background:#fff;border:1px solid #d9dfd7;border-radius:12px;padding:.45rem;
+  box-shadow:0 14px 34px rgba(32,40,40,.13);display:grid;gap:.1rem}
+.menu-panel a,.menu-soon{display:block;padding:.5rem .6rem;border-radius:8px;
+  font-size:.9375rem;font-weight:560;text-decoration:none;color:var(--brand-ink);line-height:1.3}
+.menu-panel a:hover{background:#f1f6f0;color:var(--brand-green)}
+.menu-note{display:block;font-size:.8125rem;font-weight:400;color:#5a6b5f;margin-top:.1rem}
+.menu-soon{color:#9aa79f;font-weight:500;cursor:default}
+.menu-soon em{display:block;font-size:.75rem;font-style:normal;color:#b9c2bb;margin-top:.05rem}
+.nav-plain{padding:.45rem .7rem;font-weight:600;font-size:.9375rem;white-space:nowrap}
+@media (max-width:860px){
+  .site-header{flex-wrap:wrap;gap:.6rem}
+  .site-nav{width:100%;gap:.2rem}
+  .menu{position:static}
+  .menu-panel{position:static;min-width:0;box-shadow:none;margin:.25rem 0 .5rem}
+}
