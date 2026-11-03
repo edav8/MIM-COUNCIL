@@ -728,3 +728,10 @@ h1{font-weight:700}
 .mim-week-body p{margin:.55rem 0 0;font-size:1rem;line-height:1.55;color:#42564a;max-width:52rem}
 .mim-week-by{font-size:.85rem;color:#62756a}
 @media (max-width:560px){.mim-week-card{flex-direction:column;gap:.85rem}}
+
+/* Each content page uses its own pillar's colour, not a hardcoded orange.
+   The tutoring page is Academic, so its tagline and eyebrow are green. */
+.page-intro{--accent:var(--brand-green)}
+.page-intro .eyebrow{color:var(--accent)}
+.page-intro h1{color:var(--accent)}
+.page-tagline{color:var(--accent)}

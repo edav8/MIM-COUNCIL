@@ -317,7 +317,7 @@ function studentLifePage() {
   )}
 <main>
 ${header(prefix, 'student-life')}
-<section class="page-intro">
+<section class="page-intro" style="--accent:${pillarColours['student-life'].accent}">
   <p class="eyebrow">STUDENT LIFE</p>
   <h1>What’s on</h1>
   <p class="page-lede">
@@ -362,7 +362,7 @@ function careersPage() {
   )}
 <main>
 ${header(prefix, 'careers')}
-<section class="page-intro">
+<section class="page-intro" style="--accent:${pillarColours['careers'].accent}">
   <p class="eyebrow">CAREERS</p>
   <h1>Careers calendar</h1>
   <p class="page-lede">
@@ -398,7 +398,7 @@ function tutoringPage() {
   )}
 <main>
 ${header(prefix, 'tutoring')}
-<section class="page-intro">
+<section class="page-intro" style="--accent:${pillarColours['academic'].accent}">
   <p class="eyebrow">ACADEMIC</p>
   <h1>MIM2MIM Tutoring</h1>
   <p class="page-tagline">By MIMs. For MIMs. From “huh?” to “aha.”</p>
@@ -419,11 +419,13 @@ ${header(prefix, 'tutoring')}
       </ul>
     </li>
     <li class="guide-step">
-      <h2>Subjects so far</h2>
-      <p>Started with the two courses people asked for most. If you want a subject that is not listed, say so and we will look for a tutor.</p>
+      <h2>Subjects</h2>
+      <p>This period’s courses. If you want a subject that is not listed, say so on the form and we will look for a tutor.</p>
       <ul>
-        <li>Marketing</li>
-        <li>Data Analysis</li>
+        <li>Data Science — ML &amp; Optimization</li>
+        <li>Applied Microeconomics</li>
+        <li>Principles of Finance &amp; Valuation</li>
+        <li>Negotiations</li>
       </ul>
     </li>
     <li class="guide-step">
@@ -489,7 +491,7 @@ function initiativesPage() {
   )}
 <main>
 ${header(prefix, 'initiatives')}
-<section class="page-intro">
+<section class="page-intro" style="--accent:${pillarColours['student-life'].accent}">
   <p class="eyebrow">STUDENT LIFE</p>
   <h1>Propose an initiative</h1>
   <p class="page-lede">
