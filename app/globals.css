@@ -652,3 +652,18 @@ h1{font-weight:700}
 /* More air, less chrome. */
 .hero-split{padding-top:3rem;padding-bottom:2.6rem;gap:3rem}
 .hero-copy h1{margin-bottom:.75rem}
+
+/* The sign-up band sat outside the page gutter, so its edges did not line up
+   with the content above it. Same gutter as every other section now. */
+.signup-band{max-width:none;
+  margin:1.2rem max(3rem,calc((100vw - 1304px)/2)) 3rem}
+.empty-note{color:#5a6b5f;line-height:1.5}
+@media (max-width:860px){
+  .signup-band{margin-left:1rem;margin-right:1rem}
+}
+
+/* The band is now a block inside .guide-next, so it inherits that section's
+   max-width and gutter and its edges line up with the cards above it. */
+.signup-band{margin:0;max-width:none;background:#e6f2e7;border-radius:18px;
+  padding:2rem 2.2rem}
+@media (max-width:860px){.signup-band{margin:0;padding:1.4rem 1.2rem}}

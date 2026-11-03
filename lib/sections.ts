@@ -52,7 +52,7 @@ export const pillars: Pillar[] = [
     accent: '#133b34',
     tint: '#e4ebe8',
     items: [
-      { label: 'Calendar', href: '#whats-on', note: 'CareerGlobe, clubs and events' },
+      { label: 'Careers calendar', href: '/careers/', note: 'CDC sessions, employer visits, club offers' },
       { label: 'Raza Consulting Club — MIM offer' },
       { label: 'Open Door Hours', note: 'Daniel and Kimi' },
     ],

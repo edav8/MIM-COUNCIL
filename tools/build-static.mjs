@@ -352,6 +352,43 @@ ${footer(prefix)}
 `;
 }
 
+function careersPage() {
+  const prefix = '../';
+  const careers = upcoming('careers');
+  return `${head(
+    'Careers · The Salamanders',
+    'Careers events for the MIM’28 cohort — CDC sessions, employer visits and club offers.',
+    prefix,
+  )}
+<main>
+${header(prefix, 'careers')}
+<section class="page-intro">
+  <p class="eyebrow">CAREERS</p>
+  <h1>Careers calendar</h1>
+  <p class="page-lede">
+    CDC sessions, employer visits and club offers. Registration usually runs
+    through CareerGlobe — check there for anything that needs a place booked.
+  </p>
+</section>
+<section class="whats-on whats-on-full">
+${
+  careers.length
+    ? byMonth(careers)
+        .map(
+          (m) => `  <div class="event-month">
+    <h2 class="month-label">${e(m.label)}</h2>
+    <ul class="event-list">
+${m.events.map((ev) => eventRow(ev)).join('\n')}
+    </ul>
+  </div>`,
+        )
+        .join('\n')
+    : '  <p class="empty-note">Nothing scheduled right now. Check CareerGlobe for live postings.</p>'
+}
+</section>
+${footer(prefix)}`;
+}
+
 function tutoringPage() {
   const prefix = '../';
   return `${head(
@@ -398,15 +435,17 @@ ${header(prefix, 'tutoring')}
     </li>
   </ol>
 </section>
-<section class="guide-next signup-band">
-  <h2>Sign up</h2>
-  <p>
-    Sign up as a tutor, a tutee, or both, for the courses you want. The form is the
-    one the Council sent to the cohort — if you filled it in already, you are on the list.
-  </p>
-  <p class="guide-contact">
-    <a class="cta" href="https://insead.eu.qualtrics.com/jfe/form/SV_0UrZ496ElQXohb8" target="_blank" rel="noreferrer">Sign up for tutoring ${ARROW}</a>
-  </p>
+<section class="guide-next">
+  <div class="signup-band">
+    <h2>Sign up</h2>
+    <p>
+      Sign up as a tutor, a tutee, or both, for the courses you want. The form is the
+      one the Council sent to the cohort — if you filled it in already, you are on the list.
+    </p>
+    <p class="guide-contact">
+      <a class="cta" href="https://insead.eu.qualtrics.com/jfe/form/SV_0UrZ496ElQXohb8" target="_blank" rel="noreferrer">Sign up for tutoring ${ARROW}</a>
+    </p>
+  </div>
 </section>
 ${footer(prefix)}`;
 }
@@ -618,6 +657,8 @@ await writeFile(join(out, 'index.html'), indexPage());
 await writeFile(join(out, 'team/index.html'), teamPage());
 await mkdir(join(out, 'initiatives'), { recursive: true });
 await writeFile(join(out, 'initiatives/index.html'), initiativesPage());
+await mkdir(join(out, 'careers'), { recursive: true });
+await writeFile(join(out, 'careers/index.html'), careersPage());
 await mkdir(join(out, 'student-life'), { recursive: true });
 await writeFile(join(out, 'student-life/index.html'), studentLifePage());
 await mkdir(join(out, 'tutoring'), { recursive: true });
