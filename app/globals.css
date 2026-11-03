@@ -560,3 +560,65 @@ h1{font-weight:700}
 .first-day-steps ol{display:grid;grid-template-columns:repeat(auto-fit,minmax(14rem,1fr));
   gap:.8rem;list-style:none;padding:0;margin:.6rem 0 0}
 .first-day{margin-top:.6rem}
+
+/* ---- Week bar ----------------------------------------------------------- */
+.weekbar{display:flex;align-items:center;gap:1rem;flex-wrap:wrap;
+  padding:.6rem max(3rem,calc((100vw - 1304px)/2));
+  background:#f4f7f2;border-bottom:1px solid #e3e9e2;font-size:.875rem}
+.weekbar-label{font-weight:700;letter-spacing:.07em;text-transform:uppercase;
+  font-size:.75rem;color:#5a6b5f;flex:0 0 auto}
+.weekbar ul{list-style:none;display:flex;gap:1.1rem;margin:0;padding:0;flex-wrap:wrap}
+.weekbar a{display:inline-flex;align-items:center;gap:.4rem;text-decoration:none;
+  color:var(--brand-ink);font-weight:560}
+.weekbar a:hover{color:var(--brand-green)}
+.weekbar-dot{width:8px;height:8px;border-radius:50%;flex:0 0 8px}
+
+/* ---- Split hero --------------------------------------------------------- */
+.hero-split{max-width:1400px;margin:auto;
+  padding:2.2rem max(3rem,calc((100vw - 1304px)/2)) 1.6rem;
+  display:grid;grid-template-columns:1.25fr .85fr;gap:2.5rem;align-items:center}
+.hero-copy h1{margin:0 0 .6rem;font-size:clamp(2.6rem,6vw,4.4rem);line-height:1;
+  color:var(--brand-green)}
+.hero-copy .campaign-mission{margin:0 0 1.2rem;font-size:1.125rem;line-height:1.5;max-width:34rem}
+.hero-actions{display:flex;gap:.6rem;flex-wrap:wrap}
+
+/* the featured next event */
+.featured{background:var(--tint);border:1px solid var(--accent);border-radius:18px;
+  padding:1.4rem 1.5rem;display:flex;flex-direction:column;gap:.1rem}
+.featured-eyebrow{margin:0;font-size:.6875rem;font-weight:800;letter-spacing:.1em;
+  text-transform:uppercase;color:#fff;background:var(--accent);border-radius:999px;
+  padding:.18rem .6rem;width:max-content}
+.featured-when{margin:.6rem 0 .1rem;font-weight:700;font-size:.9375rem;color:var(--accent);
+  text-transform:uppercase;letter-spacing:.03em}
+.featured-title{margin:0;font-size:1.65rem;line-height:1.15}
+.featured-where{margin:.3rem 0 0;font-size:.9375rem;color:#42564a}
+.featured-note{margin:.45rem 0 0;font-size:.875rem;line-height:1.45;color:#5a6b5f}
+.featured-cta{margin-top:1rem;align-self:flex-start;background:var(--accent);color:#fff;
+  text-decoration:none;font-weight:680;border-radius:999px;padding:.7rem 1.25rem;
+  display:inline-flex;align-items:center;gap:.4rem;min-height:44px}
+.featured-cta:hover{filter:brightness(.9)}
+
+/* photo-led variant, used only when lib/hero.ts sets heroImage */
+.hero-photo{position:relative;min-height:60vh;align-items:end;border-radius:0}
+.hero-photo .hero-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0}
+.hero-photo .hero-copy,.hero-photo .featured{position:relative;z-index:1}
+.hero-photo .hero-copy h1,.hero-photo .campaign-mission{color:#fff;
+  text-shadow:0 2px 18px rgba(0,0,0,.45)}
+
+/* ---- Approach, now its own band ---------------------------------------- */
+.approach{padding:.4rem max(3rem,calc((100vw - 1304px)/2)) 1.8rem}
+.approach h2{font-size:1.25rem;color:var(--brand-green);margin:0 0 .7rem}
+.approach ol{list-style:none;margin:0;padding:0;display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(14rem,1fr));gap:.8rem}
+.approach li{background:#e9f1e7;border-radius:14px;padding:1rem 1.15rem}
+.approach strong{display:block;font-size:1rem;margin-bottom:.2rem}
+.approach strong span{color:var(--brand-green);margin-right:.35rem}
+.approach p{margin:0;font-size:.9375rem;color:#42564a;line-height:1.45}
+
+@media (max-width:860px){
+  .weekbar{padding-left:1rem;padding-right:1rem;gap:.5rem}
+  .weekbar ul{gap:.75rem}
+  .hero-split{grid-template-columns:1fr;gap:1.4rem;padding:1.4rem 1rem 1.2rem}
+  .hero-actions .cta{flex:1 1 auto;justify-content:center}
+  .approach{padding-left:1rem;padding-right:1rem}
+}

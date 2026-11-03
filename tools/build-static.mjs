@@ -34,6 +34,7 @@ const { sections: guideSections, budgetExample } = await import(
 );
 const { formSections, checklist } = await import(join(root, 'lib/initiative-form.ts'));
 const { current: mimOfWeek, initialsOf } = await import(join(root, 'lib/mim-of-the-week.ts'));
+const { heroImage, heroActions } = await import(join(root, 'lib/hero.ts'));
 
 /** Escape text for HTML. Content comes from our own data files, but never assume. */
 const e = (s = '') =>
@@ -165,6 +166,46 @@ function eventRow(ev, withCta = true) {
 </li>`;
 }
 
+/** A slim strip under the nav: everything on in the next seven days. */
+function weekBar(prefix) {
+  const week = withinDays('cohort', 7);
+  if (!week.length) return '';
+  return `<div class="weekbar">
+  <span class="weekbar-label">This week</span>
+  <ul>
+${week
+  .map((ev) => {
+    const c = pillarColours[pillarOf(ev)];
+    const short = ev.when.split('·')[0].trim();
+    const inner = `<span class="weekbar-dot" style="background:${c.accent}" aria-hidden="true"></span>${e(short)} — ${e(ev.title)}`;
+    return ev.href
+      ? `    <li><a href="${e(ev.href)}" target="_blank" rel="noreferrer">${inner}</a></li>`
+      : `    <li><a href="${prefix}student-life/">${inner}</a></li>`;
+  })
+  .join('\n')}
+  </ul>
+</div>`;
+}
+
+/** The nearest event, shown large beside the hero copy. */
+function featuredEvent(prefix) {
+  const [next] = upcoming('cohort');
+  if (!next) return '';
+  const c = pillarColours[pillarOf(next)];
+  return `<aside class="featured" style="--accent:${c.accent};--tint:${c.tint}">
+    <p class="featured-eyebrow">Next up</p>
+    <p class="featured-when">${e(next.when)}</p>
+    <h2 class="featured-title">${e(next.title)}</h2>
+    ${next.where ? `<p class="featured-where">${e(next.where)}</p>` : ''}
+    ${next.note ? `<p class="featured-note">${e(next.note)}</p>` : ''}
+    ${
+      next.href
+        ? `<a class="featured-cta" href="${e(next.href)}" target="_blank" rel="noreferrer">${e(next.cta || 'More')} ${ARROW}</a>`
+        : `<a class="featured-cta" href="${prefix}student-life/">See what's on ${ARROW}</a>`
+    }
+  </aside>`;
+}
+
 function indexPage() {
   const cohort = upcoming('cohort');
   const careers = upcoming('careers');
@@ -176,19 +217,33 @@ function indexPage() {
   )}
 <main>
 ${header(prefix, 'home')}
-<section class="campaign-intro" aria-labelledby="campaign-title">
-  <div class="campaign-copy">
+${weekBar(prefix)}
+<section class="hero-split${heroImage ? ' hero-photo' : ''}" aria-labelledby="campaign-title">
+  ${
+    heroImage
+      ? `<img class="hero-bg" src="${e(prefix + heroImage.src.replace(/^\//, ''))}" alt="${e(heroImage.alt)}">`
+      : ''
+  }
+  <div class="hero-copy">
     <h1 id="campaign-title">The Salamanders</h1>
     <p class="campaign-mission">We <em>listen</em> to your concerns and turn <em>your ideas</em> into action, bridging our cohort with Student Life to make the most of MIM’28.</p>
-    <div class="first-day">
-      <div class="first-day-heading"><h2>Our Approach</h2></div>
-      <div class="first-day-steps"><ol>
-        <li><strong><span>01</span> Survey</strong><p>Share your needs and ideas.</p></li>
-        <li><strong><span>02</span> Collaborate</strong><p>Choose feasible ideas with key stakeholders.</p></li>
-        <li><strong><span>03</span> Implement</strong><p>Work with students and partners to deliver.</p></li>
-      </ol></div>
+    <div class="hero-actions">
+${heroActions
+  .map(
+    (a) => `      <a class="cta${a.primary ? '' : ' cta-ghost'}" href="${a.href.startsWith('http') ? e(a.href) : prefix + a.href.replace(/^\//, '')}">${e(a.label)}</a>`,
+  )
+  .join('\n')}
     </div>
   </div>
+${featuredEvent(prefix)}
+</section>
+<section class="approach">
+  <h2>Our Approach</h2>
+  <ol>
+    <li><strong><span>01</span> Survey</strong><p>Share your needs and ideas.</p></li>
+    <li><strong><span>02</span> Collaborate</strong><p>Choose feasible ideas with key stakeholders.</p></li>
+    <li><strong><span>03</span> Implement</strong><p>Work with students and partners to deliver.</p></li>
+  </ol>
 </section>
 
 ${(() => {
