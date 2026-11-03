@@ -14,18 +14,18 @@
  */
 export type PillarItem = { label: string; href?: string; note?: string };
 /**
- * `accent` and `tint` colour-code the pillar. Both are taken from the Student
- * Life Town Hall deck of 30 Oct 2026, read out of the slides themselves:
- * deep green #133b34, brand green #00684b, orange #f28b32 and pale green
- * #e6f2e7 are the colours that deck is actually built from.
+ * `accent` and `tint` are the category colours from The Salamanders brand
+ * guide: Academic blue, Student Life (Community) orange, Careers yellow and
+ * Well Being pink. The accent is the guide's text shade; the tint is a pale
+ * version of its chip fill.
  */
 export type Pillar = { title: string; items: PillarItem[]; accent: string; tint: string };
 
 export const pillars: Pillar[] = [
   {
     title: 'Academic',
-    accent: '#00684b',
-    tint: '#e6f2e7',
+    accent: '#429EC5',
+    tint: '#E9F6FD',
     items: [
       { label: 'Reflection Survey' },
       { label: 'MIM2MIM Tutoring', href: '/tutoring/', note: 'Offer it, receive it, or both' },
@@ -35,8 +35,8 @@ export const pillars: Pillar[] = [
   },
   {
     title: 'Student Life',
-    accent: '#f28b32',
-    tint: '#fdeede',
+    accent: '#E07927',
+    tint: '#FDEEDE',
     items: [
       {
         label: 'Ski Trip',
@@ -49,8 +49,8 @@ export const pillars: Pillar[] = [
   },
   {
     title: 'Careers',
-    accent: '#133b34',
-    tint: '#e4ebe8',
+    accent: '#B49400',
+    tint: '#FFF8DA',
     items: [
       { label: 'Careers calendar', href: '/careers/', note: 'CDC sessions, employer visits, club offers' },
       { label: 'Raza Consulting Club — MIM offer' },
@@ -59,8 +59,8 @@ export const pillars: Pillar[] = [
   },
   {
     title: 'Well Being',
-    accent: '#087357',
-    tint: '#e6f2e7',
+    accent: '#CF7185',
+    tint: '#FDEEEF',
     items: [
       {
         label: 'Guidelines on Harassment',

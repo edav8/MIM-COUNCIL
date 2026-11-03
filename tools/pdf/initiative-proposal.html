@@ -2,138 +2,134 @@
 <html lang="en"><head><meta charset="utf-8">
 <title>Initiative Proposal · MIM'28 Student Council</title>
 <style>
+/* Built to The Salamanders brand guide:
+   colours, type scale, logo rules and layout rules all taken from it.      */
 @font-face{font-family:'Bricolage';src:url('file:///Users/emiliedavid/Documents/Documents - Emilie’s MacBook Air/GitHub/MIM-COUNCIL/public/fonts/BricolageGrotesque-Variable.ttf') format('truetype-variations');font-weight:200 800}
 @font-face{font-family:'DMSans';src:url('file:///Users/emiliedavid/Documents/Documents - Emilie’s MacBook Air/GitHub/MIM-COUNCIL/public/fonts/DMSans-Variable.ttf') format('truetype-variations');font-weight:100 1000}
-:root{--green:#006848;--deep:#133b34;--ink:#202828;--pale:#e6f2e7;--line:#c8d4cb;--muted:#5a6b5f}
+:root{
+  --green:#00684B;   /* Salamander green — headings, names, key phrases */
+  --ink:#202C2F;     /* body text */
+  --slate:#536563;   /* captions and small print */
+  --mint:#E6F2E7;    /* callout bands and highlights */
+  --line:#D4DED6;
+}
 *{box-sizing:border-box}
 @page{size:A4;margin:0}
-html,body{margin:0;padding:0;font-family:'DMSans',sans-serif;color:var(--ink);
+html,body{margin:0;padding:0;background:#fff;color:var(--ink);
+  font-family:'DMSans',sans-serif;font-size:12pt;line-height:16px;
   -webkit-print-color-adjust:exact;print-color-adjust:exact}
-.page{width:210mm;height:297mm;overflow:hidden;page-break-after:always;position:relative;
-  padding:0 0 18mm}
+.page{width:210mm;height:297mm;overflow:hidden;position:relative;
+  padding:20mm 20mm 16mm;page-break-after:always}   /* wide white margins */
 .page:last-child{page-break-after:auto}
-.band{background:var(--deep);color:#fff;padding:12mm 18mm 9mm}
-.band .eyebrow{font-size:8.5pt;letter-spacing:.18em;text-transform:uppercase;
-  color:#9fc4b6;margin:0 0 3mm;font-weight:700}
-.band h1{font-family:'Bricolage',sans-serif;font-weight:700;font-size:25pt;
-  letter-spacing:-.02em;margin:0 0 2mm;line-height:1}
-.band p{margin:0;font-size:11pt;color:#cfe0d2}
-.band .step{margin-top:5mm;font-size:8.5pt;letter-spacing:.16em;text-transform:uppercase;
-  color:#f28b32;font-weight:700}
-.wordmark{position:absolute;top:14mm;right:18mm;text-align:right;line-height:1}
-.wordmark b{font-family:'Bricolage',sans-serif;font-size:15pt;color:#fff;letter-spacing:-.02em}
-.wordmark span{display:block;font-size:7.5pt;color:#9fc4b6;letter-spacing:.06em;margin-top:1mm}
-.body{padding:7mm 18mm 0}
-.lead{font-size:9pt;color:var(--muted);margin:0 0 4.5mm;line-height:1.45}
-label{display:block;font-weight:700;font-size:9.5pt;margin:0 0 1.2mm}
-label small{display:block;font-weight:400;font-size:8.5pt;color:var(--muted);margin-top:.8mm;line-height:1.4}
-.fill{border:1px solid var(--line);border-radius:2.5mm;background:#fbfdfa;margin:0 0 4mm}
-.h10{height:9mm}.h16{height:13mm}.h24{height:19mm}.h30{height:24mm}.h36{height:28mm}
+/* a short green bar sits above every page title */
+.bar{width:16mm;height:1.1mm;background:var(--green);border-radius:1mm;margin:0 0 5mm}
+.eyebrow{font-weight:700;font-size:8pt;line-height:11px;color:var(--green);
+  letter-spacing:.1em;text-transform:uppercase;margin:0 0 2mm}
+h1{font-family:'Bricolage',sans-serif;font-weight:700;font-size:32pt;line-height:43px;
+  color:var(--green);letter-spacing:-.02em;margin:0 0 2mm}
+.subtitle{font-weight:700;font-size:14pt;line-height:19px;color:var(--ink);margin:0 0 6mm}
+h2{font-family:'Bricolage',sans-serif;font-weight:700;font-size:21pt;line-height:28px;
+  color:var(--green);margin:7mm 0 2mm}
+h3{font-family:'Bricolage',sans-serif;font-weight:700;font-size:14pt;line-height:19px;
+  color:var(--green);margin:5mm 0 2mm}
+.logo{position:absolute;top:18mm;right:20mm;width:38mm}
+.logo img{width:100%;display:block}
+/* one mint band per page: the line people should remember */
+.mint{background:var(--mint);border-radius:3mm;padding:4mm 5mm;margin:0 0 6mm;
+  font-weight:700;font-size:12pt;line-height:16px;color:var(--green)}
+label{display:block;font-weight:700;font-size:10pt;line-height:13px;color:var(--green);
+  margin:0 0 1.5mm}
+label .cap{display:block;font-weight:400;font-size:9pt;line-height:12px;color:var(--slate);
+  margin-top:1mm}
+.fill{border:1px solid var(--line);border-radius:2mm;background:#fff;margin:0 0 4.5mm}
+.h9{height:9mm}.h13{height:13mm}.h18{height:18mm}.h22{height:22mm}
 .row{display:flex;gap:6mm}.row>div{flex:1}
-h2.sec{font-family:'Bricolage',sans-serif;font-size:13pt;color:var(--green);
-  margin:0 0 1mm;display:flex;align-items:baseline;gap:3mm}
-h2.sec i{font-style:normal;font-size:9pt;color:#f28b32;font-weight:700}
-table{width:100%;border-collapse:collapse;margin:0 0 4mm}
-th{background:var(--pale);color:var(--deep);font-size:8pt;text-align:left;
-  padding:2mm 3mm;letter-spacing:.04em;text-transform:uppercase;border:1px solid var(--line)}
-td{border:1px solid var(--line);height:8.5mm;background:#fbfdfa}
-td.n{width:12mm;text-align:center;color:var(--muted);font-size:9pt;background:#fff}
-.week{font-size:8.5pt;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
-  color:var(--green);margin:0 0 2mm}
-.check{display:flex;gap:3mm;align-items:flex-start;margin:0 0 3mm;font-size:9.5pt}
-.box{width:4.5mm;height:4.5mm;border:1.2px solid var(--green);border-radius:1mm;flex:0 0 auto;margin-top:.6mm}
-.foot{position:absolute;bottom:10mm;left:18mm;right:18mm;display:flex;
-  justify-content:space-between;font-size:8pt;color:var(--muted);
-  border-top:1px solid var(--line);padding-top:3mm}
-.note{background:var(--pale);border-radius:3mm;padding:3.5mm 4.5mm;font-size:8.5pt;
-  color:var(--deep);line-height:1.45;margin:0 0 4mm}
+table{width:100%;border-collapse:collapse;margin:0 0 4.5mm}
+th{background:var(--mint);color:var(--green);font-size:9pt;line-height:12px;text-align:left;
+  font-weight:700;padding:2mm 3mm;border:1px solid var(--line)}
+td{border:1px solid var(--line);height:8.5mm;background:#fff}
+td.n{width:11mm;text-align:center;color:var(--slate);font-size:9pt}
+.caption{font-size:9pt;line-height:12px;color:var(--slate);margin:0 0 4mm}
+.check{display:flex;gap:3mm;align-items:flex-start;margin:0 0 3mm;font-size:12pt;line-height:16px}
+.box{width:4.5mm;height:4.5mm;border:1.2px solid var(--green);border-radius:1mm;
+  flex:0 0 auto;margin-top:1mm}
+.foot{position:absolute;bottom:12mm;left:20mm;right:20mm;display:flex;
+  justify-content:space-between;font-size:8pt;line-height:11px;color:var(--slate)}
 </style></head><body>
 
 <section class="page">
-  <div class="band">
-    <div class="wordmark"><b>MIM'28</b><span>STUDENT COUNCIL</span></div>
-    <p class="eyebrow">MIM'28 Student Council</p>
-    <h1>Initiative Proposal</h1>
-    <p>Turn your idea into a clear plan for the MIM community.</p>
-    <p class="step">01 / The proposal</p>
+  <div class="logo"><img src="file:///Users/emiliedavid/Documents/Documents - Emilie’s MacBook Air/GitHub/MIM-COUNCIL/public/brand/salamander-green.png" alt=""></div>
+  <div class="bar"></div>
+  <p class="eyebrow">MIM'28 Student Council · 01 / The proposal</p>
+  <h1>Initiative Proposal</h1>
+  <p class="subtitle">Turn your idea into a clear plan for the MIM community.</p>
+  <div class="mint">A community everyone can contribute to, with a council that helps.</div>
+  <p class="caption">Use the prompts below to describe your initiative. Keep responses concise; attach extra detail if needed.</p>
+  <label>Initiative title</label><div class="fill h9"></div>
+  <div class="row">
+    <div><label>Your name</label><div class="fill h9"></div></div>
+    <div><label>Email / contact</label><div class="fill h9"></div></div>
   </div>
-  <div class="body">
-    <p class="lead">Use the prompts below to describe your initiative. Keep responses concise; attach extra detail if needed.</p>
-    <label>Initiative title</label><div class="fill h10"></div>
-    <div class="row">
-      <div><label>Your name</label><div class="fill h10"></div></div>
-      <div><label>Email / contact</label><div class="fill h10"></div></div>
-    </div>
-    <label>Proposed date or timeline</label><div class="fill h10"></div>
-    <label>Summary of the idea<small>In 2–4 sentences, describe the initiative and what it aims to achieve.</small></label><div class="fill h24"></div>
-    <label>Purpose &amp; impact<small>Who will benefit? What need does it address, or what experience does it create?</small></label><div class="fill h24"></div>
-    <label>Resources &amp; support needed<small>Include estimated budget and currency, spaces, materials, and support needed from the Council.</small></label><div class="fill h24"></div>
-    <label>Organising team / collaborators<small>List names and responsibilities, if applicable.</small></label><div class="fill h16"></div>
-  </div>
+  <label>Proposed date or timeline</label><div class="fill h9"></div>
+  <label>Summary of the idea<span class="cap">In 2–4 sentences, describe the initiative and what it aims to achieve.</span></label><div class="fill h18"></div>
+  <label>Purpose &amp; impact<span class="cap">Who will benefit? What need does it address, or what experience does it create?</span></label><div class="fill h18"></div>
+  <label>Resources &amp; support needed<span class="cap">Include estimated budget and currency, spaces, materials, and support needed from the Council.</span></label><div class="fill h18"></div>
+  <label>Organising team / collaborators<span class="cap">List names and responsibilities, if applicable.</span></label><div class="fill h13"></div>
   <div class="foot"><span>Initiative proposal · mim28.com</span><span>1 / 3</span></div>
 </section>
 
 <section class="page">
-  <div class="band">
-    <div class="wordmark"><b>MIM'28</b><span>STUDENT COUNCIL</span></div>
-    <p class="eyebrow">MIM'28 Student Council</p>
-    <h1>From idea to delivery</h1>
-    <p>Define what success looks like and how you will get there.</p>
-    <p class="step">02 / The two-week plan</p>
+  <div class="logo"><img src="file:///Users/emiliedavid/Documents/Documents - Emilie’s MacBook Air/GitHub/MIM-COUNCIL/public/brand/salamander-green.png" alt=""></div>
+  <div class="bar"></div>
+  <p class="eyebrow">MIM'28 Student Council · 02 / The two-week plan</p>
+  <h1>From idea to delivery</h1>
+  <p class="subtitle">Define what success looks like and how you will get there.</p>
+  <div class="row">
+    <div><label>Plan start date</label><div class="fill h9"></div></div>
+    <div><label>Plan end date</label><div class="fill h9"></div></div>
   </div>
-  <div class="body">
-    <div class="row">
-      <div><label>Plan start date</label><div class="fill h10"></div></div>
-      <div><label>Plan end date</label><div class="fill h10"></div></div>
-    </div>
-    <h2 class="sec"><i>1</i> Objectives</h2>
-    <p class="lead">Set 2–3 concrete goals. Include the intended audience and a measure of success.</p>
-    <table><tbody>
-      <tr><td class="n">1</td><td></td></tr>
-      <tr><td class="n">2</td><td></td></tr>
-      <tr><td class="n">3</td><td></td></tr>
-    </tbody></table>
-    <h2 class="sec"><i>2</i> Implementation plan</h2>
-    <p class="lead">Specify actions, owners and timing. Note key dependencies or potential blockers.</p>
-    <p class="week">Week 1 · preparation, outreach, logistics</p>
-    <table><thead><tr><th style="width:52%">Actions / deliverables</th><th style="width:28%">Responsible</th><th>When</th></tr></thead>
-      <tbody><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr></tbody></table>
-    <p class="week">Week 2 · execution, delivery, follow-through</p>
-    <table><thead><tr><th style="width:52%">Actions / deliverables</th><th style="width:28%">Responsible</th><th>When</th></tr></thead>
-      <tbody><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr></tbody></table>
-    <label>Dependencies / potential blockers</label><div class="fill h16"></div>
-    <label>Values &amp; vision<small>What should participants take away, how does it enrich MIM'28, and how will you know it worked?</small></label><div class="fill h24"></div>
-  </div>
+  <h3>1 · Objectives</h3>
+  <p class="caption">Set 2–3 concrete goals. Include the intended audience and a measure of success.</p>
+  <table><tbody>
+    <tr><td class="n">1</td><td></td></tr>
+    <tr><td class="n">2</td><td></td></tr>
+    <tr><td class="n">3</td><td></td></tr>
+  </tbody></table>
+  <h3>2 · Implementation plan</h3>
+  <p class="caption">Specify actions, owners and timing. Note key dependencies or potential blockers.</p>
+  <table><thead><tr><th style="width:50%">Week 1 · preparation, outreach, logistics</th><th style="width:28%">Responsible</th><th>When</th></tr></thead>
+    <tbody><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr></tbody></table>
+  <table><thead><tr><th style="width:50%">Week 2 · execution, delivery, follow-through</th><th style="width:28%">Responsible</th><th>When</th></tr></thead>
+    <tbody><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr></tbody></table>
+  <label>Dependencies / potential blockers</label><div class="fill h13"></div>
+  <label>Values &amp; vision<span class="cap">What should participants take away, how does it enrich MIM'28, and how will you know it worked?</span></label><div class="fill h18"></div>
   <div class="foot"><span>Initiative proposal · mim28.com</span><span>2 / 3</span></div>
 </section>
 
 <section class="page">
-  <div class="band">
-    <div class="wordmark"><b>MIM'28</b><span>STUDENT COUNCIL</span></div>
-    <p class="eyebrow">MIM'28 Student Council</p>
-    <h1>People behind the idea</h1>
-    <p>List ten supporters who are willing to be named.</p>
-    <p class="step">03 / Community support</p>
-  </div>
-  <div class="body">
-    <div class="note">Supporters may be classmates, teachers or community members. They affirm that the idea is relevant and worthwhile; they do not need to volunteer their time. Include each person's full name, email and section or role — supporters may be asked to confirm their interest.</div>
-    <table><thead><tr><th style="width:12mm">#</th><th>Full name</th><th>Email address</th><th style="width:30mm">Section / role</th></tr></thead><tbody>
-      <tr><td class="n">01</td><td></td><td></td><td></td></tr>
-      <tr><td class="n">02</td><td></td><td></td><td></td></tr>
-      <tr><td class="n">03</td><td></td><td></td><td></td></tr>
-      <tr><td class="n">04</td><td></td><td></td><td></td></tr>
-      <tr><td class="n">05</td><td></td><td></td><td></td></tr>
-      <tr><td class="n">06</td><td></td><td></td><td></td></tr>
-      <tr><td class="n">07</td><td></td><td></td><td></td></tr>
-      <tr><td class="n">08</td><td></td><td></td><td></td></tr>
-      <tr><td class="n">09</td><td></td><td></td><td></td></tr>
-      <tr><td class="n">10</td><td></td><td></td><td></td></tr>
-    </tbody></table>
-    <h2 class="sec">Before submitting</h2>
-    <div class="check"><span class="box"></span><span>Proposal details and resource needs are complete.</span></div>
-    <div class="check"><span class="box"></span><span>Two-week plan includes objectives, actions, owners and values / vision.</span></div>
-    <div class="check"><span class="box"></span><span>Ten supporters are listed and have agreed to be named.</span></div>
-  </div>
+  <div class="logo"><img src="file:///Users/emiliedavid/Documents/Documents - Emilie’s MacBook Air/GitHub/MIM-COUNCIL/public/brand/salamander-green.png" alt=""></div>
+  <div class="bar"></div>
+  <p class="eyebrow">MIM'28 Student Council · 03 / Community support</p>
+  <h1>People behind the idea</h1>
+  <p class="subtitle">List ten supporters who are willing to be named.</p>
+  <div class="mint">Supporters affirm the idea is worthwhile — they do not need to volunteer their time.</div>
+  <p class="caption">Supporters may be classmates, teachers or community members. Include each person's full name, email and section or role; they may be asked to confirm their interest.</p>
+  <table><thead><tr><th style="width:11mm">#</th><th>Full name</th><th>Email address</th><th style="width:30mm">Section / role</th></tr></thead><tbody>
+    <tr><td class="n">01</td><td></td><td></td><td></td></tr>
+    <tr><td class="n">02</td><td></td><td></td><td></td></tr>
+    <tr><td class="n">03</td><td></td><td></td><td></td></tr>
+    <tr><td class="n">04</td><td></td><td></td><td></td></tr>
+    <tr><td class="n">05</td><td></td><td></td><td></td></tr>
+    <tr><td class="n">06</td><td></td><td></td><td></td></tr>
+    <tr><td class="n">07</td><td></td><td></td><td></td></tr>
+    <tr><td class="n">08</td><td></td><td></td><td></td></tr>
+    <tr><td class="n">09</td><td></td><td></td><td></td></tr>
+    <tr><td class="n">10</td><td></td><td></td><td></td></tr>
+  </tbody></table>
+  <h3>Before submitting</h3>
+  <div class="check"><span class="box"></span><span>Proposal details and resource needs are complete.</span></div>
+  <div class="check"><span class="box"></span><span>Two-week plan includes objectives, actions, owners and values / vision.</span></div>
+  <div class="check"><span class="box"></span><span>Ten supporters are listed and have agreed to be named.</span></div>
   <div class="foot"><span>Initiative proposal · mim28.com</span><span>3 / 3</span></div>
 </section>
 </body></html>

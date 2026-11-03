@@ -765,3 +765,22 @@ h1{font-weight:700}
   .form-page .page-intro,.form-page .proposal-form,.form-page .guide-next{
     padding-left:1rem;padding-right:1rem}
 }
+
+/* ---- Brand guide corrections ------------------------------------------- */
+/* The guide warns the category text shade is only ~3:1 on white, so it is used
+   for borders and large bold words — never for small text, which stays ink or
+   slate. Mint is the one soft band colour. */
+:root{--brand-slate:#536563;--brand-mint:#E6F2E7}
+.event-when{color:var(--brand-slate)}
+.featured-when{color:var(--brand-slate)}
+.month-label{color:var(--brand-slate)}
+.featured-eyebrow{color:var(--brand-green)}
+.page-intro .eyebrow{color:var(--brand-green)}
+.page-intro h1{color:var(--brand-green)}
+.page-tagline{color:var(--brand-green)}
+/* a short green bar above page titles, as the guide specifies */
+.page-intro{position:relative}
+.page-intro::before{content:'';display:block;width:16mm;height:3px;background:var(--brand-green);
+  border-radius:2px;margin:0 0 1rem}
+.hero-copy h1{color:var(--brand-green)}
+.whats-on-heading .eyebrow{color:var(--brand-green)}

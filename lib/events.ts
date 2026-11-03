@@ -30,14 +30,18 @@ export type CohortEvent = {
 };
 
 /**
- * Pillar colours, the same ones as the top menus, taken from the Student Life
- * Town Hall deck of 30 Oct 2026. Keep these and lib/sections.ts in step.
+ * Category colours, taken from The Salamanders brand guide.
+ *
+ *   accent  the text shade — borders, and large bold words only. The guide
+ *           warns it is about 3:1 on white, so never for small text.
+ *   fill    the chip/tag colour, used with ink text on top.
+ *   tint    a pale version of the fill, for hover and soft backgrounds.
  */
 export const pillarColours = {
-  academic: { accent: '#00684b', tint: '#e6f2e7', label: 'Academic' },
-  'student-life': { accent: '#f28b32', tint: '#fdeede', label: 'Student Life' },
-  careers: { accent: '#133b34', tint: '#e4ebe8', label: 'Careers' },
-  wellbeing: { accent: '#087357', tint: '#e6f2e7', label: 'Well Being' },
+  academic: { accent: '#429EC5', fill: '#93D5F6', tint: '#E9F6FD', label: 'Academic' },
+  'student-life': { accent: '#E07927', fill: '#F28B32', tint: '#FDEEDE', label: 'Student Life' },
+  careers: { accent: '#B49400', fill: '#FED812', tint: '#FFF8DA', label: 'Careers' },
+  wellbeing: { accent: '#CF7185', fill: '#F6ADAF', tint: '#FDEEEF', label: 'Well Being' },
 } as const;
 
 /** An event's pillar: explicit if set, otherwise implied by its group. */
