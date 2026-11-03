@@ -13,11 +13,19 @@
  * a link for yet — fill it in and push, and it goes live on the next build.
  */
 export type PillarItem = { label: string; href?: string; note?: string };
-export type Pillar = { title: string; items: PillarItem[] };
+/**
+ * `accent` and `tint` colour-code the pillar. Both are taken from the Student
+ * Life Town Hall deck of 30 Oct 2026, read out of the slides themselves:
+ * deep green #133b34, brand green #00684b, orange #f28b32 and pale green
+ * #e6f2e7 are the colours that deck is actually built from.
+ */
+export type Pillar = { title: string; items: PillarItem[]; accent: string; tint: string };
 
 export const pillars: Pillar[] = [
   {
     title: 'Academic',
+    accent: '#00684b',
+    tint: '#e6f2e7',
     items: [
       { label: 'Reflection Survey' },
       { label: 'M2M Tutoring', note: 'MIM-to-MIM peer tutoring' },
@@ -27,6 +35,8 @@ export const pillars: Pillar[] = [
   },
   {
     title: 'Student Life',
+    accent: '#f28b32',
+    tint: '#fdeede',
     items: [
       {
         label: 'Ski Trip',
@@ -39,6 +49,8 @@ export const pillars: Pillar[] = [
   },
   {
     title: 'Careers',
+    accent: '#133b34',
+    tint: '#e4ebe8',
     items: [
       { label: 'Calendar', href: '#whats-on', note: 'CareerGlobe, clubs and events' },
       { label: 'Raza Consulting Club — MIM offer' },
@@ -47,6 +59,8 @@ export const pillars: Pillar[] = [
   },
   {
     title: 'Well Being',
+    accent: '#4f8f78',
+    tint: '#e8f1ed',
     items: [
       {
         label: 'Guidelines on Harassment',
