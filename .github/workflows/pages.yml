@@ -38,6 +38,14 @@ jobs:
           node-version: '24'
       # No install step: the generator uses only the Node standard library,
       # so a broken or slow dependency can never block a publish.
+      # The birthday list is not in the repository — this repo is public. It
+      # lives in an Actions secret, written out just before the build and never
+      # committed. With no secret set, the step is a no-op and no bar renders.
+      - name: Restore the birthday list
+        if: ${{ secrets.BIRTHDAYS != '' }}
+        run: printf '%s' "$BIRTHDAYS" > lib/birthdays.json
+        env:
+          BIRTHDAYS: ${{ secrets.BIRTHDAYS }}
       - name: Build the static site
         run: node tools/build-static.mjs
       - uses: actions/upload-pages-artifact@v3

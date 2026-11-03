@@ -784,3 +784,13 @@ h1{font-weight:700}
   border-radius:2px;margin:0 0 1rem}
 .hero-copy h1{color:var(--brand-green)}
 .whats-on-heading .eyebrow{color:var(--brand-green)}
+
+/* ---- Birthday bar ------------------------------------------------------- */
+/* Mint band, per the brand guide's "one mint band per page" — it only renders
+   on days when someone actually has a birthday. */
+.birthday-bar{display:flex;align-items:center;justify-content:center;gap:.6rem;
+  background:var(--brand-mint);color:var(--brand-green);
+  font-weight:700;font-size:.9375rem;line-height:1.3;
+  padding:.65rem 1.25rem;text-align:center}
+.birthday-bar .cake{font-size:1.05rem;line-height:1}
+@media (max-width:860px){.birthday-bar{font-size:.875rem;padding:.6rem 1rem}}

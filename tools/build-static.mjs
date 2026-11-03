@@ -20,6 +20,7 @@
  */
 import { mkdir, writeFile, readFile, cp, rm } from 'node:fs/promises';
 import { createHash } from 'node:crypto';
+import { existsSync, readFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -41,6 +42,32 @@ const {
   initialsOf,
 } = await import(join(root, 'lib/mim-of-the-week.ts'));
 const { heroImage, heroActions } = await import(join(root, 'lib/hero.ts'));
+
+/**
+ * Today's birthdays. The list is gitignored, because this repo is public and a
+ * hundred classmates' birthdays are not ours to publish — only the names whose
+ * birthday is today reach the generated HTML. No file, no bar, no error.
+ */
+const birthdaysToday = (() => {
+  const file = join(root, 'lib/birthdays.json');
+  if (!existsSync(file)) return [];
+  try {
+    const now = new Date();
+    const d = now.getDate();
+    const m = now.getMonth() + 1;
+    return JSON.parse(readFileSync(file, 'utf8'))
+      .filter((p) => p.day === d && p.month === m)
+      .map((p) => p.name);
+  } catch {
+    return [];   // a malformed list must never break the build
+  }
+})();
+
+/** Names as a sentence: "A", "A and B", "A, B and C". */
+function nameList(names) {
+  if (names.length <= 1) return names[0] || '';
+  return names.slice(0, -1).join(', ') + ' and ' + names[names.length - 1];
+}
 
 /** Escape text for HTML. Content comes from our own data files, but never assume. */
 const e = (s = '') =>
@@ -106,7 +133,15 @@ ${p.items
 ${menus}
       <a class="nav-plain" href="${prefix}team/"${active === 'team' ? ' aria-current="page"' : ''}>Meet the team</a>
   </nav>
-</header>`;
+</header>${
+    birthdaysToday.length
+      ? `
+<div class="birthday-bar" role="note">
+  <span class="cake" aria-hidden="true">🎂</span>
+  <span>Happy birthday ${e(nameList(birthdaysToday))}!</span>
+</div>`
+      : ''
+  }`;
 }
 
 const NAV_SCRIPT = `<script>
