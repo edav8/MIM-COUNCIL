@@ -42,6 +42,8 @@ const {
   initialsOf,
 } = await import(join(root, 'lib/mim-of-the-week.ts'));
 const { heroImage, heroActions } = await import(join(root, 'lib/hero.ts'));
+const badge = await import(join(root, 'lib/contributor-badge.ts'));
+const concerns = await import(join(root, 'lib/concerns.ts'));
 
 /**
  * Today's birthdays. The list is gitignored, because this repo is public and a
@@ -397,6 +399,126 @@ ${m.events.map((ev) => eventRow(ev)).join('\n')}
 </section>
 ${footer(prefix)}
 `;
+}
+
+function contributorBadgePage() {
+  const prefix = '../';
+  return `${head(
+    'MIM Contributor Badge · The Salamanders',
+    'What the Contributor Badge recognises, how to earn one, and how to nominate someone.',
+    prefix,
+  )}
+<main>
+${header(prefix, 'wellbeing')}
+<section class="page-intro" style="--accent:${pillarColours['wellbeing'].accent}">
+  <p class="eyebrow">WELL BEING</p>
+  <h1>MIM Contributor Badge</h1>
+  <p class="page-lede">${e(badge.intro)}</p>
+</section>
+<section class="guide">
+  <ol class="guide-list">
+${badge.waysToEarn
+  .map(
+    (w) => `    <li class="guide-step">
+      <h2>${e(w.title)}</h2>
+      <p>${e(w.detail)}</p>
+      ${w.href ? `<p><a class="inline-link" href="${prefix}${w.href.replace(/^\//, '')}">More ${ARROW}</a></p>` : ''}
+    </li>`,
+  )
+  .join('\n')}
+  </ol>
+</section>
+<section class="guide-next">
+  <div class="two-up">
+    <div>
+      <h2>The checklist</h2>
+      <p class="caption-line">A nomination should tick all of these.</p>
+      <ul class="tick-list">
+${badge.checklist.map((c) => `        <li>${e(c)}</li>`).join('\n')}
+      </ul>
+    </div>
+    <div>
+      <h2>How it works</h2>
+      <ol class="step-list">
+${badge.process.map((c) => `        <li>${e(c)}</li>`).join('\n')}
+      </ol>
+    </div>
+  </div>
+  <p class="guide-contact">
+    ${
+      badge.nominateForm
+        ? `<a class="cta" href="${e(badge.nominateForm)}" target="_blank" rel="noreferrer">Nominate someone ${ARROW}</a>`
+        : `<a class="cta" href="${prefix}mim-of-the-week/">Nominate someone ${ARROW}</a>`
+    }
+  </p>
+</section>
+${footer(prefix)}`;
+}
+
+function concernsPage() {
+  const prefix = '../';
+  return `${head(
+    'Concern Drop Box · The Salamanders',
+    'Tell the MIM’28 Student Council something that is not working. Checked every week.',
+    prefix,
+  )}
+<main>
+${header(prefix, 'wellbeing')}
+<section class="page-intro" style="--accent:${pillarColours['wellbeing'].accent}">
+  <p class="eyebrow">WELL BEING</p>
+  <h1>Concern Drop Box</h1>
+  <p class="page-lede">
+    Something about cohort life not working? Tell us. You do not have to raise it
+    in a group chat, and you do not have to put your name to it.
+  </p>
+</section>
+<section class="promise-band">
+  <div>
+    <h2>Who reads it</h2>
+    <p>${e(concerns.promise.whoReads)}</p>
+  </div>
+  <div>
+    <h2>How often</h2>
+    <p>${e(concerns.promise.howOften)}</p>
+  </div>
+  <div>
+    <h2>Anonymous?</h2>
+    <p>${e(concerns.promise.anonymous)}</p>
+  </div>
+</section>
+<section class="guide">
+  <ol class="guide-list">
+    <li class="guide-step">
+      <h2>Good to send us</h2>
+      <ul>
+${concerns.goodFor.map((g) => `        <li>${e(g)}</li>`).join('\n')}
+      </ul>
+    </li>
+${concerns.escalate
+  .map(
+    (x) => `    <li class="guide-step escalate">
+      <h2>${e(x.what)}</h2>
+      <p>${e(x.who)}</p>
+    </li>`,
+  )
+  .join('\n')}
+  </ol>
+</section>
+<section class="guide-next">
+  ${
+    concerns.form
+      ? `<div class="motw-form"><iframe class="form-embed" src="${e(concerns.form)}" title="Concern drop box" loading="lazy"></iframe></div>`
+      : `<div class="signup-band">
+    <h2>The box is being set up</h2>
+    <p>
+      The form is not live yet. In the meantime write to
+      <a href="mailto:${councilEmail}">${councilEmail}</a>, or speak to any of us —
+      <a href="${prefix}team/">we are all here</a>.
+    </p>
+  </div>`
+  }
+</section>
+${footer(prefix)}`;
 }
 
 function mimOfWeekPage() {
@@ -789,6 +911,10 @@ await writeFile(join(out, 'index.html'), indexPage());
 await writeFile(join(out, 'team/index.html'), teamPage());
 await mkdir(join(out, 'initiatives'), { recursive: true });
 await writeFile(join(out, 'initiatives/index.html'), initiativesPage());
+await mkdir(join(out, 'contributor-badge'), { recursive: true });
+await writeFile(join(out, 'contributor-badge/index.html'), contributorBadgePage());
+await mkdir(join(out, 'concerns'), { recursive: true });
+await writeFile(join(out, 'concerns/index.html'), concernsPage());
 await mkdir(join(out, 'mim-of-the-week'), { recursive: true });
 await writeFile(join(out, 'mim-of-the-week/index.html'), mimOfWeekPage());
 await mkdir(join(out, 'careers'), { recursive: true });

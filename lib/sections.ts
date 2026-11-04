@@ -63,6 +63,16 @@ export const pillars: Pillar[] = [
     tint: '#FDEEEF',
     items: [
       {
+        label: 'Concern Drop Box',
+        href: '/concerns/',
+        note: 'Tell us quietly — checked weekly',
+      },
+      {
+        label: 'Contributor Badge',
+        href: '/contributor-badge/',
+        note: 'What it recognises, and how to earn one',
+      },
+      {
         label: 'Guidelines on Harassment',
         note: 'Who to contact at INSEAD and on the Council',
       },
