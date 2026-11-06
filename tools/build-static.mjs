@@ -50,18 +50,30 @@ const concerns = await import(join(root, 'lib/concerns.ts'));
  * hundred classmates' birthdays are not ours to publish — only the names whose
  * birthday is today reach the generated HTML. No file, no bar, no error.
  */
-const birthdaysToday = (() => {
+const birthdayWindow = (() => {
   const file = join(root, 'lib/birthdays.json');
   if (!existsSync(file)) return [];
   try {
+    // Embed a THREE-DAY window, not the whole list and not just today.
+    //
+    // Whole list: this repo is public and the page is public — 180 birthdays
+    // are not ours to publish.
+    // Just today: GitHub's scheduler runs hours late (observed 12:54 and 13:04
+    // UTC against a 05:10 cron), so a page built yesterday would greet the
+    // wrong person all morning.
+    //
+    // Three days is enough for the browser to pick the right one even if the
+    // build is two days stale, and exposes a couple of names rather than 180.
     const now = new Date();
-    const d = now.getDate();
-    const m = now.getMonth() + 1;
+    const days = [0, 1, 2].map((n) => {
+      const d = new Date(now.getTime() + n * 86400000);
+      return { d: d.getUTCDate(), m: d.getUTCMonth() + 1 };
+    });
     return JSON.parse(readFileSync(file, 'utf8'))
-      .filter((p) => p.day === d && p.month === m)
-      .map((p) => p.name);
+      .filter((p) => days.some((x) => x.d === p.day && x.m === p.month))
+      .map((p) => ({ n: p.name, d: p.day, m: p.month }));
   } catch {
-    return [];   // a malformed list must never break the build
+    return [];
   }
 })();
 
@@ -136,15 +148,38 @@ ${menus}
       <a class="nav-plain" href="${prefix}team/"${active === 'team' ? ' aria-current="page"' : ''}>Meet the team</a>
   </nav>
 </header>${
-    birthdaysToday.length
+    birthdayWindow.length
       ? `
-<div class="birthday-bar" role="note">
+<div class="birthday-bar" id="birthday-bar" hidden role="note">
   <span class="cake" aria-hidden="true">🎂</span>
-  <span>Happy birthday ${e(nameList(birthdaysToday))}!</span>
-</div>`
+  <span id="birthday-names"></span>
+</div>
+<script type="application/json" id="birthday-data">${JSON.stringify(birthdayWindow)}</script>`
       : ''
   }`;
 }
+
+const BIRTHDAY_SCRIPT = `<script>
+// Pick today's birthdays in the browser rather than at build time. GitHub's
+// scheduler runs hours late, so a page built yesterday must still greet the
+// right person today.
+(() => {
+  const data = document.getElementById('birthday-data');
+  const bar = document.getElementById('birthday-bar');
+  if (!data || !bar) return;
+  let list = [];
+  try { list = JSON.parse(data.textContent); } catch { return; }
+  const now = new Date();
+  const today = list.filter((p) => p.d === now.getDate() && p.m === now.getMonth() + 1);
+  if (!today.length) return;
+  const names = today.map((p) => p.n);
+  const sentence = names.length === 1
+    ? names[0]
+    : names.slice(0, -1).join(', ') + ' and ' + names[names.length - 1];
+  document.getElementById('birthday-names').textContent = 'Happy birthday ' + sentence + '!';
+  bar.hidden = false;
+})();
+</script>`;
 
 const NAV_SCRIPT = `<script>
 // Hover and keyboard focus are handled in CSS. This adds the two things CSS
@@ -187,7 +222,7 @@ function footer(prefix) {
     <a href="${SKI}" target="_blank" rel="noreferrer">Ski trip ${ARROW}</a>
   </nav>
 </footer>
-${NAV_SCRIPT}
+${NAV_SCRIPT}${BIRTHDAY_SCRIPT}
 </body>
 </html>`;
 }

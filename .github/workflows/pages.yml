@@ -9,12 +9,19 @@ on:
   push:
     branches: [main]
   workflow_dispatch:
-  # Rebuild every morning. The site is static, and which events count as
-  # "upcoming" is decided when it is built — so without this, a past event stays
-  # in the hero until somebody happens to push. 05:10 UTC is 06:10 in
-  # Fontainebleau in winter, so the day's page is right before anyone looks.
+  # Rebuild four times a day. The site is static, so which events count as
+  # "upcoming" is decided when it is built.
+  #
+  # Once a day was not enough: GitHub's scheduler is best-effort and ran this
+  # 8 hours late on both 4 and 5 November (12:54 and 13:04 UTC against a 05:10
+  # cron), so the site showed the previous day's content every morning.
+  # Four slots at an odd minute — on-the-hour crons queue worst — keeps the
+  # calendar within a few hours even when a run is delayed or skipped.
   schedule:
-    - cron: '10 5 * * *'
+    - cron: '23 3 * * *'
+    - cron: '23 9 * * *'
+    - cron: '23 15 * * *'
+    - cron: '23 21 * * *'
 
 permissions:
   contents: read
