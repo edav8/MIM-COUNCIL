@@ -27,7 +27,27 @@ import { fileURLToPath } from 'node:url';
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const out = join(root, 'dist-static');
 
-const { upcoming, byMonth, withinDays, pillarOf, pillarColours } = await import(join(root, 'lib/events.ts'));
+const { upcoming, byMonth, withinDays, nextDate, pillarOf, pillarColours } = await import(join(root, 'lib/events.ts'));
+
+const DAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+/**
+ * The date line for an event.
+ *
+ * A repeating event must never print a hand-written date: the rugby rows said
+ * "Thu 5 Nov" two days after that session had happened. For those, the date is
+ * computed from the recurrence and only the time is taken from `when`.
+ */
+function whenLabel(ev) {
+  if (!ev.repeat) return ev.when;
+  const iso = nextDate(ev);
+  if (!iso) return ev.when;
+  const d = new Date(`${iso}T12:00:00Z`);
+  const date = `${DAYS[d.getUTCDay()]} ${d.getUTCDate()} ${MONTHS[d.getUTCMonth()]}`;
+  const time = ev.when.includes('·') ? ev.when.split('·').slice(1).join('·').trim() : '';
+  return time ? `${date} · ${time}` : date;
+}
 const { council, initials, councilEmail } = await import(join(root, 'lib/council.ts'));
 const { pillars } = await import(join(root, 'lib/sections.ts'));
 const { sections: guideSections, budgetExample } = await import(
@@ -230,7 +250,7 @@ ${NAV_SCRIPT}${BIRTHDAY_SCRIPT}
 function eventRow(ev, withCta = true) {
   const c = pillarColours[pillarOf(ev)];
   return `<li class="event-row" style="--accent:${c.accent};--tint:${c.tint}">
-  <span class="event-when">${e(ev.when)}</span>
+  <span class="event-when">${e(whenLabel(ev))}</span>
   <div class="event-body">
     <h3>${e(ev.title)}</h3>
     ${ev.where ? `<p class="event-where">${e(ev.where)}</p>` : ''}
@@ -257,7 +277,7 @@ function weekBar(prefix) {
 ${week
   .map((ev) => {
     const c = pillarColours[pillarOf(ev)];
-    const short = ev.when.split('·')[0].trim();
+    const short = whenLabel(ev).split('·')[0].trim();
     const inner = `<span class="weekbar-dot" style="background:${c.accent}" aria-hidden="true"></span>${e(short)} — ${e(ev.title)}`;
     return ev.href
       ? `    <li><a href="${e(ev.href)}" target="_blank" rel="noreferrer">${inner}</a></li>`
@@ -281,7 +301,7 @@ function featuredEvent(prefix) {
   const c = pillarColours[pillarOf(next)];
   return `<aside class="featured" style="--accent:${c.accent};--tint:${c.tint}">
     <p class="featured-eyebrow">Next up</p>
-    <p class="featured-when">${e(next.when)}</p>
+    <p class="featured-when">${e(whenLabel(next))}</p>
     <h2 class="featured-title">${e(next.title)}</h2>
     ${next.where ? `<p class="featured-where">${e(next.where)}</p>` : ''}
     ${next.note ? `<p class="featured-note">${e(next.note)}</p>` : ''}
