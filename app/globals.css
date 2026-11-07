@@ -819,3 +819,8 @@ h1{font-weight:700}
   .promise-band{padding-left:1rem;padding-right:1rem}
   .two-up{grid-template-columns:1fr;gap:1.2rem}
 }
+
+/* `hidden` works by setting display:none in the browser's default stylesheet,
+   which an author `display:flex` silently overrides — so the empty bar showed
+   on days with no birthday. Make the attribute win. */
+.birthday-bar[hidden]{display:none}
