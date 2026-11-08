@@ -824,3 +824,30 @@ h1{font-weight:700}
    which an author `display:flex` silently overrides — so the empty bar showed
    on days with no birthday. Make the attribute win. */
 .birthday-bar[hidden]{display:none}
+
+/* ---- Birthday fireworks -------------------------------------------------- */
+.birthday-bar{position:relative;overflow:hidden}
+.birthday-bar .cake{display:inline-block;animation:cake-bob 1.6s ease-in-out 3}
+@keyframes cake-bob{
+  0%,100%{transform:translateY(0) rotate(0)}
+  25%{transform:translateY(-3px) rotate(-7deg)}
+  75%{transform:translateY(-3px) rotate(7deg)}
+}
+.birthday-bar .spark{position:absolute;width:6px;height:6px;border-radius:50%;
+  pointer-events:none;opacity:0;animation:spark .95s ease-out forwards}
+@keyframes spark{
+  0%{opacity:1;transform:translate(0,0) scale(1)}
+  70%{opacity:.9}
+  100%{opacity:0;transform:translate(var(--dx),var(--dy)) scale(.3)}
+}
+/* Anyone who has asked for less motion gets the greeting and nothing moving. */
+@media (prefers-reduced-motion:reduce){
+  .birthday-bar .spark{display:none}
+  .birthday-bar .cake{animation:none}
+}
+
+/* The bar clipped its own fireworks to a 40px strip. Let them escape — the
+   sparks are absolutely positioned and ignore pointer events, and they sit
+   within the bar horizontally, so nothing can cause a sideways scroll. */
+.birthday-bar{overflow:visible;z-index:5}
+.birthday-bar .spark{z-index:6}

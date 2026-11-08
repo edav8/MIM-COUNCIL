@@ -198,6 +198,34 @@ const BIRTHDAY_SCRIPT = `<script>
     : names.slice(0, -1).join(', ') + ' and ' + names[names.length - 1];
   document.getElementById('birthday-names').textContent = 'Happy birthday ' + sentence + '!';
   bar.hidden = false;
+
+  // Fireworks. Three bursts, then it stops — a page that keeps exploding all day
+  // is a page people close. Skipped entirely for anyone who asked for less motion.
+  if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const colours = ['#E07927', '#429EC5', '#B49400', '#CF7185', '#00684B'];
+  const burst = (x, y) => {
+    for (let i = 0; i < 14; i++) {
+      const s = document.createElement('span');
+      s.className = 'spark';
+      const angle = (Math.PI * 2 * i) / 14 + Math.random() * 0.3;
+      const dist = 34 + Math.random() * 46;
+      s.style.left = x + '%';
+      s.style.top = y + 'px';
+      s.style.background = colours[i % colours.length];
+      s.style.setProperty('--dx', Math.cos(angle) * dist + 'px');
+      s.style.setProperty('--dy', Math.sin(angle) * dist + 'px');
+      s.style.animationDelay = Math.random() * 0.12 + 's';
+      bar.appendChild(s);
+      setTimeout(() => s.remove(), 1400);
+    }
+  };
+  const fire = (n) => {
+    if (n <= 0) return;
+    burst(14 + Math.random() * 16, 10 + Math.random() * 14);
+    burst(70 + Math.random() * 16, 10 + Math.random() * 14);
+    setTimeout(() => fire(n - 1), 900);
+  };
+  setTimeout(() => fire(3), 350);
 })();
 </script>`;
 
