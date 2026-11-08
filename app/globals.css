@@ -851,3 +851,7 @@ h1{font-weight:700}
    within the bar horizontally, so nothing can cause a sideways scroll. */
 .birthday-bar{overflow:visible;z-index:5}
 .birthday-bar .spark{z-index:6}
+.birthday-photo{width:34px;height:34px;border-radius:50%;object-fit:cover;
+  border:2px solid var(--brand-green);flex:0 0 34px}
+.birthday-photo[hidden]{display:none}
+.birthday-bar{padding-top:.5rem;padding-bottom:.5rem}

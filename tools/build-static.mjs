@@ -64,6 +64,7 @@ const {
 const { heroImage, heroActions } = await import(join(root, 'lib/hero.ts'));
 const badge = await import(join(root, 'lib/contributor-badge.ts'));
 const concerns = await import(join(root, 'lib/concerns.ts'));
+const { birthdayPhotos } = await import(join(root, 'lib/birthday-photos.ts'));
 
 /**
  * Today's birthdays. The list is gitignored, because this repo is public and a
@@ -91,7 +92,12 @@ const birthdayWindow = (() => {
     });
     return JSON.parse(readFileSync(file, 'utf8'))
       .filter((p) => days.some((x) => x.d === p.day && x.m === p.month))
-      .map((p) => ({ n: p.name, d: p.day, m: p.month }));
+      .map((p) => {
+        const photo = birthdayPhotos[p.name];
+        return photo
+          ? { n: p.name, d: p.day, m: p.month, p: photo.replace(/^\//, '') }
+          : { n: p.name, d: p.day, m: p.month };
+      });
   } catch {
     return [];
   }
@@ -171,6 +177,7 @@ ${menus}
     birthdayWindow.length
       ? `
 <div class="birthday-bar" id="birthday-bar" hidden role="note">
+  <img id="birthday-photo" class="birthday-photo" alt="" hidden width="160" height="160">
   <span class="cake" aria-hidden="true">🎂</span>
   <span id="birthday-names"></span>
 </div>
@@ -197,6 +204,20 @@ const BIRTHDAY_SCRIPT = `<script>
     ? names[0]
     : names.slice(0, -1).join(', ') + ' and ' + names[names.length - 1];
   document.getElementById('birthday-names').textContent = 'Happy birthday ' + sentence + '!';
+
+  // A photo, only for the people who have one listed in lib/birthday-photos.ts.
+  const withPhoto = today.find((p) => p.p);
+  if (withPhoto) {
+    const img = document.getElementById('birthday-photo');
+    // No regex here: escaping one through this template literal silently
+    // produced /^/+|/+$/g, a syntax error that killed the whole script and
+    // took the greeting down with it.
+    const depth = location.pathname
+      .split('/')
+      .filter((part) => part.length > 0 && !part.includes('.')).length;
+    img.src = '../'.repeat(depth) + withPhoto.p;
+    img.hidden = false;
+  }
   bar.hidden = false;
 
   // Fireworks. Three bursts, then it stops — a page that keeps exploding all day
