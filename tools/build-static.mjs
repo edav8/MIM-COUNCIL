@@ -1041,17 +1041,17 @@ ${header(prefix, 'initiatives')}
   <p class="eyebrow">YOUR VOICE</p>
   <h1>Propose an initiative</h1>
   <p class="page-lede">
-    Got something you want to run for the cohort? Tell us in five minutes —
-    rough ideas are welcome, and we will come back to you to work out the rest.
+    Got something you want to run for the cohort? Fill in the Council's proposal
+    form and we will come back to you. Keep answers concise.
   </p>
   <p><a class="cta cta-big" href="${e(initiativeForm)}">Propose an initiative ${ARROW}</a></p>
 </section>
 <section class="guide-next">
   <div class="signup-band">
     <h2>Send us your idea</h2>
-    <p>Nine short questions, most of them tick boxes. Sign in with your INSEAD account and you are done in five minutes.</p>
+    <p>The Council's own three-part template: the proposal, a two-week plan, and ten supporters. Sign in with your INSEAD account to fill it in.</p>
     <p><a class="cta" href="${e(initiativeForm)}">Open the proposal form ${ARROW}</a></p>
-    <p class="caption-line">Planning something big? The Council's full template is <a href="${prefix}docs/initiative-proposal-template.pdf">here as a PDF</a> — useful for working out the details before we meet.</p>
+    <p class="caption-line">Prefer to draft it first? The same template is <a href="${prefix}docs/initiative-proposal-template.pdf">here as a PDF</a>.</p>
   </div>
 </section>
 <section class="guide-next">

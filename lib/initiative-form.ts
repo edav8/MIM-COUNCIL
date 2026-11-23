@@ -11,12 +11,12 @@
  * to any third-party form service.
  */
 /**
- * The live proposal form: a short Microsoft Form in INSEAD's tenant (owner
+ * The live proposal form: a Microsoft Form that follows the template below in INSEAD's tenant (owner
  * Emilie, created 23 Nov 2026, shared with the whole Council). Every
  * "Propose an initiative" link on the site goes straight to it. The long
  * template below stays as the PDF / reference version.
  */
-export const msForm = 'https://forms.cloud.microsoft/e/gH3sWVLWAp';
+export const msForm = 'https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=wPeN2eeJ-Ea3q3L-H22CH5-iuYN6LoxFhjmub00HN9dUQ0VNMlM2WkFUNVo5SFNMWDZMRk5ER1VTSC4u';
 
 export type Field = {
   id: string;

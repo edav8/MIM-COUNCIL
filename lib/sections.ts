@@ -80,7 +80,7 @@ export const pillars: Pillar[] = [
     accent: '#1E5E46',
     tint: '#E6F2EC',
     items: [
-      { label: 'Propose an initiative', href: 'https://forms.cloud.microsoft/e/gH3sWVLWAp', note: 'Got an idea? The 5-minute form' },
+      { label: 'Propose an initiative', href: 'https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=wPeN2eeJ-Ea3q3L-H22CH5-iuYN6LoxFhjmub00HN9dUQ0VNMlM2WkFUNVo5SFNMWDZMRk5ER1VTSC4u', note: 'Got an idea? The Council’s proposal form' },
       { label: 'Concern Drop Box', href: 'https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=wPeN2eeJ-Ea3q3L-H22CH5-iuYN6LoxFhjmub00HN9dUMkhFSDg0TTBQVU5EWURaU1lWN0xJS1IxQy4u', note: 'Something not working? Anonymous, read weekly' },
     ],
   },
