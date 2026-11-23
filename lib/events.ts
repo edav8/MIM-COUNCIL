@@ -238,7 +238,9 @@ export const events: CohortEvent[] = [
     sortKey: '2026-11-26',
     title: 'International Food Festival',
     where: 'Second floor',
-    note: 'Dishes and drinks from around the world, cooked by your classmates. Tickets on HelloAsso.',
+    note: 'Dishes and drinks from around the world, cooked by your classmates.',
+    href: 'https://www.helloasso.com/associations/mim-council-insead/evenements/mim-international-food-festival-2026',
+    cta: 'Tickets',
     group: 'cohort',
   },
   {
@@ -247,6 +249,8 @@ export const events: CohortEvent[] = [
     title: 'Movember Night — Rugby × RCLG × Vinsead',
     where: 'Château Victoire, 7 Bd Magenta',
     note: 'Moustache fashion show and bubbles, raising funds for men’s health. Dress code 70s, fake moustaches provided. €15, limited capacity.',
+    href: 'https://forms.gle/Li5yQ4LD1xHf3yKe6',
+    cta: 'Tickets',
     group: 'cohort',
   },
   {
