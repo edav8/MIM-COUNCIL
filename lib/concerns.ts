@@ -5,14 +5,16 @@
  * so the weekly promise is written ON the page: a channel that quietly stops
  * being read is worse than no channel.
  *
- * `form` takes the Qualtrics link once it exists. Until then the page says the
- * box is being set up and points at the Council inbox, rather than showing a
- * button that goes nowhere.
+ * `form` is a Microsoft Form in INSEAD's tenant (owner: Emilie, created 23 Nov
+ * 2026): concerns may name people, and that belongs inside INSEAD. Only INSEAD
+ * accounts can respond and names are NOT recorded, so it is anonymous unless
+ * the person types their name in the last question.
  *
- * Qualtrics rather than a third-party form: concerns may name people, and that
- * belongs inside INSEAD's tenant.
+ * It is linked, not embedded: an INSEAD-only form needs a Microsoft sign-in,
+ * and Microsoft's sign-in page refuses to load inside an iframe.
  */
-export const form: string | null = null;
+export const form: string | null =
+  'https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=wPeN2eeJ-Ea3q3L-H22CH5-iuYN6LoxFhjmub00HN9dUMkhFSDg0TTBQVU5EWURaU1lWN0xJS1IxQy4u';
 
 /** Who reads it and how fast — stated plainly, because people will assume. */
 export const promise = {

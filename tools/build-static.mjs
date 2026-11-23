@@ -720,7 +720,11 @@ ${concerns.escalate
 <section class="guide-next">
   ${
     concerns.form
-      ? `<div class="motw-form"><iframe class="form-embed" src="${e(concerns.form)}" title="Concern drop box" loading="lazy"></iframe></div>`
+      ? `<div class="signup-band">
+    <h2>Drop it in the box</h2>
+    <p>Opens a short Microsoft Form. Sign in with your INSEAD account: that only proves you are at INSEAD, and your name is not recorded unless you type it in.</p>
+    <p><a class="cta" href="${e(concerns.form)}" target="_blank" rel="noreferrer">Open the Concern Drop Box ${ARROW}</a></p>
+  </div>`
       : `<div class="signup-band">
     <h2>The box is being set up</h2>
     <p>
