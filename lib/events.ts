@@ -24,6 +24,8 @@ export type CohortEvent = {
   note?: string;
   href?: string;
   cta?: string;
+  /** The club's WhatsApp invite, from its official Canvas club page. Shown as "Join the WhatsApp". */
+  whatsapp?: string;
   group: 'cohort' | 'careers';
   /** Which pillar colour the row uses. Defaults from `group` when left out. */
   pillar?: 'academic' | 'student-life' | 'careers' | 'wellbeing';
@@ -101,6 +103,7 @@ export const events: CohortEvent[] = [
     where: 'Pitch with lights',
     note: 'INSEAD Rugby Club. 50 places a session, 25 MBAs and 25 MIMs. No experience needed.',
     repeat: { weekday: 1 },
+    whatsapp: 'https://chat.whatsapp.com/IiT4npYdMwL5IW6106f60O',
     group: 'cohort',
   },
   {
@@ -111,6 +114,7 @@ export const events: CohortEvent[] = [
     where: 'Pitch with lights, then Mimi’s',
     note: 'Free-flow wine, beer and pizza at Mimi’s afterwards. Tackling negotiable, enthusiasm mandatory.',
     repeat: { weekday: 4 },
+    whatsapp: 'https://chat.whatsapp.com/IiT4npYdMwL5IW6106f60O',
     group: 'cohort',
   },
   {
@@ -230,10 +234,37 @@ export const events: CohortEvent[] = [
     group: 'cohort',
   },
   {
-    when: 'Thu 26 Nov',
+    when: 'Thu 26 Nov · 17:00–20:00',
     sortKey: '2026-11-26',
     title: 'International Food Festival',
-    note: 'Date proposed. Venue and time still to be confirmed.',
+    where: 'Second floor',
+    note: 'Dishes and drinks from around the world, cooked by your classmates. Tickets on HelloAsso.',
+    group: 'cohort',
+  },
+  {
+    when: 'Thu 26 Nov · 20:00',
+    sortKey: '2026-11-26',
+    title: 'Movember Night — Rugby × RCLG × Vinsead',
+    where: 'Château Victoire, 7 Bd Magenta',
+    note: 'Moustache fashion show and bubbles, raising funds for men’s health. Dress code 70s, fake moustaches provided. €15, limited capacity.',
+    group: 'cohort',
+  },
+  {
+    when: 'Tue 8 Dec · 18:30',
+    sortKey: '2026-12-08',
+    title: 'Ski Trip Kick-Off',
+    where: 'Amphi Rubeli',
+    note: 'Rooms, events and the week day by day, for everyone going to Les Ménuires. Big surprise at the end.',
+    group: 'cohort',
+  },
+  {
+    when: 'Sat 12 Dec · 19:00',
+    sortKey: '2026-12-12',
+    title: 'Winter Gala Dinner',
+    where: 'Le Cercle, Blue Ocean Strategy Building',
+    note: 'Theme: Jewels. Black tie. MIM €58, partner €62 — multi-course dinner, drinks and security. Limited tickets.',
+    href: 'https://www.helloasso.com/associations/mim-council-insead/evenements/mim-winter-gala-dinner-2026',
+    cta: 'Tickets',
     group: 'cohort',
   },
   {

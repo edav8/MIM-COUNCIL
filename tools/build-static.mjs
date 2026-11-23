@@ -48,6 +48,110 @@ function whenLabel(ev) {
   const time = ev.when.includes('·') ? ev.when.split('·').slice(1).join('·').trim() : '';
   return time ? `${date} · ${time}` : date;
 }
+
+/* ---- Add to calendar ------------------------------------------------------
+ *
+ * Every event with a single date gets two links: an .ics file (Apple Calendar,
+ * Outlook, phones) and a prefilled Google Calendar event. Both are built from
+ * the same `when` text the page prints, so the calendar can never disagree
+ * with the row it sits under.
+ *
+ * Only shapes that are unambiguous get a button. "Fri 27 Nov · 10:00 or 14:00",
+ * "Mon 16 – Fri 20 Nov", "All November" and "From Mon 4 Jan" are left alone:
+ * a calendar entry that guesses is worse than none.
+ */
+const calFiles = new Map(); // slug -> .ics text, written once all pages are built
+const STAMP = new Date().toISOString().replace(/[-:]/g, '').replace(/\.\d+/, '');
+
+/** The UTC instant of a wall-clock time in Fontainebleau (handles CET/CEST). */
+function parisToUtc(iso, hhmm) {
+  const guess = new Date(`${iso}T${hhmm.padStart(5, '0')}:00Z`);
+  const p = Object.fromEntries(
+    new Intl.DateTimeFormat('en-GB', {
+      timeZone: 'Europe/Paris', hourCycle: 'h23',
+      year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit',
+    }).formatToParts(guess).map((x) => [x.type, x.value]),
+  );
+  const shown = Date.UTC(+p.year, +p.month - 1, +p.day, +p.hour, +p.minute);
+  return new Date(guess.getTime() - (shown - guess.getTime()));
+}
+
+const icsTime = (d) => d.toISOString().replace(/[-:]/g, '').replace(/\.\d+/, '');
+const icsDate = (iso) => iso.replace(/-/g, '');
+const dayAfter = (iso) => new Date(Date.parse(`${iso}T12:00:00Z`) + 86400000).toISOString().slice(0, 10);
+const icsText = (s = '') => s.replace(/\\/g, '\\\\').replace(/([,;])/g, '\\$1').replace(/\n/g, '\\n');
+/** RFC 5545 folds lines at 75 octets. */
+function fold(line) {
+  const out = [];
+  let cur = '';
+  for (const ch of line) {
+    if (Buffer.byteLength(cur + ch) > 74) { out.push(cur); cur = ' ' + ch; } else cur += ch;
+  }
+  return [...out, cur].join('\r\n');
+}
+
+/** {start, end, allDay, rrule} for an event, or null when its date is not exact. */
+function calSpan(ev) {
+  const [datePart, ...rest] = ev.when.split('·').map((s) => s.trim());
+  const timePart = rest.join('·').trim();
+  const iso = ev.repeat ? nextDate(ev) : ev.sortKey;
+  if (!iso) return null;
+  if (!ev.repeat && !/^(Mon|Tue|Wed|Thu|Fri|Sat|Sun) \d{1,2} [A-Z][a-z]{2}( \d{4})?$/.test(datePart)) return null;
+  const rrule = ev.repeat
+    ? `FREQ=WEEKLY${ev.repeat.until ? `;UNTIL=${icsDate(ev.repeat.until)}T225959Z` : ''}`
+    : null;
+  if (!timePart) return { allDay: true, start: iso, end: dayAfter(iso), rrule };
+  const m = timePart.match(/^(\d{1,2}:\d{2})(?:\s*[–-]\s*(\d{1,2}:\d{2}))?$/);
+  if (!m) return null;
+  const start = parisToUtc(iso, m[1]);
+  let end = m[2] ? parisToUtc(iso, m[2]) : new Date(start.getTime() + 3600000);
+  if (end <= start) end = parisToUtc(dayAfter(iso), m[2]); // 23:00–03:00 ends the next day
+  return { allDay: false, start, end, rrule };
+}
+
+const slugify = (s) =>
+  s.normalize('NFKD').replace(/[̀-ͯ]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 60);
+
+/** The calendar links (and the club's WhatsApp, if any) under an event. */
+function calLinks(ev) {
+  const wa = ev.whatsapp
+    ? `<a href="${e(ev.whatsapp)}" target="_blank" rel="noreferrer">Join the WhatsApp</a>`
+    : '';
+  const span = calSpan(ev);
+  if (!span) return wa ? `<span class="event-cal">${wa}</span>` : '';
+  const slug = `${ev.sortKey}-${slugify(ev.title)}`;
+  const details = [ev.note, ev.href].filter(Boolean).join('\n\n');
+  const when = span.allDay
+    ? [`DTSTART;VALUE=DATE:${icsDate(span.start)}`, `DTEND;VALUE=DATE:${icsDate(span.end)}`]
+    : [`DTSTART:${icsTime(span.start)}`, `DTEND:${icsTime(span.end)}`];
+  calFiles.set(
+    slug,
+    [
+      'BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//MIM28 Student Council//mim28.com//EN',
+      'CALSCALE:GREGORIAN', 'METHOD:PUBLISH', 'BEGIN:VEVENT',
+      `UID:${slug}@mim28.com`, `DTSTAMP:${STAMP}`, ...when,
+      ...(span.rrule ? [`RRULE:${span.rrule}`] : []),
+      `SUMMARY:${icsText(ev.title)}`,
+      ...(ev.where ? [`LOCATION:${icsText(ev.where)}`] : []),
+      ...(details ? [`DESCRIPTION:${icsText(details)}`] : []),
+      ...(ev.href ? [`URL:${ev.href}`] : []),
+      'END:VEVENT', 'END:VCALENDAR',
+    ].map(fold).join('\r\n') + '\r\n',
+  );
+  const dates = span.allDay
+    ? `${icsDate(span.start)}/${icsDate(span.end)}`
+    : `${icsTime(span.start)}/${icsTime(span.end)}`;
+  const g = new URLSearchParams({ action: 'TEMPLATE', text: ev.title, dates });
+  if (details) g.set('details', details);
+  if (ev.where) g.set('location', ev.where);
+  if (span.rrule) g.set('recur', `RRULE:${span.rrule}`);
+  return `<span class="event-cal" aria-label="Add ${e(ev.title)} to your calendar">
+      <a href="/cal/${slug}.ics" download="${slug}.ics">+ Add to calendar</a>
+      <a href="https://calendar.google.com/calendar/render?${e(g.toString())}" target="_blank" rel="noreferrer">Google</a>
+      ${wa}
+    </span>`;
+}
+
 const { council, initials, councilEmail } = await import(join(root, 'lib/council.ts'));
 const { pillars } = await import(join(root, 'lib/sections.ts'));
 const { sections: guideSections, budgetExample } = await import(
@@ -64,6 +168,7 @@ const {
 const { heroImage, heroActions } = await import(join(root, 'lib/hero.ts'));
 const badge = await import(join(root, 'lib/contributor-badge.ts'));
 const concerns = await import(join(root, 'lib/concerns.ts'));
+const harassment = await import(join(root, 'lib/harassment.ts'));
 const { birthdayPhotos } = await import(join(root, 'lib/birthday-photos.ts'));
 
 /**
@@ -149,9 +254,11 @@ function header(prefix, active) {
         <button type="button" class="menu-trigger" aria-expanded="false">${e(p.title)}</button>
         <div class="menu-panel">
 ${p.items
+  // An item with no page yet is hidden, not greyed out: "coming soon" rows that
+  // never arrive make the site look unfinished. Give it an href and it appears.
+  .filter((it) => it.href)
   .map((it) => {
     const inner = `${e(it.label)}${it.note ? `<span class="menu-note">${e(it.note)}</span>` : ''}`;
-    if (!it.href) return `          <span class="menu-soon">${inner}<em>coming soon</em></span>`;
     const ext = it.href.startsWith('http');
     const href = it.href.startsWith('#') ? `${prefix}${it.href}` : it.href;
     return `          <a href="${e(href)}"${ext ? ' target="_blank" rel="noreferrer"' : ''}>${inner}</a>`;
@@ -304,6 +411,7 @@ function eventRow(ev, withCta = true) {
     <h3>${e(ev.title)}</h3>
     ${ev.where ? `<p class="event-where">${e(ev.where)}</p>` : ''}
     ${ev.note ? `<p class="event-note">${e(ev.note)}</p>` : ''}
+    ${calLinks(ev)}
   </div>
   ${
     withCta && ev.href
@@ -354,6 +462,7 @@ function featuredEvent(prefix) {
     <h2 class="featured-title">${e(next.title)}</h2>
     ${next.where ? `<p class="featured-where">${e(next.where)}</p>` : ''}
     ${next.note ? `<p class="featured-note">${e(next.note)}</p>` : ''}
+    ${calLinks(next)}
     ${
       next.href
         ? `<a class="featured-cta" href="${e(next.href)}" target="_blank" rel="noreferrer">${e(next.cta || 'More')} ${ARROW}</a>`
@@ -621,6 +730,81 @@ ${concerns.escalate
     </p>
   </div>`
   }
+</section>
+${footer(prefix)}`;
+}
+
+function harassmentPage() {
+  const prefix = '../';
+  const h = harassment;
+  return `${head(
+    'Guidelines on Harassment · The Salamanders',
+    'What INSEAD’s Anti-Harassment Policy covers, and who to contact — at INSEAD and on the Council.',
+    prefix,
+  )}
+<main>
+${header(prefix, 'wellbeing')}
+<section class="page-intro" style="--accent:${pillarColours['wellbeing'].accent}">
+  <p class="eyebrow">WELL BEING</p>
+  <h1>Guidelines on Harassment</h1>
+  <p class="page-lede">
+    If something happened to you, or you saw it happen to someone else, you have
+    options — and you do not have to handle it alone.
+  </p>
+</section>
+<section class="signup-band">
+  <h2>In danger right now?</h2>
+  <p>${e(h.emergency)}</p>
+</section>
+<section class="guide">
+  <ol class="guide-list">
+${h.contacts
+  .map(
+    (c) => `    <li class="guide-step">
+      <h2>${e(c.who)}</h2>
+      <p>${e(c.how)}</p>
+      ${c.email ? `<p><a href="mailto:${e(c.email)}">${e(c.email)}</a>${c.note ? `<br><span class="event-note">${e(c.note)}</span>` : ''}</p>` : ''}
+      ${c.href ? `<p><a class="event-cta" href="${e(c.href)}" target="_blank" rel="noreferrer">${e(c.cta)} ${ARROW}</a></p>` : ''}
+      ${c.team ? `<p><a href="${prefix}team/">Meet the Council ${ARROW}</a> · <a href="${prefix}concerns/">Concern Drop Box ${ARROW}</a></p>` : ''}
+    </li>`,
+  )
+  .join('\n')}
+  </ol>
+</section>
+<section class="promise-band">
+${h.quotes
+  .map(
+    (q) => `  <div>
+    <h2>${e(q.from)}</h2>
+    <p>“${e(q.text)}”</p>
+  </div>`,
+  )
+  .join('\n')}
+</section>
+<section class="guide">
+  <ol class="guide-list">
+    <li class="guide-step">
+      <h2>What the policy covers</h2>
+      <ul>
+${h.forms.map((f) => `        <li><strong>${e(f.name)}.</strong> ${e(f.gist)}</li>`).join('\n')}
+      </ul>
+    </li>
+    <li class="guide-step">
+      <h2>Where it applies</h2>
+      <p>${e(h.scope)}</p>
+    </li>
+    <li class="guide-step">
+      <h2>Read the policy itself</h2>
+      <p>
+        This page is our summary and quotes INSEAD’s own words; the policy is what counts.
+        Version 5.0, effective 3 June 2025.
+      </p>
+      <p>
+        <a href="${e(h.links.policy)}" target="_blank" rel="noreferrer">Anti-Harassment Policy ${ARROW}</a> ·
+        <a href="${e(h.links.openTalk)}" target="_blank" rel="noreferrer">Open Talk and No Retaliation Policy ${ARROW}</a>
+      </p>
+    </li>
+  </ol>
 </section>
 ${footer(prefix)}`;
 }
@@ -1019,6 +1203,8 @@ await mkdir(join(out, 'contributor-badge'), { recursive: true });
 await writeFile(join(out, 'contributor-badge/index.html'), contributorBadgePage());
 await mkdir(join(out, 'concerns'), { recursive: true });
 await writeFile(join(out, 'concerns/index.html'), concernsPage());
+await mkdir(join(out, 'harassment'), { recursive: true });
+await writeFile(join(out, 'harassment/index.html'), harassmentPage());
 await mkdir(join(out, 'mim-of-the-week'), { recursive: true });
 await writeFile(join(out, 'mim-of-the-week/index.html'), mimOfWeekPage());
 await mkdir(join(out, 'careers'), { recursive: true });
@@ -1027,6 +1213,9 @@ await mkdir(join(out, 'student-life'), { recursive: true });
 await writeFile(join(out, 'student-life/index.html'), studentLifePage());
 await mkdir(join(out, 'tutoring'), { recursive: true });
 await writeFile(join(out, 'tutoring/index.html'), tutoringPage());
+// Calendar files collected while the pages above were rendered.
+await mkdir(join(out, 'cal'), { recursive: true });
+for (const [slug, ics] of calFiles) await writeFile(join(out, 'cal', `${slug}.ics`), ics);
 await writeFile(join(out, '.nojekyll'), '');
 // Tells GitHub Pages which custom domain serves this site. Without it, Pages
 // answers on edav8.github.io only and mim28.com gets a 404.

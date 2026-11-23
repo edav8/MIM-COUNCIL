@@ -74,6 +74,7 @@ export const pillars: Pillar[] = [
       },
       {
         label: 'Guidelines on Harassment',
+        href: '/harassment/',
         note: 'Who to contact at INSEAD and on the Council',
       },
       {

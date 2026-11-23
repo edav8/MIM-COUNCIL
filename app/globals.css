@@ -134,6 +134,9 @@ body{background:#fff;color:#20292d}.site-header{border-bottom:0;padding-top:1.2r
   background:#00684b;color:#fff;text-decoration:none;font-weight:600;font-size:.875rem;
   border-radius:999px;padding:.5rem .95rem}
 .event-cta:hover{background:#00523b}
+.event-cal{display:flex;flex-wrap:wrap;gap:.9rem;margin-top:.5rem;font-size:.8125rem}
+.event-cal a{color:#00684b;font-weight:620;text-decoration:none;border-bottom:1px solid transparent}
+.event-cal a:hover{border-bottom-color:currentColor}
 .event-careers{margin-top:2.2rem}
 .event-careers .eyebrow{margin-bottom:.75rem}
 .event-careers .event-row{grid-template-columns:13.5rem 1fr;background:#fbfcfa}
