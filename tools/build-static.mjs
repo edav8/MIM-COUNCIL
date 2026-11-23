@@ -259,7 +259,8 @@ ${p.items
   .filter((it) => it.href)
   .map((it) => {
     const inner = `${e(it.label)}${it.note ? `<span class="menu-note">${e(it.note)}</span>` : ''}`;
-    const ext = it.href.startsWith('http');
+    // The two Council forms open in the same tab: a new tab reads as "nothing happened".
+    const ext = it.href.startsWith('http') && !it.href.includes('forms.cloud.microsoft');
     const href = it.href.startsWith('#') ? `${prefix}${it.href}` : it.href;
     return `          <a href="${e(href)}"${ext ? ' target="_blank" rel="noreferrer"' : ''}>${inner}</a>`;
   })
@@ -494,7 +495,7 @@ ${header(prefix, 'home')}
     <div class="hero-actions">
 ${heroActions
   .map(
-    (a) => `      <a class="cta${a.primary ? '' : ' cta-ghost'}" href="${a.href.startsWith('http') ? e(a.href) : prefix + a.href.replace(/^\//, '')}"${a.href.startsWith('http') ? ' target="_blank" rel="noreferrer"' : ''}>${e(a.label)}</a>`,
+    (a) => `      <a class="cta${a.primary ? '' : ' cta-ghost'}" href="${a.href.startsWith('http') ? e(a.href) : prefix + a.href.replace(/^\//, '')}"${a.href.startsWith('http') && !a.href.includes('forms.cloud.microsoft') ? ' target="_blank" rel="noreferrer"' : ''}>${e(a.label)}</a>`,
   )
   .join('\n')}
     </div>
@@ -607,7 +608,7 @@ ${m.events.map((ev) => eventRow(ev)).join('\n')}
     fund it. Tell us what it is and what it needs.
   </p>
   <p class="guide-contact">
-    <a class="cta" href="${e(initiativeForm)}" target="_blank" rel="noreferrer">Propose an initiative ${ARROW}</a>
+    <a class="cta" href="${e(initiativeForm)}">Propose an initiative ${ARROW}</a>
   </p>
 </section>
 ${footer(prefix)}
@@ -684,7 +685,7 @@ ${header(prefix, 'wellbeing')}
     Something about cohort life not working? Tell us. You do not have to raise it
     in a group chat, and you do not have to put your name to it.
   </p>
-  ${concerns.form ? `<p><a class="cta cta-big" href="${e(concerns.form)}" target="_blank" rel="noreferrer">Open the Concern Drop Box ${ARROW}</a></p>` : ''}
+  ${concerns.form ? `<p><a class="cta cta-big" href="${e(concerns.form)}">Open the Concern Drop Box ${ARROW}</a></p>` : ''}
 </section>
 <section class="promise-band">
   <div>
@@ -724,7 +725,7 @@ ${concerns.escalate
       ? `<div class="signup-band">
     <h2>Drop it in the box</h2>
     <p>Opens a short Microsoft Form. Sign in with your INSEAD account: that only proves you are at INSEAD, and your name is not recorded unless you type it in.</p>
-    <p><a class="cta" href="${e(concerns.form)}" target="_blank" rel="noreferrer">Open the Concern Drop Box ${ARROW}</a></p>
+    <p><a class="cta" href="${e(concerns.form)}">Open the Concern Drop Box ${ARROW}</a></p>
   </div>`
       : `<div class="signup-band">
     <h2>The box is being set up</h2>
@@ -770,7 +771,7 @@ ${h.contacts
       <p>${e(c.how)}</p>
       ${c.email ? `<p><a href="mailto:${e(c.email)}">${e(c.email)}</a>${c.note ? `<br><span class="event-note">${e(c.note)}</span>` : ''}</p>` : ''}
       ${c.href ? `<p><a class="event-cta" href="${e(c.href)}" target="_blank" rel="noreferrer">${e(c.cta)} ${ARROW}</a></p>` : ''}
-      ${c.team ? `<p><a href="${prefix}team/">Meet the Council ${ARROW}</a> · <a href="${e(concerns.form)}" target="_blank" rel="noreferrer">Concern Drop Box ${ARROW}</a></p>` : ''}
+      ${c.team ? `<p><a href="${prefix}team/">Meet the Council ${ARROW}</a> · <a href="${e(concerns.form)}">Concern Drop Box ${ARROW}</a></p>` : ''}
     </li>`,
   )
   .join('\n')}
@@ -1043,13 +1044,13 @@ ${header(prefix, 'initiatives')}
     Got something you want to run for the cohort? Tell us in five minutes —
     rough ideas are welcome, and we will come back to you to work out the rest.
   </p>
-  <p><a class="cta cta-big" href="${e(initiativeForm)}" target="_blank" rel="noreferrer">Propose an initiative ${ARROW}</a></p>
+  <p><a class="cta cta-big" href="${e(initiativeForm)}">Propose an initiative ${ARROW}</a></p>
 </section>
 <section class="guide-next">
   <div class="signup-band">
     <h2>Send us your idea</h2>
     <p>Nine short questions, most of them tick boxes. Sign in with your INSEAD account and you are done in five minutes.</p>
-    <p><a class="cta" href="${e(initiativeForm)}" target="_blank" rel="noreferrer">Open the proposal form ${ARROW}</a></p>
+    <p><a class="cta" href="${e(initiativeForm)}">Open the proposal form ${ARROW}</a></p>
     <p class="caption-line">Planning something big? The Council's full template is <a href="${prefix}docs/initiative-proposal-template.pdf">here as a PDF</a> — useful for working out the details before we meet.</p>
   </div>
 </section>
