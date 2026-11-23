@@ -661,7 +661,7 @@ ${badge.process.map((c) => `        <li>${e(c)}</li>`).join('\n')}
     ${
       badge.nominateForm
         ? `<a class="cta" href="${e(badge.nominateForm)}" target="_blank" rel="noreferrer">Nominate someone ${ARROW}</a>`
-        : `<a class="cta" href="${prefix}mim-of-the-week/">Nominate someone ${ARROW}</a>`
+        : ''
     }
   </p>
 </section>
@@ -1205,8 +1205,7 @@ await mkdir(join(out, 'concerns'), { recursive: true });
 await writeFile(join(out, 'concerns/index.html'), concernsPage());
 await mkdir(join(out, 'harassment'), { recursive: true });
 await writeFile(join(out, 'harassment/index.html'), harassmentPage());
-await mkdir(join(out, 'mim-of-the-week'), { recursive: true });
-await writeFile(join(out, 'mim-of-the-week/index.html'), mimOfWeekPage());
+// MIM of the Week removed from the site on 23 Nov 2026 (council decision); mimOfWeekPage() kept but not built.
 await mkdir(join(out, 'careers'), { recursive: true });
 await writeFile(join(out, 'careers/index.html'), careersPage());
 await mkdir(join(out, 'student-life'), { recursive: true });
