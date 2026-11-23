@@ -44,7 +44,7 @@ export const pillars: Pillar[] = [
         note: 'Les Ménuires, from 4 Jan',
       },
       { label: "What's on", href: '/student-life/', note: 'Every event, month by month' },
-      { label: 'Propose an initiative', href: '/initiatives/', note: 'What to include, and how we decide' },
+      { label: 'Propose an initiative', href: 'https://forms.cloud.microsoft/e/gH3sWVLWAp', note: 'Opens the 5-minute form' },
     ],
   },
   {
@@ -64,8 +64,8 @@ export const pillars: Pillar[] = [
     items: [
       {
         label: 'Concern Drop Box',
-        href: '/concerns/',
-        note: 'Tell us quietly — checked weekly',
+        href: 'https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=wPeN2eeJ-Ea3q3L-H22CH5-iuYN6LoxFhjmub00HN9dUMkhFSDg0TTBQVU5EWURaU1lWN0xJS1IxQy4u',
+        note: 'Opens the form — anonymous, checked weekly',
       },
       {
         label: 'Contributor Badge',

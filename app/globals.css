@@ -405,6 +405,8 @@ h1{font-weight:700}
 .cta{display:inline-flex;align-items:center;gap:.4rem;background:var(--brand-green);color:#fff;
   text-decoration:none;font-weight:650;border-radius:999px;padding:.75rem 1.3rem;min-height:44px}
 .cta:hover{background:var(--brand-green-dark)}
+/* The one button a page exists for (the two council forms): big enough to find at a glance. */
+.cta-big{font-size:1.15rem;padding:1rem 1.8rem;margin-top:1.2rem;box-shadow:0 6px 18px rgba(0,0,0,.12)}
 @media (max-width:860px){
   .guide{grid-template-columns:1fr;gap:1.2rem;padding-left:1rem;padding-right:1rem}
   .page-intro,.guide-next{padding-left:1rem;padding-right:1rem}

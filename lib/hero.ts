@@ -13,5 +13,5 @@ export const heroImage: { src: string; alt: string } | null = null;
 /** The two buttons in the hero. Keep it to two — more and neither gets pressed. */
 export const heroActions = [
   { label: "What's on", href: '/student-life/', primary: true },
-  { label: 'Propose an initiative', href: '/initiatives/' },
+  { label: 'Propose an initiative', href: 'https://forms.cloud.microsoft/e/gH3sWVLWAp' },
 ];

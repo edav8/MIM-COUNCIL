@@ -10,6 +10,14 @@
  * hands it to the sender's mail app, addressed to the Council. Nothing is sent
  * to any third-party form service.
  */
+/**
+ * The live proposal form: a short Microsoft Form in INSEAD's tenant (owner
+ * Emilie, created 23 Nov 2026, shared with the whole Council). Every
+ * "Propose an initiative" link on the site goes straight to it. The long
+ * template below stays as the PDF / reference version.
+ */
+export const msForm = 'https://forms.cloud.microsoft/e/gH3sWVLWAp';
+
 export type Field = {
   id: string;
   label: string;

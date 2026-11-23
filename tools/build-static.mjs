@@ -157,7 +157,7 @@ const { pillars } = await import(join(root, 'lib/sections.ts'));
 const { sections: guideSections, budgetExample } = await import(
   join(root, 'lib/initiative-guide.ts')
 );
-const { formSections, checklist } = await import(join(root, 'lib/initiative-form.ts'));
+const { formSections, checklist, msForm: initiativeForm } = await import(join(root, 'lib/initiative-form.ts'));
 const {
   current: mimOfWeek,
   past: pastWinners,
@@ -494,7 +494,7 @@ ${header(prefix, 'home')}
     <div class="hero-actions">
 ${heroActions
   .map(
-    (a) => `      <a class="cta${a.primary ? '' : ' cta-ghost'}" href="${a.href.startsWith('http') ? e(a.href) : prefix + a.href.replace(/^\//, '')}">${e(a.label)}</a>`,
+    (a) => `      <a class="cta${a.primary ? '' : ' cta-ghost'}" href="${a.href.startsWith('http') ? e(a.href) : prefix + a.href.replace(/^\//, '')}"${a.href.startsWith('http') ? ' target="_blank" rel="noreferrer"' : ''}>${e(a.label)}</a>`,
   )
   .join('\n')}
     </div>
@@ -607,7 +607,7 @@ ${m.events.map((ev) => eventRow(ev)).join('\n')}
     fund it. Tell us what it is and what it needs.
   </p>
   <p class="guide-contact">
-    <a class="cta" href="${prefix}initiatives/">Propose an initiative ${ARROW}</a>
+    <a class="cta" href="${e(initiativeForm)}" target="_blank" rel="noreferrer">Propose an initiative ${ARROW}</a>
   </p>
 </section>
 ${footer(prefix)}
@@ -684,6 +684,7 @@ ${header(prefix, 'wellbeing')}
     Something about cohort life not working? Tell us. You do not have to raise it
     in a group chat, and you do not have to put your name to it.
   </p>
+  ${concerns.form ? `<p><a class="cta cta-big" href="${e(concerns.form)}" target="_blank" rel="noreferrer">Open the Concern Drop Box ${ARROW}</a></p>` : ''}
 </section>
 <section class="promise-band">
   <div>
@@ -769,7 +770,7 @@ ${h.contacts
       <p>${e(c.how)}</p>
       ${c.email ? `<p><a href="mailto:${e(c.email)}">${e(c.email)}</a>${c.note ? `<br><span class="event-note">${e(c.note)}</span>` : ''}</p>` : ''}
       ${c.href ? `<p><a class="event-cta" href="${e(c.href)}" target="_blank" rel="noreferrer">${e(c.cta)} ${ARROW}</a></p>` : ''}
-      ${c.team ? `<p><a href="${prefix}team/">Meet the Council ${ARROW}</a> · <a href="${prefix}concerns/">Concern Drop Box ${ARROW}</a></p>` : ''}
+      ${c.team ? `<p><a href="${prefix}team/">Meet the Council ${ARROW}</a> · <a href="${e(concerns.form)}" target="_blank" rel="noreferrer">Concern Drop Box ${ARROW}</a></p>` : ''}
     </li>`,
   )
   .join('\n')}
@@ -1039,43 +1040,18 @@ ${header(prefix, 'initiatives')}
   <p class="eyebrow">STUDENT LIFE</p>
   <h1>Propose an initiative</h1>
   <p class="page-lede">
-    Got something you want to run for the cohort? Fill this in and we will come
-    back to you. Keep answers concise — attach extra detail if you need to.
+    Got something you want to run for the cohort? Tell us in five minutes —
+    rough ideas are welcome, and we will come back to you to work out the rest.
   </p>
+  <p><a class="cta cta-big" href="${e(initiativeForm)}" target="_blank" rel="noreferrer">Propose an initiative ${ARROW}</a></p>
 </section>
-<section class="proposal-form" id="form">
-  <h2>Send us your proposal</h2>
-  <p class="form-intro">
-    This is the Council's own proposal template, as a form. Fill it in and press
-    send: it opens your email app with everything laid out, addressed to
-    <strong>${councilEmail}</strong>. Prefer paper? <a href="${prefix}docs/initiative-proposal-template.pdf">Download the PDF template</a>.
-  </p>
-  <form id="initiative-form" novalidate>
-${formSections
-  .map(
-    (sec) => `    <fieldset>
-      <legend>${e(sec.part)}</legend>
-      <h3 class="fieldset-title">${e(sec.heading)}</h3>
-      ${sec.blurb ? `<p class="fieldset-blurb">${e(sec.blurb)}</p>` : ''}
-${sec.fields.map(formField).join('\n')}
-${sec.supporters ? supporterRows() : ''}
-    </fieldset>`,
-  )
-  .join('\n')}
-    <fieldset class="checklist">
-      <legend>Before submitting</legend>
-${checklist
-  .map(
-    (c, i) => `      <label class="check"><input type="checkbox" name="check_${i}"> ${e(c)}</label>`,
-  )
-  .join('\n')}
-    </fieldset>
-    <div class="form-actions">
-      <button type="submit" class="cta">Open in my email app</button>
-      <button type="button" class="cta cta-ghost" id="copy-proposal">Copy as text instead</button>
-    </div>
-    <p class="form-note" id="form-note" role="status"></p>
-  </form>
+<section class="guide-next">
+  <div class="signup-band">
+    <h2>Send us your idea</h2>
+    <p>Nine short questions, most of them tick boxes. Sign in with your INSEAD account and you are done in five minutes.</p>
+    <p><a class="cta" href="${e(initiativeForm)}" target="_blank" rel="noreferrer">Open the proposal form ${ARROW}</a></p>
+    <p class="caption-line">Planning something big? The Council's full template is <a href="${prefix}docs/initiative-proposal-template.pdf">here as a PDF</a> — useful for working out the details before we meet.</p>
+  </div>
 </section>
 <section class="guide-next">
   <h2>What happens next</h2>
