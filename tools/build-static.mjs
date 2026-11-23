@@ -678,8 +678,8 @@ function concernsPage() {
   )}
 <main>
 ${header(prefix, 'wellbeing')}
-<section class="page-intro" style="--accent:${pillarColours['wellbeing'].accent}">
-  <p class="eyebrow">WELL BEING</p>
+<section class="page-intro" style="--accent:#1E5E46">
+  <p class="eyebrow">YOUR VOICE</p>
   <h1>Concern Drop Box</h1>
   <p class="page-lede">
     Something about cohort life not working? Tell us. You do not have to raise it
@@ -1037,8 +1037,8 @@ function initiativesPage() {
   )}
 <main class="form-page">
 ${header(prefix, 'initiatives')}
-<section class="page-intro" style="--accent:${pillarColours['student-life'].accent}">
-  <p class="eyebrow">STUDENT LIFE</p>
+<section class="page-intro" style="--accent:#1E5E46">
+  <p class="eyebrow">YOUR VOICE</p>
   <h1>Propose an initiative</h1>
   <p class="page-lede">
     Got something you want to run for the cohort? Tell us in five minutes —

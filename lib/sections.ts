@@ -44,7 +44,6 @@ export const pillars: Pillar[] = [
         note: 'Les Ménuires, from 4 Jan',
       },
       { label: "What's on", href: '/student-life/', note: 'Every event, month by month' },
-      { label: 'Propose an initiative', href: 'https://forms.cloud.microsoft/e/gH3sWVLWAp', note: 'Opens the 5-minute form' },
     ],
   },
   {
@@ -63,11 +62,6 @@ export const pillars: Pillar[] = [
     tint: '#FDEEEF',
     items: [
       {
-        label: 'Concern Drop Box',
-        href: 'https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=wPeN2eeJ-Ea3q3L-H22CH5-iuYN6LoxFhjmub00HN9dUMkhFSDg0TTBQVU5EWURaU1lWN0xJS1IxQy4u',
-        note: 'Opens the form — anonymous, checked weekly',
-      },
-      {
         label: 'Contributor Badge',
         href: '/contributor-badge/',
         note: 'What it recognises, and how to earn one',
@@ -77,6 +71,17 @@ export const pillars: Pillar[] = [
         href: '/harassment/',
         note: 'Who to contact at INSEAD and on the Council',
       },
+    ],
+  },
+  {
+    // Its own menu: proposing something and raising a concern are about the
+    // Council listening, not about well-being or events. Both go straight to the form.
+    title: 'Your Voice',
+    accent: '#1E5E46',
+    tint: '#E6F2EC',
+    items: [
+      { label: 'Propose an initiative', href: 'https://forms.cloud.microsoft/e/gH3sWVLWAp', note: 'Got an idea? The 5-minute form' },
+      { label: 'Concern Drop Box', href: 'https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=wPeN2eeJ-Ea3q3L-H22CH5-iuYN6LoxFhjmub00HN9dUMkhFSDg0TTBQVU5EWURaU1lWN0xJS1IxQy4u', note: 'Something not working? Anonymous, read weekly' },
     ],
   },
 ];
